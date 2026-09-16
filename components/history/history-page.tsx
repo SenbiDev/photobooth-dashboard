@@ -8,6 +8,7 @@ import { audit } from "../../lib/mutations";
 import { useConsole } from "../providers/console-provider";
 import { ConfirmAction } from "../forms/confirm-action";
 import { DataTable, Notice, PageHeader, Status } from "../ui/primitives";
+import { LocalOnlyNotice } from "../service/service-feedback";
 
 export function HistoryPage({ rollback = false }: { rollback?: boolean }) {
   const { state, update, t, localize, notify } = useConsole();
@@ -35,6 +36,7 @@ export function HistoryPage({ rollback = false }: { rollback?: boolean }) {
         back="/history"
         reference="§5.1, §22.7–22.8"
       />
+      <LocalOnlyNotice />
       <section className="panel">
         <div className="form-grid">
           {[

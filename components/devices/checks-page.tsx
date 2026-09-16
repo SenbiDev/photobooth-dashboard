@@ -8,6 +8,10 @@ import { defaults, validateValues } from "../../lib/domain";
 import { eventReady, inventoryReady } from "../../lib/readiness";
 import { useConsole } from "../providers/console-provider";
 import { ExtraBadge, Notice, PageHeader, Status } from "../ui/primitives";
+import { useDevices, useFrameTemplates } from "../../hooks/use-edge-service";
+import { deviceCapability } from "../../lib/edge-service/mappers";
+import { LocalOnlyNotice } from "../service/service-feedback";
+import type { Device } from "../../lib/types";
 
 type CheckResult = "PENDING" | "RUNNING" | "PASS" | "FAILED";
 
@@ -17,7 +21,11 @@ export function ChecksPage({
   mode?: "preflight" | "readiness" | "bundle";
 }) {
   const { state, t, localize } = useConsole();
+  const serviceDevices = useDevices();
+  const serviceTemplates = useFrameTemplates();
   const params = useSearchParams();
+  const serviceDeviceList = serviceDevices.data?.data ?? [];
+  const serviceTemplateList = serviceTemplates.data?.data ?? [];
   const [deviceId, setDeviceId] = useState(params.get("device") ?? state.devices[0].id);
   const [scenario, setScenario] = useState("healthy");
   const [templateId, setTemplateId] = useState(state.entities.templates[0].id);
@@ -25,7 +33,38 @@ export function ChecksPage({
   const [results, setResults] = useState<Record<string, CheckResult>>({});
   const [busy, setBusy] = useState(true);
   const activeRun = useRef(0);
-  const device = state.devices.find((item) => item.id === deviceId) ?? state.devices[0];
+  useEffect(() => {
+    if (serviceDeviceList.length && !serviceDeviceList.some((item) => item.id === deviceId)) {
+      setDeviceId(serviceDeviceList[0].id);
+    }
+    if (serviceTemplateList.length && !serviceTemplateList.some((item) => item.id === templateId)) {
+      setTemplateId(serviceTemplateList[0].id);
+    }
+  }, [deviceId, serviceDeviceList, serviceTemplateList, templateId]);
+  const remoteDevice = serviceDeviceList.find((item) => item.id === deviceId);
+  const localDevice = state.devices.find((item) => item.id === deviceId) ?? state.devices[0];
+  const device: Device = remoteDevice
+    ? {
+        id: remoteDevice.id,
+        name: remoteDevice.name || remoteDevice.device_code,
+        status:
+          remoteDevice.status.toLowerCase() === "active"
+            ? "ONLINE"
+            : remoteDevice.connectivity?.toLowerCase() === "offline"
+              ? "OFFLINE"
+              : "DEGRADED",
+        camera: remoteDevice.camera_health || deviceCapability(remoteDevice, "camera_adapter"),
+        printer: remoteDevice.printer_health || deviceCapability(remoteDevice, "printer_transport"),
+        storageGb: Number(remoteDevice.capabilities?.storage_free_gb ?? 0),
+        lastSeen: remoteDevice.last_heartbeat || remoteDevice.last_seen_at || "",
+        active: 1,
+        desired: 1,
+        eventId: deviceCapability(remoteDevice, "event_id", ""),
+        paused: false,
+        fingerprint: deviceCapability(remoteDevice, "public_key_fingerprint", ""),
+        trust: "TRUSTED",
+      }
+    : localDevice;
   const keys =
     mode === "readiness"
       ? ["camera", "printer", "storage", "clock", "template", "config", "inventory", "event"]
@@ -74,6 +113,14 @@ export function ChecksPage({
       }
       if (device.status === "PENDING_ENROLLMENT") return true;
       if (scenario === "failure" && ["printer", "storage", "template"].includes(key)) return true;
+      if (remoteDevice && key === "camera")
+        return !["pass", "healthy", "ready", "online"].includes(
+          String(remoteDevice.camera_health).toLowerCase(),
+        );
+      if (remoteDevice && key === "printer")
+        return !["pass", "healthy", "ready", "online"].includes(
+          String(remoteDevice.printer_health).toLowerCase(),
+        );
       if (["network", "payment"].includes(key)) return device.status === "OFFLINE";
       if (key === "printer") return device.status === "DEGRADED";
       if (key === "storage") return device.storageGb < 5;
@@ -138,13 +185,14 @@ export function ChecksPage({
         }
       />
       <section className="panel">
+        <LocalOnlyNotice />
         <div className="form-grid">
           <label className="field">
             {t("device")}
             <select value={deviceId} onChange={(event) => setDeviceId(event.target.value)}>
-              {state.devices.map((item) => (
+              {(serviceDeviceList.length ? serviceDeviceList : state.devices).map((item) => (
                 <option value={item.id} key={item.id}>
-                  {item.id} · {item.name}
+                  {"device_code" in item ? item.device_code : item.id} · {item.name}
                 </option>
               ))}
             </select>
@@ -162,11 +210,17 @@ export function ChecksPage({
           <label className="field scope-picker">
             {t("select")}
             <select value={templateId} onChange={(event) => setTemplateId(event.target.value)}>
-              {state.entities.templates.map((template) => (
-                <option key={template.id} value={template.id}>
-                  {template.name} · v{String(template.values.version)}
-                </option>
-              ))}
+              {serviceTemplateList.length
+                ? serviceTemplateList.map((template) => (
+                    <option key={template.id} value={template.id}>
+                      {template.name} · v{template.version}
+                    </option>
+                  ))
+                : state.entities.templates.map((template) => (
+                    <option key={template.id} value={template.id}>
+                      {template.name} · v{String(template.values.version)}
+                    </option>
+                  ))}
             </select>
           </label>
         )}

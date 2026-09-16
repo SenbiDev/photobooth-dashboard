@@ -17,6 +17,8 @@ import {
 } from "../ui/primitives";
 import { RetryModal } from "../queue/retry-modal";
 import { CompareModal } from "../history/compare-modal";
+import { LocalOnlyNotice } from "../service/service-feedback";
+import { ModuleRecords } from "../service/module-records";
 
 const createSchemas: Record<string, string> = {
   devices: "register",
@@ -39,6 +41,7 @@ export function ModulePage({ moduleId }: { moduleId: string }) {
   const module = content.modules[moduleId];
   const entity = entityKinds[moduleId];
   const records = entity ? state.entities[entity] : [];
+  const hasRemoteRecords = ["devices", "events", "templates", "vouchers"].includes(moduleId);
   const filtered = records.filter((record) =>
     `${record.id} ${record.name}`.toLowerCase().includes(query.toLowerCase()),
   );
@@ -76,7 +79,8 @@ export function ModulePage({ moduleId }: { moduleId: string }) {
           <ActionLink href="/templates/sync">{t("templateSync")}</ActionLink>
         </section>
       )}
-      {records.length > 0 && (
+      {hasRemoteRecords && <ModuleRecords moduleId={moduleId} />}
+      {!hasRemoteRecords && records.length > 0 && (
         <section className="panel">
           <div className="panel-heading">
             <h2>
@@ -107,6 +111,7 @@ export function ModulePage({ moduleId }: { moduleId: string }) {
           />
         </section>
       )}
+      {["queue", "history", "settings"].includes(moduleId) && <LocalOnlyNotice />}
       {modal && createSchemas[moduleId] && (
         <CreateRecordModal schemaId={createSchemas[moduleId]} onClose={() => setModal(false)} />
       )}

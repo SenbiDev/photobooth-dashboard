@@ -2,15 +2,27 @@ import { content } from "./content";
 import { validateValues } from "./domain";
 import type { ConsoleState, Values } from "./types";
 
-export function validateReferences(state: ConsoleState, schemaId: string, values: Values) {
+export function validateReferences(
+  state: ConsoleState,
+  schemaId: string,
+  values: Values,
+  remote: { deviceIds?: string[]; eventIds?: string[] } = {},
+) {
   const errors = validateValues(content.schemas[schemaId], values);
-  if (values.deviceId && !state.devices.some((device) => device.id === values.deviceId))
+  const deviceIds = new Set([
+    ...state.devices.map((device) => device.id),
+    ...(remote.deviceIds ?? []),
+  ]);
+  const eventIds = new Set([
+    ...state.entities.events.map((event) => event.id),
+    ...(remote.eventIds ?? []),
+  ]);
+  if (values.deviceId && !deviceIds.has(String(values.deviceId)))
     errors.deviceId = "guardrailError";
-  if (values.eventId && !state.entities.events.some((event) => event.id === values.eventId))
-    errors.eventId = "guardrailError";
+  if (values.eventId && !eventIds.has(String(values.eventId))) errors.eventId = "guardrailError";
   if (
     Array.isArray(values.eligibleDevices) &&
-    values.eligibleDevices.some((id) => !state.devices.some((device) => device.id === id))
+    values.eligibleDevices.some((id) => !deviceIds.has(id))
   ) {
     errors.eligibleDevices = "guardrailError";
   }

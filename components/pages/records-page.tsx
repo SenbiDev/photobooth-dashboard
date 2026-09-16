@@ -4,8 +4,16 @@ import { useState } from "react";
 import { content } from "../../lib/content";
 import { useConsole } from "../providers/console-provider";
 import { ActionLink, DataTable, Notice, PageHeader, SearchField, Status } from "../ui/primitives";
+import { LocalOnlyNotice } from "../service/service-feedback";
+import { PaymentsServicePage, SessionsServicePage } from "../service/operational-records";
 
 export function RecordsPage({ kind }: { kind: string }) {
+  if (kind === "sessions") return <SessionsServicePage />;
+  if (kind === "payments") return <PaymentsServicePage />;
+  return <LocalRecordsPage kind={kind} />;
+}
+
+function LocalRecordsPage({ kind }: { kind: string }) {
   const { t } = useConsole();
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
@@ -25,6 +33,7 @@ export function RecordsPage({ kind }: { kind: string }) {
         reference="§11–13, §22.8"
         action={kind === "delivery" && <ActionLink href="/delivery/policy">{t("edit")}</ActionLink>}
       />
+      <LocalOnlyNotice />
       <section className="panel">
         <div className="filter-row">
           <SearchField value={query} onChange={setQuery} />

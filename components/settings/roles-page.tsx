@@ -5,6 +5,7 @@ import { useConsole } from "../providers/console-provider";
 import { content } from "../../lib/content";
 import { CreateRecordModal } from "../forms/create-record-modal";
 import { DataTable, ExtraBadge, Notice, PageHeader } from "../ui/primitives";
+import { LocalOnlyNotice } from "../service/service-feedback";
 
 export function RolesPage() {
   const { state, t, localize } = useConsole();
@@ -33,6 +34,7 @@ export function RolesPage() {
           </button>
         }
       />
+      <LocalOnlyNotice />
       <section className="panel">
         <h2>{t("permission")}</h2>
         <ExtraBadge />

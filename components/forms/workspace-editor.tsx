@@ -11,6 +11,19 @@ import { useConsole } from "../providers/console-provider";
 import { DataTable, Notice, PageHeader, Status } from "../ui/primitives";
 import { SchemaFields } from "./schema-fields";
 import { ConfirmAction } from "./confirm-action";
+import {
+  usePublishServiceRecord,
+  useServiceReferences,
+  useServiceEditorRecords,
+} from "../../hooks/use-edge-service";
+import {
+  ServiceBadge,
+  ServiceError,
+  ServiceLoading,
+  LocalOnlyNotice,
+} from "../service/service-feedback";
+
+const serviceSchemas = ["event", "campaign", "rules", "template", "allocation"];
 
 export function WorkspaceEditor({
   schemaId,
@@ -25,7 +38,10 @@ export function WorkspaceEditor({
   const params = useSearchParams();
   const schema = content.schemas[schemaId];
   const entity = schema.entity;
-  const records = entity && entity !== "devices" ? state.entities[entity] : [];
+  const serviceRecords = useServiceEditorRecords(schemaId);
+  const usesService = serviceSchemas.includes(schemaId);
+  const localRecords = entity && entity !== "devices" ? state.entities[entity] : [];
+  const records = usesService ? (serviceRecords.data ?? []) : localRecords;
   const requestedRecord = params.get("record");
   const requestedDevice = deviceId ?? params.get("device") ?? undefined;
   const [selected, setSelected] = useState(
@@ -33,6 +49,15 @@ export function WorkspaceEditor({
       ? requestedRecord!
       : (records[0]?.id ?? requestedDevice ?? "default"),
   );
+  useEffect(() => {
+    if (!records.length || records.some((record) => record.id === selected)) return;
+    const requested = records.find((record) => record.id === requestedRecord);
+    setSelected(requested?.id ?? records[0].id);
+  }, [records, requestedRecord, selected]);
+
+  if (usesService && serviceRecords.isPending) return <ServiceLoading />;
+  if (usesService && serviceRecords.isError)
+    return <ServiceError retry={() => void serviceRecords.refetch()} />;
   return (
     <>
       <PageHeader
@@ -40,7 +65,9 @@ export function WorkspaceEditor({
         copy={t("immutable")}
         reference={schema.reference}
         back={back}
+        action={usesService ? <ServiceBadge /> : undefined}
       />
+      {!usesService && <LocalOnlyNotice />}
       {records.length > 0 && (
         <label className="field scope-picker">
           {t("select")}
@@ -58,6 +85,13 @@ export function WorkspaceEditor({
         schemaId={schemaId}
         selected={selected}
         deviceId={requestedDevice}
+        remoteValues={
+          usesService ? records.find((record) => record.id === selected)?.values : undefined
+        }
+        remoteStatus={
+          usesService ? records.find((record) => record.id === selected)?.status : undefined
+        }
+        usesService={usesService}
       />
     </>
   );
@@ -67,15 +101,25 @@ function EditorForm({
   schemaId,
   selected,
   deviceId,
+  remoteValues,
+  remoteStatus,
+  usesService,
 }: {
   schemaId: string;
   selected: string;
   deviceId?: string;
+  remoteValues?: Values;
+  remoteStatus?: string;
+  usesService: boolean;
 }) {
   const { state, update, notify, t, localize } = useConsole();
+  const references = useServiceReferences();
   const schema = content.schemas[schemaId];
   const key = `${schemaId}:${selected}`;
-  const baseline = recordValues(state, schemaId, selected);
+  const baseline = remoteValues
+    ? { ...recordValues(state, schemaId), ...remoteValues }
+    : recordValues(state, schemaId, selected);
+  const serviceMutation = usePublishServiceRecord(schemaId, selected);
   const [values, setValues] = useState<Values>(() => {
     const initial: Values = {
       ...(state.drafts[key]?.values ?? baseline),
@@ -116,7 +160,7 @@ function EditorForm({
   );
 
   function save(validate: boolean) {
-    const next = validateReferences(state, schemaId, values);
+    const next = validateReferences(state, schemaId, values, references);
     setErrors(next);
     if (Object.keys(next).length) {
       notify("invalid");
@@ -124,6 +168,19 @@ function EditorForm({
     }
     update((current) => {
       const saved = saveDraft(current, key, values);
+      if (validate && usesService) {
+        return {
+          ...saved,
+          drafts: {
+            ...saved.drafts,
+            [key]: {
+              ...saved.drafts[key],
+              status: "VALIDATED",
+              validatedHash: JSON.stringify(values),
+            },
+          },
+        };
+      }
       return validate ? validateDraft(saved, key, schemaId) : saved;
     });
     notify(validate ? "validated" : "saved");
@@ -140,8 +197,8 @@ function EditorForm({
         }}
       >
         <div className="panel-heading">
-          <Status value={isExact ? draft.status : "DRAFT"} />
-          <span className="muted">{t("sample")}</span>
+          <Status value={isExact ? draft.status : (remoteStatus?.toUpperCase() ?? "DRAFT")} />
+          <span className="muted">{t(usesService ? "liveService" : "sample")}</span>
         </div>
         {["rules", "allocation"].includes(schemaId) && <Notice>{t("offlineNote")}</Notice>}
         {schemaId === "allocation" && <Notice>{t("allocationNote")}</Notice>}
@@ -202,7 +259,7 @@ function EditorForm({
             disabled={!canPublish}
             onClick={() => setConfirm(true)}
           >
-            {t("publish")}
+            {t(usesService ? "publishService" : "publish")}
           </button>
         </div>
       </form>
@@ -243,14 +300,32 @@ function EditorForm({
       </aside>
       {confirm && (
         <ConfirmAction
-          title={t("publish")}
+          title={t(usesService ? "publishService" : "publish")}
           initialReason={String(values.reason ?? "")}
           onClose={() => setConfirm(false)}
-          onConfirm={(reason) => {
-            const nextErrors = validateReferences(state, schemaId, { ...values, reason });
-            if (Object.keys(nextErrors).length || !publishScope(state, values).length) {
+          onConfirm={async (reason) => {
+            const nextErrors = validateReferences(
+              state,
+              schemaId,
+              { ...values, reason },
+              references,
+            );
+            if (
+              Object.keys(nextErrors).length ||
+              (!usesService && !publishScope(state, values).length)
+            ) {
               setErrors(nextErrors);
               notify("invalid");
+              return;
+            }
+            setValues((current) => ({ ...current, reason }));
+            if (usesService) {
+              try {
+                await serviceMutation.mutateAsync({ ...values, reason });
+                notify("serviceUpdated");
+              } catch {
+                notify("serviceError");
+              }
               return;
             }
             // Revalidate if the confirmation changes the audited reason.
@@ -258,8 +333,7 @@ function EditorForm({
               const saved = saveDraft(current, key, { ...values, reason });
               return publishDraft(validateDraft(saved, key, schemaId), key, schemaId, true);
             });
-            setValues((current) => ({ ...current, reason }));
-            notify(["template", "allocation"].includes(schemaId) ? "pendingPublish" : "published");
+            notify("published");
           }}
         >
           <Notice>{t("guard")}</Notice>

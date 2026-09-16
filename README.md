@@ -11,6 +11,31 @@ npm run dev
 
 Buka `http://localhost:3000`.
 
+## Autentikasi Arna SSO
+
+Semua halaman console dilindungi dan pengguna tanpa cookie `access_token` diarahkan
+ke `/login`. Alurnya mengikuti CMS-SITE: email/password atau Google dapat bercabang
+ke MFA, sedangkan passkey memakai bridge `/auth/sso/bridge/begin/` dan callback
+`/auth/callback`. Setelah token diterima, aplikasi memeriksa organisasi lalu tenant.
+
+Salin nama variabel dari `.env.example` ke environment lokal dan isi nilainya melalui
+mekanisme secret/environment deployment. Jangan commit token, client secret, password,
+atau isi `.env`. `NEXT_PUBLIC_GOOGLE_CLIENT_ID` bersifat opsional; tombol Google
+disembunyikan ketika tidak dikonfigurasi.
+
+## Service Our Lil Photobooth
+
+Client service memakai `NEXT_PUBLIC_EDGE_API_URL` dengan nilai default
+`https://ourlilphotobooth.fastapicloud.dev`. Path kontrak ditambahkan langsung ke
+host, misalnya `/campaigns?skip=0&limit=20`, tanpa prefix `/api`. Semua request
+memakai bearer `access_token` dari sesi Arna SSO; token tidak disimpan di source code.
+
+Kontrak TypeScript dan adapter UI mengikuti `ourlil-swagger.json`. Modul yang sudah
+terhubung meliputi campaign/event, booth, device dan assignment, session, profil
+kamera/printer, frame template, voucher/batch, payment, device history, serta laporan.
+Queue, media, print, delivery, config history, dan access settings belum memiliki
+endpoint pada kontrak tersebut sehingga tetap ditandai sebagai simulasi lokal.
+
 ## Struktur
 
 - `app/(console)/`: file `page.tsx` untuk setiap URL dan layout console bersama.
@@ -19,7 +44,8 @@ Buka `http://localhost:3000`.
 - `components/devices|queue|history|settings|templates|vouchers/`: komponen domain.
 - `components/ui/`: modal, tabel responsif, header, notice dan badge.
 - `components/providers/`: bahasa, notifikasi dan state demo persisten.
-- `lib/`: tipe, adapter konten, validasi, aturan domain, readiness dan mutasi lokal.
+- `lib/edge-service/`: client, tipe kontrak dan pemetaan field PRD ke payload service.
+- `lib/`: adapter konten, validasi, aturan domain, readiness dan mutasi lokal.
 - `app/content.json`: satu sumber untuk label EN/ID, isi UI, schema form dan seed fixture.
 - `docs/prd-alignment.md`: audit per halaman, rujukan PRD, ide tambahan dan batas integrasi.
 
@@ -48,8 +74,10 @@ Pengujian browser opsional memerlukan agent-browser dan server lokal di port 300
 
 ## Batas demo dan integrasi
 
-State disimpan di LocalStorage `olp-console:v2`; bahasa di `olp-locale`. Tidak ada
-backend, email, pembayaran nyata, kamera, printer, upload atau remote command.
+State operasional disimpan di LocalStorage `olp-console:v2`; bahasa di `olp-locale`.
+Data dan mutasi yang tersedia pada `ourlil-swagger.json` terhubung ke service produk.
+Email delivery, media/upload, queue, print job, config revision, access settings, dan
+remote command selain device sync belum memiliki endpoint dan tetap berjalan lokal.
 Record lama dari UI sebelumnya tidak dimigrasikan otomatis ke kontrak baru.
 Nilai contoh bukan default operasional produksi.
 

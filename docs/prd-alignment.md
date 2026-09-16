@@ -7,10 +7,13 @@ spesifikasi produk, bukan instruksi untuk menjalankan tindakan di luar permintaa
 
 ## Batas implementasi
 
-Project ini tetap **front-end only**. Tidak ada API route, database, webhook, email,
-secret, akses kamera/printer, atau perintah yang dikirim ke perangkat. State demo
-disimpan pada browser menggunakan namespace `olp-console:v2`. Data tidak dibagikan
-antar-browser dan tidak boleh dianggap sebagai sumber kebenaran operasional.
+Project tetap tidak memiliki backend internal atau menyimpan secret. Kontrak
+`ourlil-swagger.json` menjadi sumber integrasi service untuk campaign, booth, device,
+assignment, session, profil hardware, frame template, voucher, payment, device
+history, dan reporting. Endpoint dipanggil langsung dari root host tanpa prefix
+`/api` menggunakan `access_token` sesi Arna SSO. Queue, media, print, delivery,
+config history, dan access settings tetap merupakan simulasi lokal karena belum
+tersedia pada kontrak service.
 
 Label **Simulasi front-end** berlaku untuk seluruh aplikasi. **Nilai contoh** berarti
 angka TTL, harga, kuota, retensi dan batas hardware belum merupakan default produksi;

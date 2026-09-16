@@ -1,25 +1,35 @@
 "use client";
 
-import { content } from "../../lib/content";
 import { eligibleJob } from "../../lib/domain";
 import { useConsole } from "../providers/console-provider";
 import { DeviceDirectory } from "../devices/device-directory";
 import { ActionLink, Notice, PageHeader } from "../ui/primitives";
+import { useDevices, useSessions, useVoucherBatches } from "../../hooks/use-edge-service";
+import { LocalOnlyNotice, ServiceBadge } from "../service/service-feedback";
 
 export function OverviewPage() {
   const { state, t } = useConsole();
+  const devices = useDevices();
+  const sessions = useSessions();
+  const batches = useVoucherBatches();
+  const loadingValue = t("serviceLoadingShort");
   const metrics = [
     {
       label: t("device"),
-      value: `${state.devices.filter((device) => device.status === "ONLINE").length}/${state.devices.length}`,
+      value: devices.data
+        ? `${devices.data.data.filter((device) => device.status.toLowerCase() === "active").length}/${devices.data.data.length}`
+        : loadingValue,
       href: "/devices",
     },
-    { label: t("sessions"), value: content.seed.records.sessions.length, href: "/sessions" },
+    {
+      label: t("sessions"),
+      value: sessions.data?.pagination?.total_data ?? sessions.data?.data.length ?? loadingValue,
+      href: "/sessions",
+    },
     {
       label: t("voucher"),
-      value: state.entities.allocations
-        .filter((allocation) => allocation.status === "SIGNED_FIXTURE")
-        .reduce((sum, allocation) => sum + Number(allocation.values.available ?? 0), 0),
+      value:
+        batches.data?.data.reduce((sum, batch) => sum + batch.voucher_count, 0) ?? loadingValue,
       href: "/vouchers",
     },
     {
@@ -33,7 +43,12 @@ export function OverviewPage() {
       <PageHeader
         title={t("home")}
         copy={t("guideCopy")}
-        action={<ActionLink href="/history/configuration">{t("edit")}</ActionLink>}
+        action={
+          <div className="link-row">
+            <ServiceBadge />
+            <ActionLink href="/history/configuration">{t("edit")}</ActionLink>
+          </div>
+        }
       />
       <div className="overview-intro">
         <div className="overview-message">
@@ -58,6 +73,7 @@ export function OverviewPage() {
         ))}
       </div>
       <DeviceDirectory compact />
+      <LocalOnlyNotice />
       <div className="two-column">
         <section className="panel">
           <h2>{t("versions")}</h2>

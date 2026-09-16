@@ -1,12 +1,536 @@
 {
   "ui": {
+    "authSignInTitle": {
+      "en": "Sign in to Lil Photobooth",
+      "id": "Masuk ke Lil Photobooth"
+    },
+    "authSignInCopy": {
+      "en": "Manage edge fleet configuration through Arna SSO.",
+      "id": "Kelola konfigurasi fleet edge melalui Arna SSO."
+    },
+    "authEmail": {
+      "en": "Email address",
+      "id": "Alamat email"
+    },
+    "authPassword": {
+      "en": "Password",
+      "id": "Kata sandi"
+    },
+    "authShowPassword": {
+      "en": "Show password",
+      "id": "Tampilkan kata sandi"
+    },
+    "authHidePassword": {
+      "en": "Hide password",
+      "id": "Sembunyikan kata sandi"
+    },
+    "authConfirmPassword": {
+      "en": "Confirm password",
+      "id": "Konfirmasi kata sandi"
+    },
+    "authEmailPlaceholder": {
+      "en": "you@example.com",
+      "id": "anda@contoh.com"
+    },
+    "authRequiredEmail": {
+      "en": "Email is required",
+      "id": "Email wajib diisi"
+    },
+    "authInvalidEmail": {
+      "en": "Enter a valid email address",
+      "id": "Masukkan alamat email yang valid"
+    },
+    "authRequiredPassword": {
+      "en": "Password is required",
+      "id": "Kata sandi wajib diisi"
+    },
+    "authPasswordLength": {
+      "en": "Password must be at least 8 characters",
+      "id": "Kata sandi minimal 8 karakter"
+    },
+    "authPasswordMismatch": {
+      "en": "Passwords do not match",
+      "id": "Kata sandi tidak sama"
+    },
+    "authRemember": {
+      "en": "Remember me",
+      "id": "Ingat saya"
+    },
+    "authForgot": {
+      "en": "Forgot your password?",
+      "id": "Lupa kata sandi?"
+    },
+    "authSignIn": {
+      "en": "Sign in",
+      "id": "Masuk"
+    },
+    "authContinueWith": {
+      "en": "Or continue with",
+      "id": "Atau lanjutkan dengan"
+    },
+    "authPasskey": {
+      "en": "Login with Passkey",
+      "id": "Masuk dengan Passkey"
+    },
+    "authNoAccount": {
+      "en": "No account?",
+      "id": "Belum punya akun?"
+    },
+    "authSignUpHere": {
+      "en": "Sign up here",
+      "id": "Daftar di sini"
+    },
+    "authMfaTitle": {
+      "en": "Two-Factor Authentication",
+      "id": "Autentikasi Dua Faktor"
+    },
+    "authMfaCopy": {
+      "en": "Enter the 6-digit code from your authenticator app.",
+      "id": "Masukkan kode 6 digit dari aplikasi autentikator."
+    },
+    "authMfaCode": {
+      "en": "MFA code",
+      "id": "Kode MFA"
+    },
+    "authMfaLength": {
+      "en": "MFA code must be exactly 6 digits",
+      "id": "Kode MFA harus tepat 6 digit"
+    },
+    "authVerifyCode": {
+      "en": "Verify code",
+      "id": "Verifikasi kode"
+    },
+    "authBackLogin": {
+      "en": "Back to login",
+      "id": "Kembali ke login"
+    },
+    "authCheckingWorkspace": {
+      "en": "Checking your workspace…",
+      "id": "Memeriksa workspace Anda…"
+    },
+    "authRegisterTitle": {
+      "en": "Create an account",
+      "id": "Buat akun"
+    },
+    "authRegisterCopy": {
+      "en": "Create an Arna SSO account for the edge console.",
+      "id": "Buat akun Arna SSO untuk edge console."
+    },
+    "authCreateAccount": {
+      "en": "Create account",
+      "id": "Buat akun"
+    },
+    "authHaveAccount": {
+      "en": "Already have an account?",
+      "id": "Sudah punya akun?"
+    },
+    "authCheckEmail": {
+      "en": "Check your email",
+      "id": "Periksa email Anda"
+    },
+    "authCheckEmailCopy": {
+      "en": "Enter the verification code to activate your account.",
+      "id": "Masukkan kode verifikasi untuk mengaktifkan akun."
+    },
+    "authVerifyEmail": {
+      "en": "Verify your email",
+      "id": "Verifikasi email Anda"
+    },
+    "authCodeSent": {
+      "en": "We sent a 6-digit code to",
+      "id": "Kami mengirim kode 6 digit ke"
+    },
+    "authVerificationCode": {
+      "en": "Verification code",
+      "id": "Kode verifikasi"
+    },
+    "authOtpLength": {
+      "en": "OTP must be exactly 6 digits",
+      "id": "OTP harus tepat 6 digit"
+    },
+    "authResendCode": {
+      "en": "Resend code",
+      "id": "Kirim ulang kode"
+    },
+    "authCreateOrganization": {
+      "en": "Create your organization",
+      "id": "Buat organisasi Anda"
+    },
+    "authOrganizationCopy": {
+      "en": "Set up an organization to collaborate with your team.",
+      "id": "Siapkan organisasi untuk berkolaborasi dengan tim Anda."
+    },
+    "authOrganizationName": {
+      "en": "Organization name",
+      "id": "Nama organisasi"
+    },
+    "authOrganizationLength": {
+      "en": "Organization name must be at least 2 characters",
+      "id": "Nama organisasi minimal 2 karakter"
+    },
+    "authPackage": {
+      "en": "Package",
+      "id": "Paket"
+    },
+    "authFree": {
+      "en": "Free",
+      "id": "Gratis"
+    },
+    "authPremiumMonthly": {
+      "en": "Premium monthly",
+      "id": "Premium bulanan"
+    },
+    "authPremiumAnnual": {
+      "en": "Premium annual",
+      "id": "Premium tahunan"
+    },
+    "authSetupWorkspace": {
+      "en": "Set up your workspace",
+      "id": "Siapkan workspace Anda"
+    },
+    "authTenantCopy": {
+      "en": "You're almost there — create your tenant to get started.",
+      "id": "Sedikit lagi — buat tenant untuk memulai."
+    },
+    "authTenantName": {
+      "en": "Tenant name",
+      "id": "Nama tenant"
+    },
+    "authTenantLength": {
+      "en": "Tenant name must be at least 2 characters",
+      "id": "Nama tenant minimal 2 karakter"
+    },
+    "authCreateTenant": {
+      "en": "Create tenant",
+      "id": "Buat tenant"
+    },
+    "authTenantCreated": {
+      "en": "Tenant created!",
+      "id": "Tenant berhasil dibuat!"
+    },
+    "authWorkspaceReady": {
+      "en": "Your workspace is ready at:",
+      "id": "Workspace Anda siap di:"
+    },
+    "authOpenWorkspace": {
+      "en": "Open my workspace",
+      "id": "Buka workspace saya"
+    },
+    "authCallbackTitle": {
+      "en": "Passkey sign in",
+      "id": "Masuk dengan Passkey"
+    },
+    "authCallbackProgress": {
+      "en": "Completing Arna SSO login…",
+      "id": "Menyelesaikan login Arna SSO…"
+    },
+    "authMissingCallback": {
+      "en": "SSO callback is missing code or state.",
+      "id": "Callback SSO tidak memiliki code atau state."
+    },
+    "authCheckingAccess": {
+      "en": "Checking workspace access…",
+      "id": "Memeriksa akses workspace…"
+    },
+    "authSsoFailed": {
+      "en": "SSO login failed.",
+      "id": "Login SSO gagal."
+    },
+    "authInvalidLogin": {
+      "en": "Invalid email or password. Please try again.",
+      "id": "Email atau kata sandi tidak valid. Coba lagi."
+    },
+    "authInvalidMfa": {
+      "en": "Invalid MFA code. Please try again.",
+      "id": "Kode MFA tidak valid. Coba lagi."
+    },
+    "authGoogleFailed": {
+      "en": "Google login failed.",
+      "id": "Login Google gagal."
+    },
+    "authPasskeyFailed": {
+      "en": "Passkey login failed.",
+      "id": "Login Passkey gagal."
+    },
+    "authRegistrationFailed": {
+      "en": "Registration failed. Please try again.",
+      "id": "Pendaftaran gagal. Coba lagi."
+    },
+    "authInvalidOtp": {
+      "en": "Invalid or expired OTP.",
+      "id": "OTP tidak valid atau kedaluwarsa."
+    },
+    "authResendFailed": {
+      "en": "Failed to resend OTP.",
+      "id": "Gagal mengirim ulang OTP."
+    },
+    "authOrganizationMissing": {
+      "en": "Organization not found. Please create one first.",
+      "id": "Organisasi tidak ditemukan. Buat organisasi terlebih dahulu."
+    },
+    "authTenantMissing": {
+      "en": "Tenant not found. Please create one first.",
+      "id": "Tenant tidak ditemukan. Buat tenant terlebih dahulu."
+    },
+    "authRegistrationSuccess": {
+      "en": "Registration successful! Check your email for the OTP.",
+      "id": "Pendaftaran berhasil! Periksa email Anda untuk OTP."
+    },
+    "authEmailMissing": {
+      "en": "Email not found. Please start registration again.",
+      "id": "Email tidak ditemukan. Mulai pendaftaran kembali."
+    },
+    "authEmailVerified": {
+      "en": "Email verified successfully!",
+      "id": "Email berhasil diverifikasi!"
+    },
+    "authOtpResent": {
+      "en": "OTP has been resent to your email.",
+      "id": "OTP telah dikirim ulang ke email Anda."
+    },
+    "authPasskeySuccess": {
+      "en": "Successfully logged in with passkey.",
+      "id": "Berhasil masuk dengan passkey."
+    },
+    "authCreateOrganizationFailed": {
+      "en": "Failed to create organization. Please try again.",
+      "id": "Gagal membuat organisasi. Coba lagi."
+    },
+    "authCreateTenantFailed": {
+      "en": "Failed to create tenant. Please try again.",
+      "id": "Gagal membuat tenant. Coba lagi."
+    },
+    "authBootstrapWarning": {
+      "en": "Workspace module could not be initialized. You can retry later in settings.",
+      "id": "Modul workspace tidak dapat diinisialisasi. Anda dapat mencoba lagi di pengaturan."
+    },
+    "authLogout": {
+      "en": "Sign out",
+      "id": "Keluar"
+    },
+    "authLoading": {
+      "en": "Loading…",
+      "id": "Memuat…"
+    },
+    "serviceLoading": {
+      "en": "Loading data from Our Lil Photobooth service…",
+      "id": "Memuat data dari service Our Lil Photobooth…"
+    },
+    "serviceLoadingShort": {
+      "en": "Loading",
+      "id": "Memuat"
+    },
+    "serviceError": {
+      "en": "The service data could not be loaded. Check the session or try again.",
+      "id": "Data service tidak dapat dimuat. Periksa sesi atau coba lagi."
+    },
+    "liveService": {
+      "en": "Live service",
+      "id": "Service aktif"
+    },
+    "notAvailableInService": {
+      "en": "This operation is defined by the product workflow but has no endpoint in the current Swagger contract. It remains a local simulation.",
+      "id": "Operasi ini tercantum pada flow produk tetapi belum memiliki endpoint di kontrak Swagger saat ini. Operasi tetap berupa simulasi lokal."
+    },
+    "serviceCreated": {
+      "en": "The record was created through the Our Lil Photobooth service.",
+      "id": "Data berhasil dibuat melalui service Our Lil Photobooth."
+    },
+    "createService": {
+      "en": "Create in service",
+      "id": "Buat di service"
+    },
+    "serviceCreateWarning": {
+      "en": "Submitting this form creates a real service record. Review the values before continuing.",
+      "id": "Mengirim formulir ini akan membuat data nyata pada service. Periksa seluruh nilai sebelum melanjutkan."
+    },
+    "serviceSaving": {
+      "en": "Saving to service…",
+      "id": "Menyimpan ke service…"
+    },
+    "serviceUpdated": {
+      "en": "The service record was updated successfully.",
+      "id": "Data service berhasil diperbarui."
+    },
+    "queuedLocalOnly": {
+      "en": "The command was recorded locally because this action has no service endpoint.",
+      "id": "Perintah dicatat secara lokal karena aksi ini belum memiliki endpoint service."
+    },
+    "serviceSyncNote": {
+      "en": "This sends PATCH /devices/{id}/sync using the active access token.",
+      "id": "Aksi ini mengirim PATCH /devices/{id}/sync menggunakan access token aktif."
+    },
+    "details": {
+      "en": "Details",
+      "id": "Detail"
+    },
+    "connectivity": {
+      "en": "Connectivity",
+      "id": "Konektivitas"
+    },
+    "appVersion": {
+      "en": "App version",
+      "id": "Versi aplikasi"
+    },
+    "location": {
+      "en": "Location",
+      "id": "Lokasi"
+    },
+    "model": {
+      "en": "Model",
+      "id": "Model"
+    },
+    "deviceCommandAvailability": {
+      "en": "Config sync uses the live service. Pause, resume, hardware apply, and diagnostics stay local until matching endpoints are published.",
+      "id": "Sinkronisasi config memakai service aktif. Jeda, lanjutkan, penerapan hardware, dan diagnostik tetap lokal hingga endpoint terkait tersedia."
+    },
+    "serviceReadOnly": {
+      "en": "Operational data is loaded from the authorized service. Sensitive identifiers remain limited to fields returned by the API.",
+      "id": "Data operasional dimuat dari service terotorisasi. Identitas sensitif tetap dibatasi pada field yang dikembalikan API."
+    },
+    "deviceHistory": {
+      "en": "Device history",
+      "id": "Riwayat perangkat"
+    },
+    "createdAt": {
+      "en": "Created at",
+      "id": "Dibuat pada"
+    },
+    "campaign": {
+      "en": "Campaign",
+      "id": "Campaign"
+    },
+    "offline": {
+      "en": "Offline",
+      "id": "Offline"
+    },
+    "yes": {
+      "en": "Yes",
+      "id": "Ya"
+    },
+    "no": {
+      "en": "No",
+      "id": "Tidak"
+    },
+    "refund": {
+      "en": "Refund payment",
+      "id": "Refund pembayaran"
+    },
+    "method": {
+      "en": "Method",
+      "id": "Metode"
+    },
+    "paymentServiceNote": {
+      "en": "Payment records are read from the service. Refund is available only for paid records and always requires confirmation.",
+      "id": "Data pembayaran dibaca dari service. Refund hanya tersedia untuk data berstatus paid dan selalu membutuhkan konfirmasi."
+    },
+    "refundWarning": {
+      "en": "This is a real service mutation and may change the payment state. Confirm the payment ID and audit reason.",
+      "id": "Ini adalah mutasi service nyata dan dapat mengubah status pembayaran. Pastikan ID pembayaran dan alasan audit sudah benar."
+    },
+    "issuedAt": {
+      "en": "Issued at",
+      "id": "Diterbitkan pada"
+    },
+    "usedAt": {
+      "en": "Used at",
+      "id": "Digunakan pada"
+    },
+    "expiresAt": {
+      "en": "Expires at",
+      "id": "Kedaluwarsa pada"
+    },
+    "gross": {
+      "en": "Gross revenue",
+      "id": "Pendapatan kotor"
+    },
+    "voucherUsed": {
+      "en": "Vouchers used",
+      "id": "Voucher digunakan"
+    },
+    "sessionFunnel": {
+      "en": "Session funnel",
+      "id": "Funnel sesi"
+    },
+    "sessionsCreated": {
+      "en": "Created",
+      "id": "Dibuat"
+    },
+    "paid": {
+      "en": "Paid",
+      "id": "Dibayar"
+    },
+    "refunded": {
+      "en": "Refunded",
+      "id": "Direfund"
+    },
+    "online": {
+      "en": "Online",
+      "id": "Online"
+    },
+    "metricsServiceNote": {
+      "en": "Revenue and funnel values come directly from the reporting endpoints in the service.",
+      "id": "Nilai pendapatan dan funnel berasal langsung dari endpoint laporan pada service."
+    },
+    "deviceHealth": {
+      "en": "Device health",
+      "id": "Kesehatan perangkat"
+    },
+    "cameraProfiles": {
+      "en": "Camera profiles",
+      "id": "Profil kamera"
+    },
+    "printerProfiles": {
+      "en": "Printer profiles",
+      "id": "Profil printer"
+    },
+    "createCameraProfile": {
+      "en": "Add camera profile",
+      "id": "Tambah profil kamera"
+    },
+    "createPrinterProfile": {
+      "en": "Add printer profile",
+      "id": "Tambah profil printer"
+    },
+    "resolution": {
+      "en": "Resolution",
+      "id": "Resolusi"
+    },
+    "orientation": {
+      "en": "Orientation",
+      "id": "Orientasi"
+    },
+    "hardwareProfilesCopy": {
+      "en": "Camera and printer profiles are loaded and created through the authorized service contract.",
+      "id": "Profil kamera dan printer dimuat serta dibuat melalui kontrak service terotorisasi."
+    },
+    "booths": {
+      "en": "Booths",
+      "id": "Booth"
+    },
+    "booth": {
+      "en": "Booth",
+      "id": "Booth"
+    },
+    "deviceAssignments": {
+      "en": "Device assignments",
+      "id": "Penugasan perangkat"
+    },
+    "window": {
+      "en": "Active window",
+      "id": "Jendela aktif"
+    },
+    "dpi": {
+      "en": "DPI",
+      "id": "DPI"
+    },
     "demo": {
-      "en": "Front-end simulation",
-      "id": "Simulasi front-end"
+      "en": "Live service + local simulation",
+      "id": "Service aktif + simulasi lokal"
     },
     "demoNote": {
-      "en": "Changes stay in this browser. No devices, payments, invitations or backend services are contacted.",
-      "id": "Perubahan hanya tersimpan di browser ini. Tidak menghubungi perangkat, pembayaran, undangan, atau layanan backend."
+      "en": "Supported modules use the Our Lil Photobooth service with the active access token. Features without Swagger endpoints remain explicitly marked local simulations.",
+      "id": "Modul yang didukung memakai service Our Lil Photobooth dengan access token aktif. Fitur tanpa endpoint Swagger tetap ditandai jelas sebagai simulasi lokal."
     },
     "extra": {
       "en": "Additional idea · not specified in PRD",
@@ -31,6 +555,10 @@
     "publish": {
       "en": "Publish simulation",
       "id": "Simulasi publikasi"
+    },
+    "publishService": {
+      "en": "Publish to service",
+      "id": "Publikasikan ke service"
     },
     "published": {
       "en": "New revision created; awaiting device acknowledgement.",
@@ -405,8 +933,8 @@
       "id": "Perintah tertunda"
     },
     "localOnly": {
-      "en": "Local draft only",
-      "id": "Hanya draf lokal"
+      "en": "Authorized service workspace",
+      "id": "Workspace service terotorisasi"
     },
     "snapshot": {
       "en": "Snapshot",
@@ -449,8 +977,8 @@
       "id": "Tidak diketahui"
     },
     "counts": {
-      "en": "Records in this browser",
-      "id": "Data di browser ini"
+      "en": "Records",
+      "id": "Data"
     },
     "applyNote": {
       "en": "This records an explicit apply request. It does not operate hardware or replace a health check.",
@@ -1048,8 +1576,8 @@
         "id": "Insight operasional"
       },
       "copy": {
-        "en": "Session, payment, capture, print, upload and delivery health required by PRD §15. Counters reflect the local fixture, not live telemetry.",
-        "id": "Kesehatan sesi, pembayaran, capture, cetak, unggahan dan pengiriman sesuai PRD §15. Angka berasal dari fixture lokal, bukan telemetri langsung."
+        "en": "Live session, payment, voucher and revenue reporting from the service, alongside explicitly local-only media, print and delivery indicators.",
+        "id": "Laporan sesi, pembayaran, voucher, dan pendapatan langsung dari service, bersama indikator media, print, dan delivery yang ditandai lokal."
       }
     },
     "sessions": {
@@ -1412,7 +1940,7 @@
                 "en": "Frame template reference",
                 "id": "Referensi template frame"
               },
-              "type": "text",
+              "type": "template",
               "default": "sunset-strip",
               "required": true
             }
@@ -1800,7 +2328,7 @@
                 "en": "Frame template reference",
                 "id": "Referensi template frame"
               },
-              "type": "text",
+              "type": "template",
               "default": "sunset-strip",
               "required": true
             }
@@ -5503,12 +6031,12 @@
       },
       {
         "title": {
-          "en": "Output profiles",
-          "id": "Profil output"
+          "en": "Camera & printer profiles",
+          "id": "Profil kamera & printer"
         },
         "copy": {
-          "en": "One coordinate space for digital, print, preview and motion.",
-          "id": "Satu koordinat untuk digital, cetak, pratinjau dan motion."
+          "en": "Live capture and print profiles assigned to edge devices.",
+          "id": "Profil capture dan print aktif yang ditugaskan ke perangkat edge."
         },
         "href": "/templates/profiles",
         "action": {

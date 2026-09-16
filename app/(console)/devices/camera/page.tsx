@@ -1,5 +1,5 @@
-import { WorkspaceEditor } from "../../../../components/forms/workspace-editor";
+import { HardwareProfilesPage } from "../../../../components/profiles/hardware-profiles-page";
 
 export default function Page() {
-  return <WorkspaceEditor schemaId="camera" back="/devices" />;
+  return <HardwareProfilesPage focus="camera" />;
 }

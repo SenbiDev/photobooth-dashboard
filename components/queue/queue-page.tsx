@@ -6,6 +6,7 @@ import { audit } from "../../lib/mutations";
 import { useConsole } from "../providers/console-provider";
 import { DataTable, Notice, PageHeader, SearchField, Status } from "../ui/primitives";
 import { RetryModal } from "./retry-modal";
+import { LocalOnlyNotice } from "../service/service-feedback";
 
 export function QueuePage({ review = false }: { review?: boolean }) {
   const { state, t, localize, update, notify } = useConsole();
@@ -39,6 +40,7 @@ export function QueuePage({ review = false }: { review?: boolean }) {
           )
         }
       />
+      <LocalOnlyNotice />
       <section className="panel">
         <SearchField value={query} onChange={setQuery} />
         <DataTable

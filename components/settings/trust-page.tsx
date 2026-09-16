@@ -6,6 +6,7 @@ import { content } from "../../lib/content";
 import { useConsole } from "../providers/console-provider";
 import { ConfirmAction } from "../forms/confirm-action";
 import { DataTable, Notice, PageHeader, Status } from "../ui/primitives";
+import { LocalOnlyNotice } from "../service/service-feedback";
 
 export function TrustPage() {
   const { state, t, localize, update, notify } = useConsole();
@@ -20,6 +21,7 @@ export function TrustPage() {
         back="/settings"
         reference="§14, §22.10"
       />
+      <LocalOnlyNotice />
       <section className="panel">
         <DataTable
           columns={[

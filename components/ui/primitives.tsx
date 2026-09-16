@@ -26,8 +26,11 @@ export function Status({ value }: { value: string }) {
     "COMPLETED",
     "VALIDATED",
     "TRUSTED",
+    "ACTIVE",
+    "PUBLIC",
+    "SUCCESS",
   ];
-  const bad = ["FAILED", "DEAD_LETTER", "QUARANTINED", "REVOKED"];
+  const bad = ["FAILED", "DEAD_LETTER", "QUARANTINED", "REVOKED", "CANCELLED", "EXPIRED", "VOIDED"];
   return (
     <Badge tone={good.includes(value) ? "good" : bad.includes(value) ? "bad" : "warn"}>
       <span title={value}>

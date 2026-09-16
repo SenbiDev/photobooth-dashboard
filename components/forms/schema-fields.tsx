@@ -3,6 +3,7 @@
 import { useId } from "react";
 import type { FormSchema, Values, Value } from "../../lib/types";
 import { useConsole } from "../providers/console-provider";
+import { useServiceReferences } from "../../hooks/use-edge-service";
 
 export function SchemaFields({
   schema,
@@ -19,6 +20,7 @@ export function SchemaFields({
 }) {
   const prefix = useId();
   const { localize, state, t } = useConsole();
+  const references = useServiceReferences();
   return (
     <>
       {schema.groups.map((group, groupIndex) => (
@@ -30,16 +32,39 @@ export function SchemaFields({
               const value = values[field.key];
               const options =
                 field.type === "device" || field.type === "devices"
-                  ? state.devices.map((device) => ({
-                      value: device.id,
-                      label: `${device.id} · ${device.name}`,
-                    }))
+                  ? references.devices.length
+                    ? references.devices.map((device) => ({
+                        value: device.id,
+                        label: `${device.device_code} · ${device.name || device.id}`,
+                      }))
+                    : state.devices.map((device) => ({
+                        value: device.id,
+                        label: `${device.id} · ${device.name}`,
+                      }))
                   : field.type === "event"
-                    ? state.entities.events.map((event) => ({ value: event.id, label: event.name }))
-                    : field.options?.map((option) => ({
-                        value: option.value,
-                        label: localize(option.label),
-                      }));
+                    ? references.campaigns.length
+                      ? references.campaigns.map((event) => ({
+                          value: event.id,
+                          label: event.name,
+                        }))
+                      : state.entities.events.map((event) => ({
+                          value: event.id,
+                          label: event.name,
+                        }))
+                    : field.type === "template"
+                      ? references.templates.length
+                        ? references.templates.map((template) => ({
+                            value: template.id,
+                            label: `${template.name} · v${template.version}`,
+                          }))
+                        : state.entities.templates.map((template) => ({
+                            value: template.id,
+                            label: template.name,
+                          }))
+                      : field.options?.map((option) => ({
+                          value: option.value,
+                          label: localize(option.label),
+                        }));
               const attributes = {
                 id,
                 name: field.key,

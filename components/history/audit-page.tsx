@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useConsole } from "../providers/console-provider";
 import { DataTable, ExtraBadge, Notice, PageHeader, SearchField } from "../ui/primitives";
+import { LocalOnlyNotice } from "../service/service-feedback";
 
 export function AuditPage() {
   const { state, t } = useConsole();
@@ -35,6 +36,7 @@ export function AuditPage() {
           </div>
         }
       />
+      <LocalOnlyNotice />
       <section className="panel">
         <SearchField value={query} onChange={setQuery} />
         <DataTable

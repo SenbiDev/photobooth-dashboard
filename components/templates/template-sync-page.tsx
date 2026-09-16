@@ -1,14 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { content } from "../../lib/content";
 import { audit } from "../../lib/mutations";
 import { useConsole } from "../providers/console-provider";
 import { ConfirmAction } from "../forms/confirm-action";
 import { DataTable, Notice, PageHeader } from "../ui/primitives";
+import { useDevices, useFrameTemplates, useSyncAnyDevice } from "../../hooks/use-edge-service";
+import { LocalOnlyNotice, ServiceBadge, ServiceBoundary } from "../service/service-feedback";
 
 export function TemplateSyncPage() {
   const { state, update, t, notify } = useConsole();
+  const devices = useDevices();
+  const templates = useFrameTemplates();
+  const syncMutation = useSyncAnyDevice();
   const [selection, setSelection] = useState<{ deviceId: string; action: string } | null>(null);
   return (
     <>
@@ -17,45 +21,54 @@ export function TemplateSyncPage() {
         copy={t("immutable")}
         reference="§22.7"
         back="/templates"
+        action={<ServiceBadge />}
       />
-      <section className="panel">
-        <DataTable
-          columns={[
-            { key: "deviceId", label: t("device") },
-            { key: "desiredVersion", label: t("desired") },
-            { key: "activeVersion", label: t("active") },
-            { key: "lastSyncAt", label: t("lastSync") },
-            { key: "lastError", label: t("lastError") },
-            { key: "cacheSize", label: t("cacheSize") },
-            { key: "actions", label: t("actions") },
-          ]}
-          rows={content.seed.templateSync.map((row) => ({
-            ...row,
-            id: row.deviceId,
-            cacheSize: `${row.cacheSizeMb} MB`,
-            actions: (
-              <div className="link-row">
-                <button
-                  type="button"
-                  className="text-button"
-                  onClick={() => setSelection({ deviceId: row.deviceId, action: "sync" })}
-                >
-                  {t("sync")}
-                </button>
-                <button
-                  type="button"
-                  className="text-button"
-                  onClick={() => setSelection({ deviceId: row.deviceId, action: "rollback" })}
-                >
-                  {t("rollback")} → v11
-                </button>
-              </div>
-            ),
-          }))}
-        />
-        <Notice>{t("guard")}</Notice>
-        <Notice warning>{t("binaryNote")}</Notice>
-      </section>
+      <ServiceBoundary query={devices}>
+        {(response) => (
+          <section className="panel">
+            <DataTable
+              columns={[
+                { key: "deviceId", label: t("device") },
+                { key: "desiredVersion", label: t("desired") },
+                { key: "activeVersion", label: t("active") },
+                { key: "lastSyncAt", label: t("lastSync") },
+                { key: "lastError", label: t("lastError") },
+                { key: "cacheSize", label: t("cacheSize") },
+                { key: "actions", label: t("actions") },
+              ]}
+              rows={response.data.map((device) => ({
+                id: device.id,
+                deviceId: device.device_code,
+                desiredVersion: templates.data?.data[0]?.version || "—",
+                activeVersion: device.app_version || "—",
+                lastSyncAt: device.last_heartbeat || device.last_seen_at || "—",
+                lastError: device.status.toLowerCase() === "active" ? "—" : device.status,
+                cacheSize: String(device.storage_state || "—"),
+                actions: (
+                  <div className="link-row">
+                    <button
+                      type="button"
+                      className="text-button"
+                      onClick={() => setSelection({ deviceId: device.id, action: "sync" })}
+                    >
+                      {t("sync")}
+                    </button>
+                    <button
+                      type="button"
+                      className="text-button"
+                      onClick={() => setSelection({ deviceId: device.id, action: "rollback" })}
+                    >
+                      {t("rollback")}
+                    </button>
+                  </div>
+                ),
+              }))}
+            />
+            <Notice>{t("guard")}</Notice>
+            <Notice warning>{t("binaryNote")}</Notice>
+          </section>
+        )}
+      </ServiceBoundary>
       <section className="panel">
         <h2>{t("commands")}</h2>
         <DataTable
@@ -73,6 +86,13 @@ export function TemplateSyncPage() {
           title={t(selection.action)}
           onClose={() => setSelection(null)}
           onConfirm={(reason) => {
+            if (selection.action === "sync") {
+              void syncMutation
+                .mutateAsync(selection.deviceId)
+                .then(() => notify("serviceUpdated"))
+                .catch(() => notify("serviceError"));
+              return;
+            }
             update((current) =>
               audit(
                 {
@@ -93,13 +113,14 @@ export function TemplateSyncPage() {
                 reason,
               ),
             );
-            notify("syncPending");
+            notify("queuedLocalOnly");
           }}
         >
           <p>
             {selection.deviceId} · sunset-strip
             {selection.action === "rollback" ? " → v11" : " → v12"}
           </p>
+          {selection.action === "rollback" && <LocalOnlyNotice />}
           <Notice>{t("validationNote")}</Notice>
           <Notice>{t("guard")}</Notice>
         </ConfirmAction>

@@ -3,13 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Bell, Camera, Menu, Search } from "lucide-react";
+import { Bell, Camera, LogOut, Menu, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { content } from "../../lib/content";
 import { useConsole } from "../providers/console-provider";
 import { Modal } from "../ui/modal";
 import { SearchField } from "../ui/primitives";
+import { useAuthStore } from "../../stores/auth-store";
 
 export function ConsoleShell({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const logout = useAuthStore((state) => state.logout);
   const pathname = usePathname();
   const { t, localize, locale, setLocale, state, ready } = useConsole();
   const [menu, setMenu] = useState(false);
@@ -119,6 +123,19 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
               onClick={() => setNotifications(true)}
             >
               <Bell size={19} />
+            </button>
+            <button
+              type="button"
+              className="icon-button"
+              aria-label={t("authLogout")}
+              title={t("authLogout")}
+              onClick={() => {
+                logout();
+                router.push("/login");
+                router.refresh();
+              }}
+            >
+              <LogOut size={19} />
             </button>
             <span className="avatar" aria-label={content.seed.entities.operators[0].name}>
               AK
