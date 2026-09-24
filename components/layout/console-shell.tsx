@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Bell, Camera, LogOut, Menu, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Camera, LogOut, Menu, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { content } from "../../lib/content";
 import { useConsole } from "../providers/console-provider";
@@ -15,17 +15,25 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const logout = useAuthStore((state) => state.logout);
   const pathname = usePathname();
-  const { t, localize, locale, setLocale, state, ready } = useConsole();
+  const { t, localize, locale, setLocale, ready } = useConsole();
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
   const [query, setQuery] = useState("");
-  const [notifications, setNotifications] = useState(false);
+  const visibleNav = content.navigation.filter((item) => !item.hidden);
   const current =
-    content.navigation.find((item) => item.href !== "/" && pathname.startsWith(item.href)) ??
-    content.navigation[0];
+    visibleNav.find((item) => item.href !== "/" && pathname.startsWith(item.href)) ?? visibleNav[0];
+  useEffect(() => {
+    const blocked = content.navigation.some(
+      (item) =>
+        item.hidden &&
+        item.href !== "/" &&
+        (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+    );
+    if (blocked) router.replace("/");
+  }, [pathname, router]);
   const nav = (
     <nav className="navigation" aria-label={t("workspace")}>
-      {content.navigation.map((item) => (
+      {visibleNav.map((item) => (
         <Link
           key={item.key}
           href={item.href}
@@ -34,26 +42,25 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
         >
           <span className="nav-marker" aria-hidden="true" />
           {localize(item.label)}
-          {item.key === "queue" && <span className="nav-count">{state.jobs.length}</span>}
         </Link>
       ))}
     </nav>
   );
   const results = [
-    ...content.navigation.map((item) => ({
+    ...visibleNav.map((item) => ({
       id: item.key,
       label: localize(item.label),
       href: item.href,
     })),
-    ...state.devices.map((device) => ({
-      id: device.id,
-      label: `${device.id} · ${device.name}`,
-      href: `/devices/${device.id}`,
-    })),
     ...Object.values(content.cards)
       .flat()
       .map((card) => ({ id: card.href, label: localize(card.title), href: card.href })),
-  ].filter((item) => item.label.toLowerCase().includes(query.toLowerCase()));
+  ].filter((item) => {
+    const hidden = content.navigation.some(
+      (nav) => nav.hidden && (item.href === nav.href || item.href.startsWith(`${nav.href}/`)),
+    );
+    return !hidden && item.label.toLowerCase().includes(query.toLowerCase());
+  });
 
   return (
     <div className="console-shell">
@@ -70,14 +77,9 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
             <small>{t("workspaceName")}</small>
           </span>
         </Link>
-        <div className="workspace-label">
-          <span className="workspace-dot" />
-          {t("demo")}
-        </div>
         {nav}
         <div className="sidebar-footer">
           <strong>{t("workspaceName")}</strong>
-          <span>{t("localOnly")}</span>
         </div>
       </aside>
       <div className="main-column">
@@ -119,14 +121,6 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               className="icon-button"
-              aria-label={t("notifications")}
-              onClick={() => setNotifications(true)}
-            >
-              <Bell size={19} />
-            </button>
-            <button
-              type="button"
-              className="icon-button"
               aria-label={t("authLogout")}
               title={t("authLogout")}
               onClick={() => {
@@ -137,16 +131,8 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
             >
               <LogOut size={19} />
             </button>
-            <span className="avatar" aria-label={content.seed.entities.operators[0].name}>
-              AK
-            </span>
           </div>
         </header>
-        <div className="demo-banner">
-          <span className="demo-dot" />
-          <strong>{t("demo")}</strong>
-          <span>{t("demoNote")}</span>
-        </div>
         <main id="main-content" tabIndex={-1}>
           {ready ? children : <p role="status">{t("loading")}</p>}
         </main>
@@ -167,25 +153,6 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
             ))}
             {!results.length && <p>{t("empty")}</p>}
           </div>
-        </Modal>
-      )}
-      {notifications && (
-        <Modal title={t("notifications")} onClose={() => setNotifications(false)}>
-          {state.audit.slice(0, 8).map((entry) => (
-            <article className="audit-item" key={entry.id}>
-              <strong>{t(entry.action)}</strong>
-              <p>{entry.scope}</p>
-              <small>{entry.time}</small>
-            </article>
-          ))}
-          {!state.audit.length && <p>{t("empty")}</p>}
-          <Link
-            className="action-link"
-            href="/history/audit"
-            onClick={() => setNotifications(false)}
-          >
-            {t("audit")}
-          </Link>
         </Modal>
       )}
     </div>

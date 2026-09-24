@@ -12,7 +12,9 @@ import type {
   Campaign,
   CampaignCreate,
   CampaignUpdate,
-  DailyRevenueRow,
+  BoothRevenueResponse,
+  CampaignRevenueResponse,
+  DailyRevenueResponse,
   Device,
   DeviceAssignment,
   DeviceAssignmentCreate,
@@ -34,15 +36,16 @@ import type {
   PrinterProfileUpdate,
   PublishState,
   ReportParams,
-  ReportResponse,
   Session,
   SessionCreate,
   SessionUpdate,
   Voucher,
   VoucherBatch,
   VoucherBatchCreate,
-  VoucherBatchReportRow,
+  VoucherBatchReportResponse,
   VoucherBatchUpdate,
+  UploadInitiateRequest,
+  UploadInitiateResponse,
 } from "./types";
 
 export const EDGE_API_URL =
@@ -200,16 +203,18 @@ export const edgeService = {
     get<ListResponse<DeviceHistory>>("/device-history", params),
   reports: {
     dailyRevenue: (params: ReportParams & { group_by?: "day" | "month" } = {}) =>
-      get<ReportResponse<DailyRevenueRow>>("/reports/revenue/daily", params),
+      get<DailyRevenueResponse>("/reports/revenue/daily", params),
     boothRevenue: (params: ReportParams = {}) =>
-      get<ReportResponse<Record<string, unknown>>>("/reports/revenue/booths", params),
-    campaignRevenue: (params: ReportParams = {}) =>
-      get<ReportResponse<Record<string, unknown>>>("/reports/revenue/campaigns", params),
+      get<BoothRevenueResponse>("/reports/revenue/booths", params),
+    campaignRevenue: (params: Omit<ReportParams, "booth_id"> = {}) =>
+      get<CampaignRevenueResponse>("/reports/revenue/campaigns", params),
     voucherBatches: (batch_id?: string) =>
-      get<{ message: string; data: VoucherBatchReportRow[] }>("/reports/vouchers/batches", {
-        batch_id,
-      }),
+      get<VoucherBatchReportResponse>("/reports/vouchers/batches", batch_id ? { batch_id } : {}),
     sessionFunnel: (params: ReportParams & { overdue_minutes?: number } = {}) =>
       get<FunnelReport>("/reports/sessions/funnel", params),
+  },
+  files: {
+    initiate: (body: UploadInitiateRequest) =>
+      post<UploadInitiateResponse>("/api/files/upload", body),
   },
 };

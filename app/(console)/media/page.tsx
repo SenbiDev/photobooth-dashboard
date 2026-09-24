@@ -1,5 +1,5 @@
-import { RecordsPage } from "../../../components/pages/records-page";
+import { MediaUploadPage } from "../../../components/media/media-upload-page";
 
 export default function Page() {
-  return <RecordsPage kind="media" />;
+  return <MediaUploadPage />;
 }

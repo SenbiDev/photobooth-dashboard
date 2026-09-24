@@ -1,78 +1,83 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { content } from "../../lib/content";
-import { diffValues, effectiveRuntime } from "../../lib/domain";
-import { publishDraft, recordValues, saveDraft, validateDraft } from "../../lib/mutations";
-import { publishScope, validateReferences } from "../../lib/reference-validation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { serviceFormSchema, validateServiceForm } from "../../lib/edge-service/form-contract";
 import type { Values } from "../../lib/types";
-import { useConsole } from "../providers/console-provider";
-import { DataTable, Notice, PageHeader, Status } from "../ui/primitives";
-import { SchemaFields } from "./schema-fields";
-import { ConfirmAction } from "./confirm-action";
 import {
+  useGenerateVouchers,
   usePublishServiceRecord,
-  useServiceReferences,
   useServiceEditorRecords,
+  useServiceReferences,
 } from "../../hooks/use-edge-service";
-import {
-  ServiceBadge,
-  ServiceError,
-  ServiceLoading,
-  LocalOnlyNotice,
-} from "../service/service-feedback";
-
-const serviceSchemas = ["event", "campaign", "rules", "template", "allocation"];
+import { useConsole } from "../providers/console-provider";
+import { Notice, PageHeader, Status } from "../ui/primitives";
+import { ServiceBadge, ServiceError, ServiceLoading } from "../service/service-feedback";
+import { SchemaFields } from "./schema-fields";
 
 export function WorkspaceEditor({
   schemaId,
   back,
-  deviceId,
+  picker = true,
 }: {
   schemaId: string;
   back: string;
-  deviceId?: string;
+  /** When false, only the record chosen from the list is shown. */
+  picker?: boolean;
 }) {
-  const { state, localize, t } = useConsole();
+  const { localize, t } = useConsole();
+  const schema = serviceFormSchema(schemaId);
+  const records = useServiceEditorRecords(schemaId);
   const params = useSearchParams();
-  const schema = content.schemas[schemaId];
-  const entity = schema.entity;
-  const serviceRecords = useServiceEditorRecords(schemaId);
-  const usesService = serviceSchemas.includes(schemaId);
-  const localRecords = entity && entity !== "devices" ? state.entities[entity] : [];
-  const records = usesService ? (serviceRecords.data ?? []) : localRecords;
-  const requestedRecord = params.get("record");
-  const requestedDevice = deviceId ?? params.get("device") ?? undefined;
-  const [selected, setSelected] = useState(
-    records.some((record) => record.id === requestedRecord)
-      ? requestedRecord!
-      : (records[0]?.id ?? requestedDevice ?? "default"),
-  );
-  useEffect(() => {
-    if (!records.length || records.some((record) => record.id === selected)) return;
-    const requested = records.find((record) => record.id === requestedRecord);
-    setSelected(requested?.id ?? records[0].id);
-  }, [records, requestedRecord, selected]);
+  const router = useRouter();
+  const pathname = usePathname();
+  const search = params.toString();
+  const requested = params.get("record");
+  const matched = records.data?.find((record) => record.id === requested);
+  const selectedRecord = picker ? (matched ?? records.data?.[0]) : matched;
 
-  if (usesService && serviceRecords.isPending) return <ServiceLoading />;
-  if (usesService && serviceRecords.isError)
-    return <ServiceError retry={() => void serviceRecords.refetch()} />;
+  useEffect(() => {
+    if (!picker || !selectedRecord || requested === selectedRecord.id) return;
+    const next = new URLSearchParams(search);
+    next.set("record", selectedRecord.id);
+    router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+  }, [pathname, picker, requested, router, search, selectedRecord]);
+
+  if (records.isPending) return <ServiceLoading />;
+  if (records.isError) return <ServiceError retry={() => void records.refetch()} />;
+  if (!selectedRecord) {
+    const hasRecords = (records.data?.length ?? 0) > 0;
+    return (
+      <>
+        <PageHeader title={localize(schema.title)} back={back} action={<ServiceBadge />} />
+        <Notice>
+          {hasRecords && !picker ? t("chooseRecordFromList") : t("emptyServiceRecords")}
+        </Notice>
+      </>
+    );
+  }
+
   return (
     <>
       <PageHeader
-        title={localize(schema.title)}
-        copy={t("immutable")}
+        title={picker ? localize(schema.title) : selectedRecord.name}
+        copy={picker ? t("apiContractCopy") : selectedRecord.id}
         reference={schema.reference}
         back={back}
-        action={usesService ? <ServiceBadge /> : undefined}
+        action={<ServiceBadge />}
       />
-      {!usesService && <LocalOnlyNotice />}
-      {records.length > 0 && (
+      {picker && (
         <label className="field scope-picker">
           {t("select")}
-          <select value={selected} onChange={(event) => setSelected(event.target.value)}>
-            {records.map((record) => (
+          <select
+            value={selectedRecord.id}
+            onChange={(event) => {
+              const next = new URLSearchParams(search);
+              next.set("record", event.target.value);
+              router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+            }}
+          >
+            {records.data?.map((record) => (
               <option key={record.id} value={record.id}>
                 {record.name} · {record.id}
               </option>
@@ -81,17 +86,9 @@ export function WorkspaceEditor({
         </label>
       )}
       <EditorForm
-        key={`${schemaId}:${selected}`}
+        key={`${schemaId}:${selectedRecord.id}`}
         schemaId={schemaId}
-        selected={selected}
-        deviceId={requestedDevice}
-        remoteValues={
-          usesService ? records.find((record) => record.id === selected)?.values : undefined
-        }
-        remoteStatus={
-          usesService ? records.find((record) => record.id === selected)?.status : undefined
-        }
-        usesService={usesService}
+        record={selectedRecord}
       />
     </>
   );
@@ -99,249 +96,115 @@ export function WorkspaceEditor({
 
 function EditorForm({
   schemaId,
-  selected,
-  deviceId,
-  remoteValues,
-  remoteStatus,
-  usesService,
+  record,
 }: {
   schemaId: string;
-  selected: string;
-  deviceId?: string;
-  remoteValues?: Values;
-  remoteStatus?: string;
-  usesService: boolean;
+  record: { id: string; name: string; status: string; values: Values };
 }) {
-  const { state, update, notify, t, localize } = useConsole();
+  const { t, notify } = useConsole();
+  const schema = serviceFormSchema(schemaId);
   const references = useServiceReferences();
-  const schema = content.schemas[schemaId];
-  const key = `${schemaId}:${selected}`;
-  const baseline = remoteValues
-    ? { ...recordValues(state, schemaId), ...remoteValues }
-    : recordValues(state, schemaId, selected);
-  const serviceMutation = usePublishServiceRecord(schemaId, selected);
-  const [values, setValues] = useState<Values>(() => {
-    const initial: Values = {
-      ...(state.drafts[key]?.values ?? baseline),
-      ...(deviceId ? { deviceId } : {}),
-    };
-    const record =
-      schema.entity && schema.entity !== "devices"
-        ? state.entities[schema.entity].find((item) => item.id === selected)
-        : undefined;
-    if (
-      ["template", "allocation"].includes(schemaId) &&
-      !state.drafts[key] &&
-      record?.status !== "DRAFT"
-    )
-      initial.version = Number(initial.version) + 1;
-    return initial;
-  });
+  const updateRecord = usePublishServiceRecord(schemaId, record.id);
+  const generateVouchers = useGenerateVouchers();
+  const [values, setValues] = useState<Values>({ ...record.values });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [confirm, setConfirm] = useState(false);
-  const [now, setNow] = useState(Date.now);
-  useEffect(() => {
-    if (schemaId !== "runtime") return;
-    const timer = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(timer);
-  }, [schemaId]);
-  const draft = state.drafts[key];
-  const isExact = draft && JSON.stringify(draft.values) === JSON.stringify(values);
-  const canPublish = isExact && draft.status === "VALIDATED";
-  const effective = schemaId === "runtime" ? effectiveRuntime(values, now) : values;
-  const changes = diffValues(
-    schemaId === "runtime" ? effectiveRuntime(baseline, now) : baseline,
-    effective,
-  );
-  const labels = Object.fromEntries(
-    schema.groups.flatMap((group) =>
-      group.fields.map((field) => [field.key, localize(field.label)]),
-    ),
-  );
+  const [generateCount, setGenerateCount] = useState(1);
+  const changed = JSON.stringify(values) !== JSON.stringify(record.values);
 
-  function save(validate: boolean) {
-    const next = validateReferences(state, schemaId, values, references);
-    setErrors(next);
-    if (Object.keys(next).length) {
-      notify("invalid");
-      return;
+  async function save() {
+    const nextErrors = validateServiceForm(schemaId, values, references);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
+    try {
+      await updateRecord.mutateAsync({ values, baseline: record.values });
+      notify("serviceUpdated");
+    } catch {
+      setErrors({ _service: "serviceError" });
+      notify("serviceError");
     }
-    update((current) => {
-      const saved = saveDraft(current, key, values);
-      if (validate && usesService) {
-        return {
-          ...saved,
-          drafts: {
-            ...saved.drafts,
-            [key]: {
-              ...saved.drafts[key],
-              status: "VALIDATED",
-              validatedHash: JSON.stringify(values),
-            },
-          },
-        };
-      }
-      return validate ? validateDraft(saved, key, schemaId) : saved;
-    });
-    notify(validate ? "validated" : "saved");
   }
 
   return (
-    <div className="editor-layout">
+    <section className="panel">
+      <div className="panel-heading">
+        <div>
+          <h2>{record.name}</h2>
+          <small>{record.id}</small>
+        </div>
+        {record.status && <Status value={record.status.toUpperCase()} />}
+      </div>
+      <Notice>{t("apiContractCopy")}</Notice>
       <form
-        className="panel"
         noValidate
         onSubmit={(event) => {
           event.preventDefault();
-          save(false);
+          void save();
         }}
       >
-        <div className="panel-heading">
-          <Status value={isExact ? draft.status : (remoteStatus?.toUpperCase() ?? "DRAFT")} />
-          <span className="muted">{t(usesService ? "liveService" : "sample")}</span>
-        </div>
-        {["rules", "allocation"].includes(schemaId) && <Notice>{t("offlineNote")}</Notice>}
-        {schemaId === "allocation" && <Notice>{t("allocationNote")}</Notice>}
-        {schemaId === "allocation" && (
-          <>
-            <h2>{t("inventory")}</h2>
-            <DataTable
-              columns={["available", "reserved", "consumed", "reconciled", "quarantined"].map(
-                (column) => ({ key: column, label: t(column) }),
-              )}
-              rows={[
-                {
-                  id: selected,
-                  ...Object.fromEntries(
-                    ["available", "reserved", "consumed", "reconciled", "quarantined"].map(
-                      (column) => [column, String(baseline[column] ?? 0)],
-                    ),
-                  ),
-                },
-              ]}
-            />
-          </>
-        )}
-        {["storage", "retention"].includes(schemaId) && <Notice>{t("retentionNote")}</Notice>}
-        {schemaId === "printer" && <Notice>{t("printerNote")}</Notice>}
         <SchemaFields
           schema={schema}
           values={values}
           errors={errors}
-          lockedFields={deviceId ? ["deviceId"] : []}
-          onChange={(field, value) => setValues((current) => ({ ...current, [field]: value }))}
+          serviceMode
+          lockedFields={schemaId === "allocation" ? ["voucherCount"] : []}
+          onChange={(key, value) => setValues((current) => ({ ...current, [key]: value }))}
         />
-        {Object.keys(errors).length > 0 && (
-          <p role="alert" className="field-error">
-            {t("invalid")}
-          </p>
-        )}
+        {errors._service && <p className="field-error">{t(errors._service)}</p>}
         <div className="form-actions">
           <button
-            type="button"
             className="button"
+            type="button"
+            disabled={!changed || updateRecord.isPending}
             onClick={() => {
-              setValues(baseline);
+              setValues({ ...record.values });
               setErrors({});
             }}
           >
             {t("reset")}
           </button>
-          <button type="submit" className="button">
-            {t("save")}
-          </button>
-          <button type="button" className="button" onClick={() => save(true)}>
-            {t("validate")}
-          </button>
           <button
-            type="button"
             className="button primary"
-            disabled={!canPublish}
-            onClick={() => setConfirm(true)}
+            type="submit"
+            disabled={!changed || updateRecord.isPending}
           >
-            {t(usesService ? "publishService" : "publish")}
+            {updateRecord.isPending ? t("serviceSaving") : t("saveChanges")}
           </button>
         </div>
       </form>
-      <aside className="preview-panel panel">
-        <h2>{t(schemaId === "runtime" ? "preview" : "draftPreview")}</h2>
-        <Notice>{t(schemaId === "runtime" ? "effectiveNote" : "draftPreviewNote")}</Notice>
-        <p className="muted">{t("guard")}</p>
-        {schemaId === "runtime" && (
-          <>
-            <pre className="config-preview">{JSON.stringify(effective, null, 2)}</pre>
-            <p className="muted">{t("expiresNote")}</p>
-          </>
-        )}
-        {schemaId === "template" && (
-          <div className="contact-sheet" aria-hidden="true">
-            <div />
-            <div />
-            <span>{String(values.name ?? "")}</span>
-          </div>
-        )}
-        {schemaId === "template" && <p className="muted">{t("templatePreview")}</p>}
-        <DataTable
-          columns={[
-            { key: "name", label: t("field") },
-            { key: "before", label: t("before") },
-            { key: "after", label: t("after") },
-          ]}
-          rows={changes.map((change) => ({
-            id: change.key,
-            name: labels[change.key] ?? change.key,
-            before: change.before,
-            after: change.after,
-          }))}
-        />
-        {!changes.length && <p className="muted">{t("noChanges")}</p>}
-        <Notice warning>{t("validationNote")}</Notice>
-        {!canPublish && <p className="muted">{t("publishNeeds")}</p>}
-      </aside>
-      {confirm && (
-        <ConfirmAction
-          title={t(usesService ? "publishService" : "publish")}
-          initialReason={String(values.reason ?? "")}
-          onClose={() => setConfirm(false)}
-          onConfirm={async (reason) => {
-            const nextErrors = validateReferences(
-              state,
-              schemaId,
-              { ...values, reason },
-              references,
-            );
-            if (
-              Object.keys(nextErrors).length ||
-              (!usesService && !publishScope(state, values).length)
-            ) {
-              setErrors(nextErrors);
-              notify("invalid");
-              return;
+      {schemaId === "allocation" && (
+        <div className="form-actions">
+          <label className="field">
+            {t("generateVouchers")}
+            <input
+              type="number"
+              min={1}
+              max={5000}
+              value={generateCount}
+              onChange={(event) => setGenerateCount(Number(event.target.value))}
+            />
+          </label>
+          <button
+            type="button"
+            className="button"
+            disabled={
+              generateVouchers.isPending ||
+              !Number.isInteger(generateCount) ||
+              generateCount < 1 ||
+              generateCount > 5000
             }
-            setValues((current) => ({ ...current, reason }));
-            if (usesService) {
+            onClick={async () => {
               try {
-                await serviceMutation.mutateAsync({ ...values, reason });
+                await generateVouchers.mutateAsync({ id: record.id, count: generateCount });
                 notify("serviceUpdated");
               } catch {
                 notify("serviceError");
               }
-              return;
-            }
-            // Revalidate if the confirmation changes the audited reason.
-            update((current) => {
-              const saved = saveDraft(current, key, { ...values, reason });
-              return publishDraft(validateDraft(saved, key, schemaId), key, schemaId, true);
-            });
-            notify("published");
-          }}
-        >
-          <Notice>{t("guard")}</Notice>
-          <p>
-            {t("scope")}: {publishScope(state, values).join(", ")}
-          </p>
-        </ConfirmAction>
+            }}
+          >
+            {generateVouchers.isPending ? t("serviceSaving") : t("generateVouchers")}
+          </button>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -213,11 +213,13 @@ export interface Session {
   campaign_id?: string | null;
   booth_id?: string | null;
   device_id?: string | null;
+  frame_template_id?: string | null;
   activation_mode?: string | null;
   state: string;
   config_snapshot_id?: string | null;
   offline: boolean;
   device_code?: string | null;
+  frame_template_name?: string | null;
   camera_profile_id?: string | null;
   camera_profile_name?: string | null;
   printer_profile_id?: string | null;
@@ -274,59 +276,120 @@ export interface DeviceHistory {
   device_id?: string | null;
   camera_profile_id?: string | null;
   printer_profile_id?: string | null;
+  frame_template_id?: string | null;
   device_code?: string | null;
   camera_profile_name?: string | null;
   printer_profile_name?: string | null;
+  frame_template_name?: string | null;
   reason: string;
   created_at: string;
 }
 
-export interface Summary {
-  transactions: number;
-  gross: number;
-  refund_total: number;
-  net: number;
-  voucher_used: number;
-  voucher_value: number;
+export interface ChannelInfo {
+  count?: number;
+  amount?: number;
 }
 
-export interface DailyRevenueRow extends Summary {
+export interface SummaryRow {
+  transactions?: number;
+  gross?: number;
+  refund_total?: number;
+  net?: number;
+  voucher_used?: number;
+  voucher_value?: number;
+}
+
+export interface DailyRevenueRow {
   date: string;
-  channels: Record<string, unknown>;
+  transactions?: number;
+  gross?: number;
+  refund_total?: number;
+  net?: number;
+  channels?: Record<string, ChannelInfo>;
+  voucher_used?: number;
+  voucher_value?: number;
 }
 
-export interface ReportResponse<T> {
+export interface DailyRevenueResponse {
   message: string;
-  data: T[];
-  summary: Summary;
+  group_by: string;
+  data: DailyRevenueRow[];
+  summary: SummaryRow;
+}
+
+export interface BoothRevenueRow {
+  booth_id: string;
+  booth_name?: string | null;
+  campaign_id?: string | null;
+  campaign_name?: string | null;
+  paid_sessions?: number;
+  gross?: number;
+  refund_total?: number;
+  net?: number;
+  channels?: Record<string, ChannelInfo>;
+  voucher_used?: number;
+  voucher_value?: number;
+}
+
+export interface BoothRevenueResponse {
+  message: string;
+  data: BoothRevenueRow[];
+  summary: SummaryRow;
+}
+
+export interface CampaignRevenueRow {
+  campaign_id: string;
+  name: string;
+  price?: number | null;
+  paid_sessions?: number;
+  quota?: number | null;
+  quota_used?: number;
+  gross?: number;
+  net?: number;
+  voucher_used?: number;
+  voucher_value?: number;
+  paid_vs_voucher_ratio?: number | null;
+}
+
+export interface CampaignRevenueResponse {
+  message: string;
+  data: CampaignRevenueRow[];
+  summary: SummaryRow;
 }
 
 export interface VoucherBatchReportRow {
   batch_id: string;
   name: string;
   campaign_id?: string | null;
-  issued: number;
-  available: number;
-  used: number;
-  expired: number;
-  voided: number;
-  voucher_value: number;
+  issued?: number;
+  available?: number;
+  used?: number;
+  expired?: number;
+  voided?: number;
+  voucher_value?: number;
+}
+
+export interface VoucherBatchReportResponse {
+  message: string;
+  data: VoucherBatchReportRow[];
+}
+
+export interface OverduePaymentRow {
+  payment_id: string;
+  amount: number;
+  booth_name?: string | null;
+  created_at: string;
 }
 
 export interface FunnelReport {
   message: string;
-  created: number;
-  paid: number;
-  refunded: number;
-  offline: number;
-  online: number;
+  created?: number;
+  paid?: number;
+  refunded?: number;
+  offline?: number;
+  online?: number;
   overdue_minutes: number;
-  overdue_pending: Array<{
-    payment_id: string;
-    amount: number;
-    booth_name?: string | null;
-    created_at: string;
-  }>;
+  overdue_pending: OverduePaymentRow[];
 }
 
 export interface ListParams {
@@ -340,3 +403,15 @@ export interface ReportParams {
   booth_id?: string;
   campaign_id?: string;
 }
+
+export interface UploadInitiateRequest {
+  filename?: string | null;
+  size_bytes: number;
+  mime_type?: string | null;
+  owner_scope?: string;
+  visibility?: string;
+  folder_id?: string | null;
+}
+
+// The current OpenAPI response schema is intentionally empty.
+export type UploadInitiateResponse = Record<string, unknown>;

@@ -11,15 +11,17 @@ export function SchemaFields({
   errors,
   onChange,
   lockedFields = [],
+  serviceMode = false,
 }: {
   schema: FormSchema;
   values: Values;
   errors: Record<string, string>;
   onChange: (key: string, value: Value) => void;
   lockedFields?: string[];
+  serviceMode?: boolean;
 }) {
   const prefix = useId();
-  const { localize, state, t } = useConsole();
+  const { localize, t } = useConsole();
   const references = useServiceReferences();
   return (
     <>
@@ -32,39 +34,50 @@ export function SchemaFields({
               const value = values[field.key];
               const options =
                 field.type === "device" || field.type === "devices"
-                  ? references.devices.length
-                    ? references.devices.map((device) => ({
-                        value: device.id,
-                        label: `${device.device_code} · ${device.name || device.id}`,
-                      }))
-                    : state.devices.map((device) => ({
-                        value: device.id,
-                        label: `${device.id} · ${device.name}`,
-                      }))
+                  ? references.devices.map((device) => ({
+                      value: device.id,
+                      label: `${device.device_code} · ${device.name || device.id}`,
+                    }))
                   : field.type === "event"
-                    ? references.campaigns.length
-                      ? references.campaigns.map((event) => ({
-                          value: event.id,
-                          label: event.name,
-                        }))
-                      : state.entities.events.map((event) => ({
-                          value: event.id,
-                          label: event.name,
-                        }))
+                    ? references.campaigns.map((event) => ({
+                        value: event.id,
+                        label: event.name,
+                      }))
                     : field.type === "template"
-                      ? references.templates.length
+                      ? references.templates.map((template) => ({
+                          value: template.id,
+                          label: `${template.name} · v${template.version}`,
+                        }))
+                      : field.type === "templates"
                         ? references.templates.map((template) => ({
                             value: template.id,
-                            label: `${template.name} · v${template.version}`,
+                            label: `${template.name} · v${template.version} · ${template.publish_state}`,
                           }))
-                        : state.entities.templates.map((template) => ({
-                            value: template.id,
-                            label: template.name,
-                          }))
-                      : field.options?.map((option) => ({
-                          value: option.value,
-                          label: localize(option.label),
-                        }));
+                        : field.type === "cameraProfile"
+                          ? references.cameraProfiles
+                              .filter((profile) => !profile.device_pluged)
+                              .map((profile) => ({
+                                value: profile.id,
+                                label: `${profile.name} · ${t(profile.status ? "profileEnabled" : "profileDisabled")}`,
+                              }))
+                          : field.type === "printerProfile"
+                            ? references.printerProfiles
+                                .filter((profile) => !profile.device_pluged)
+                                .map((profile) => ({
+                                  value: profile.id,
+                                  label: `${profile.name} · ${t(profile.status ? "profileEnabled" : "profileDisabled")}`,
+                                }))
+                            : field.options?.map((option) => ({
+                                value: option.value,
+                                label: localize(option.label),
+                              }));
+              const displayedOptions =
+                options &&
+                typeof value === "string" &&
+                value &&
+                !options.some((option) => option.value === value)
+                  ? [...options, { value, label: value }]
+                  : options;
               const attributes = {
                 id,
                 name: field.key,
@@ -80,28 +93,34 @@ export function SchemaFields({
                 >
                   <label htmlFor={id}>
                     {localize(field.label)}
-                    {field.required && <span aria-hidden="true"> *</span>}
+                    {field.required ? (
+                      <span aria-hidden="true"> *</span>
+                    ) : (
+                      <span className="optional-flag">{t("optional")}</span>
+                    )}
                   </label>
-                  {options ? (
+                  {displayedOptions ? (
                     <select
                       {...attributes}
-                      multiple={field.type === "devices"}
+                      multiple={field.type === "devices" || field.type === "templates"}
                       value={Array.isArray(value) ? value : String(value ?? "")}
                       onChange={(event) =>
                         onChange(
                           field.key,
-                          field.type === "devices"
+                          field.type === "devices" || field.type === "templates"
                             ? Array.from(event.target.selectedOptions, (option) => option.value)
                             : event.target.value,
                         )
                       }
                     >
-                      {field.type !== "devices" && (
-                        <option value="" disabled>
-                          {t("choose")}
-                        </option>
-                      )}
-                      {options.map((option) => (
+                      {field.type !== "devices" &&
+                        field.type !== "templates" &&
+                        !displayedOptions?.some((option) => option.value === "") && (
+                          <option value="" disabled={Boolean(field.required)}>
+                            {t("choose")}
+                          </option>
+                        )}
+                      {displayedOptions.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>

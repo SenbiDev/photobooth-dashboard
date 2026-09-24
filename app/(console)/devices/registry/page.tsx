@@ -1,5 +1,5 @@
-import { DeviceDirectory } from "../../../../components/devices/device-directory";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <DeviceDirectory />;
+  redirect("/devices");
 }

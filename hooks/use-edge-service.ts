@@ -2,22 +2,33 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { edgeService } from "../lib/edge-service/client";
+import { fetchAllPages } from "../lib/edge-service/pagination";
 import {
   allocationFormToCreate,
-  campaignOverrideToCampaign,
+  allocationFormToPatch,
+  campaignFormToPatch,
+  campaignFormToCreate,
   deviceFormToCreate,
-  eventToCampaign,
-  rulesToCampaignPatch,
   templateFormToCreate,
+  templateFormToPatch,
   batchToValues,
   campaignToValues,
   templateToValues,
 } from "../lib/edge-service/mappers";
 import type { Values } from "../lib/types";
-import type { CameraProfileCreate, PrinterProfileCreate } from "../lib/edge-service/types";
+import type {
+  BoothCreate,
+  BoothUpdate,
+  CameraProfileCreate,
+  CameraProfileUpdate,
+  DeviceAssignmentCreate,
+  DeviceAssignmentUpdate,
+  PrinterProfileCreate,
+  PrinterProfileUpdate,
+  DeviceUpdate,
+  UploadInitiateRequest,
+} from "../lib/edge-service/types";
 import { useAuthStore } from "../stores/auth-store";
-
-const LIST_LIMIT = 100;
 
 function useAuthorizedQuery<T>(key: readonly unknown[], queryFn: () => Promise<T>) {
   const authenticated = useAuthStore((state) => state.isAuthenticated);
@@ -42,50 +53,70 @@ export const edgeKeys = {
 };
 
 export const useCampaigns = () =>
-  useAuthorizedQuery(edgeKeys.campaigns, () => edgeService.campaigns.list({ limit: LIST_LIMIT }));
+  useAuthorizedQuery(edgeKeys.campaigns, () => fetchAllPages(edgeService.campaigns.list));
 export const useBooths = () =>
-  useAuthorizedQuery(edgeKeys.booths, () => edgeService.booths.list({ limit: LIST_LIMIT }));
+  useAuthorizedQuery(edgeKeys.booths, () => fetchAllPages(edgeService.booths.list));
 export const useDevices = () =>
-  useAuthorizedQuery(edgeKeys.devices, () => edgeService.devices.list({ limit: LIST_LIMIT }));
-export const useAssignments = () =>
-  useAuthorizedQuery(edgeKeys.assignments, () =>
-    edgeService.assignments.list({ limit: LIST_LIMIT }),
+  useAuthorizedQuery(edgeKeys.devices, () => fetchAllPages(edgeService.devices.list));
+export const useAssignments = (campaignId?: string) =>
+  useAuthorizedQuery([...edgeKeys.assignments, campaignId ?? "all"], () =>
+    fetchAllPages((params) => edgeService.assignments.list({ ...params, campaign_id: campaignId })),
   );
 export const useSessions = () =>
-  useAuthorizedQuery(edgeKeys.sessions, () => edgeService.sessions.list({ limit: LIST_LIMIT }));
+  useAuthorizedQuery(edgeKeys.sessions, () => fetchAllPages(edgeService.sessions.list));
 export const useCameraProfiles = () =>
-  useAuthorizedQuery(edgeKeys.cameraProfiles, () =>
-    edgeService.cameraProfiles.list({ limit: LIST_LIMIT }),
-  );
+  useAuthorizedQuery(edgeKeys.cameraProfiles, () => fetchAllPages(edgeService.cameraProfiles.list));
 export const usePrinterProfiles = () =>
   useAuthorizedQuery(edgeKeys.printerProfiles, () =>
-    edgeService.printerProfiles.list({ limit: LIST_LIMIT }),
+    fetchAllPages(edgeService.printerProfiles.list),
   );
 export const useFrameTemplates = () =>
-  useAuthorizedQuery(edgeKeys.templates, () =>
-    edgeService.frameTemplates.list({ limit: LIST_LIMIT }),
-  );
+  useAuthorizedQuery(edgeKeys.templates, () => fetchAllPages(edgeService.frameTemplates.list));
 export const useVoucherBatches = () =>
-  useAuthorizedQuery(edgeKeys.batches, () =>
-    edgeService.voucherBatches.list({ limit: LIST_LIMIT }),
-  );
+  useAuthorizedQuery(edgeKeys.batches, () => fetchAllPages(edgeService.voucherBatches.list));
 export const useVouchers = () =>
-  useAuthorizedQuery(edgeKeys.vouchers, () => edgeService.vouchers.list({ limit: LIST_LIMIT }));
+  useAuthorizedQuery(edgeKeys.vouchers, () => fetchAllPages(edgeService.vouchers.list));
+export const useAvailableVouchers = (batchIds: string[]) => {
+  const authenticated = useAuthStore((state) => state.isAuthenticated);
+  const ids = [...batchIds].sort();
+  return useQuery({
+    queryKey: [...edgeKeys.vouchers, "available", ids.join("|")],
+    enabled: authenticated && ids.length > 0,
+    queryFn: async () =>
+      (
+        await Promise.all(
+          ids.map((batchId) =>
+            fetchAllPages((params) =>
+              edgeService.vouchers.list({ ...params, batch_id: batchId, status: "available" }),
+            ),
+          ),
+        )
+      ).flatMap((response) => response.data),
+  });
+};
 export const usePayments = () =>
-  useAuthorizedQuery(edgeKeys.payments, () => edgeService.payments.list({ limit: LIST_LIMIT }));
+  useAuthorizedQuery(edgeKeys.payments, () => fetchAllPages(edgeService.payments.list));
 export const useDeviceHistory = () =>
-  useAuthorizedQuery(edgeKeys.history, () => edgeService.deviceHistory({ limit: LIST_LIMIT }));
+  useAuthorizedQuery(edgeKeys.history, () => fetchAllPages(edgeService.deviceHistory));
 
 export function useServiceReferences() {
   const devices = useDevices();
   const campaigns = useCampaigns();
   const templates = useFrameTemplates();
+  const booths = useBooths();
+  const assignments = useAssignments();
+  const cameraProfiles = useCameraProfiles();
+  const printerProfiles = usePrinterProfiles();
   return {
     deviceIds: devices.data?.data.map((device) => device.id) ?? [],
     eventIds: campaigns.data?.data.map((campaign) => campaign.id) ?? [],
     devices: devices.data?.data ?? [],
     campaigns: campaigns.data?.data ?? [],
     templates: templates.data?.data ?? [],
+    booths: booths.data?.data ?? [],
+    assignments: assignments.data?.data ?? [],
+    cameraProfiles: cameraProfiles.data?.data ?? [],
+    printerProfiles: printerProfiles.data?.data ?? [],
   };
 }
 
@@ -97,7 +128,7 @@ export function useSessionHistory(id: string) {
   const authenticated = useAuthStore((state) => state.isAuthenticated);
   return useQuery({
     queryKey: [...edgeKeys.sessions, id, "history"],
-    queryFn: () => edgeService.sessions.history(id, { limit: LIST_LIMIT }),
+    queryFn: () => fetchAllPages((params) => edgeService.sessions.history(id, params)),
     enabled: authenticated && Boolean(id),
   });
 }
@@ -112,17 +143,17 @@ export function useRefundPayment(id: string) {
 
 export function useServiceEditorRecords(schemaId: string) {
   return useAuthorizedQuery([...edgeKeys.all, "editor", schemaId], async () => {
-    if (["event", "campaign", "rules"].includes(schemaId)) {
-      const response = await edgeService.campaigns.list({ limit: LIST_LIMIT });
+    if (schemaId === "campaign") {
+      const response = await fetchAllPages(edgeService.campaigns.list);
       return response.data.map((record) => ({
         id: record.id,
         name: record.name,
         status: record.status,
-        values: campaignToValues(record, schemaId),
+        values: campaignToValues(record),
       }));
     }
     if (schemaId === "template") {
-      const response = await edgeService.frameTemplates.list({ limit: LIST_LIMIT });
+      const response = await fetchAllPages(edgeService.frameTemplates.list);
       return response.data.map((record) => ({
         id: record.id,
         name: record.name,
@@ -131,11 +162,11 @@ export function useServiceEditorRecords(schemaId: string) {
       }));
     }
     if (schemaId === "allocation") {
-      const response = await edgeService.voucherBatches.list({ limit: LIST_LIMIT });
+      const response = await fetchAllPages(edgeService.voucherBatches.list);
       return response.data.map((record) => ({
         id: record.id,
         name: record.name,
-        status: record.offline_eligible ? "active" : "draft",
+        status: "",
         values: batchToValues(record),
       }));
     }
@@ -150,18 +181,15 @@ export function useCreateServiceRecord(schemaId: string) {
       switch (schemaId) {
         case "register":
           return edgeService.devices.create(deviceFormToCreate(values));
-        case "event":
-          return edgeService.campaigns.create(eventToCampaign(values));
+        case "campaign":
+          return edgeService.campaigns.create(campaignFormToCreate(values));
         case "template":
-          return edgeService.frameTemplates.create(templateFormToCreate(values));
-        case "allocation": {
-          const batch = await edgeService.voucherBatches.create(allocationFormToCreate(values));
-          const count = Number(values.requestedCount ?? 0);
-          if (count > 0 && batch.voucher_count === 0) {
-            return edgeService.voucherBatches.generate(batch.id, count);
-          }
-          return batch;
-        }
+          return edgeService.frameTemplates.create({
+            ...templateFormToCreate(values),
+            publish_state: "draft",
+          });
+        case "allocation":
+          return edgeService.voucherBatches.create(allocationFormToCreate(values));
         default:
           throw new Error(`No service mutation for ${schemaId}`);
       }
@@ -173,18 +201,26 @@ export function useCreateServiceRecord(schemaId: string) {
 export function usePublishServiceRecord(schemaId: string, id: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (values: Values) => {
+    mutationFn: async ({ values, baseline }: { values: Values; baseline: Values }) => {
       switch (schemaId) {
-        case "event":
-          return edgeService.campaigns.update(id, eventToCampaign(values));
-        case "campaign":
-          return edgeService.campaigns.update(id, campaignOverrideToCampaign(values));
-        case "rules":
-          return edgeService.campaigns.update(id, rulesToCampaignPatch(values));
-        case "template":
-          return edgeService.frameTemplates.update(id, templateFormToCreate(values));
-        case "allocation":
-          return edgeService.voucherBatches.update(id, allocationFormToCreate(values));
+        case "campaign": {
+          const patch = campaignFormToPatch(values, baseline);
+          return Object.keys(patch).length
+            ? edgeService.campaigns.update(id, patch)
+            : edgeService.campaigns.get(id);
+        }
+        case "template": {
+          const patch = templateFormToPatch(values, baseline);
+          return Object.keys(patch).length
+            ? edgeService.frameTemplates.update(id, patch)
+            : edgeService.frameTemplates.get(id);
+        }
+        case "allocation": {
+          const patch = allocationFormToPatch(values, baseline);
+          return Object.keys(patch).length
+            ? edgeService.voucherBatches.update(id, patch)
+            : edgeService.voucherBatches.get(id);
+        }
         default:
           throw new Error(`No service mutation for ${schemaId}`);
       }
@@ -197,6 +233,15 @@ export function useSyncDevice(id: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => edgeService.devices.sync(id),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.devices }),
+  });
+}
+
+export function useUpdateDevice() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, values }: { id: string; values: DeviceUpdate }) =>
+      edgeService.devices.update(id, values),
     onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.devices }),
   });
 }
@@ -217,6 +262,15 @@ export function useCreateCameraProfile() {
   });
 }
 
+export function useUpdateCameraProfile() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, values }: { id: string; values: CameraProfileUpdate }) =>
+      edgeService.cameraProfiles.update(id, values),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.cameraProfiles }),
+  });
+}
+
 export function useCreatePrinterProfile() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -225,20 +279,109 @@ export function useCreatePrinterProfile() {
   });
 }
 
-export function useReports() {
+export function useUpdatePrinterProfile() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, values }: { id: string; values: PrinterProfileUpdate }) =>
+      edgeService.printerProfiles.update(id, values),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.printerProfiles }),
+  });
+}
+
+export function useGenerateVouchers() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, count }: { id: string; count: number }) =>
+      edgeService.voucherBatches.generate(id, count),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.all }),
+  });
+}
+
+export function useCreateBooth() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (values: BoothCreate) => edgeService.booths.create(values),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.all }),
+  });
+}
+
+export function useUpdateBooth() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, values }: { id: string; values: BoothUpdate }) =>
+      edgeService.booths.update(id, values),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.all }),
+  });
+}
+
+export function useCreateAssignment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (values: DeviceAssignmentCreate) => edgeService.assignments.create(values),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.all }),
+  });
+}
+
+export function useUpdateAssignment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, values }: { id: string; values: DeviceAssignmentUpdate }) =>
+      edgeService.assignments.update(id, values),
+    onSuccess: async () => queryClient.invalidateQueries({ queryKey: edgeKeys.all }),
+  });
+}
+
+export interface ReportFilters {
+  date_from?: string;
+  date_to?: string;
+  booth_id?: string;
+  campaign_id?: string;
+  group_by?: "day" | "month";
+  overdue_minutes?: number;
+  batch_id?: string;
+}
+
+export function useReports(filters: ReportFilters = {}) {
   const authenticated = useAuthStore((state) => state.isAuthenticated);
+  const range = {
+    date_from: filters.date_from || undefined,
+    date_to: filters.date_to || undefined,
+  };
   return useQuery({
-    queryKey: edgeKeys.reports,
+    queryKey: [...edgeKeys.reports, filters],
     enabled: authenticated,
     queryFn: async () => {
       const [daily, campaigns, booths, vouchers, funnel] = await Promise.all([
-        edgeService.reports.dailyRevenue(),
-        edgeService.reports.campaignRevenue(),
-        edgeService.reports.boothRevenue(),
-        edgeService.reports.voucherBatches(),
-        edgeService.reports.sessionFunnel(),
+        edgeService.reports.dailyRevenue({
+          ...range,
+          booth_id: filters.booth_id || undefined,
+          campaign_id: filters.campaign_id || undefined,
+          group_by: filters.group_by,
+        }),
+        edgeService.reports.campaignRevenue({
+          ...range,
+          campaign_id: filters.campaign_id || undefined,
+        }),
+        edgeService.reports.boothRevenue({
+          ...range,
+          booth_id: filters.booth_id || undefined,
+          campaign_id: filters.campaign_id || undefined,
+        }),
+        edgeService.reports.voucherBatches(filters.batch_id || undefined),
+        edgeService.reports.sessionFunnel({
+          ...range,
+          booth_id: filters.booth_id || undefined,
+          campaign_id: filters.campaign_id || undefined,
+          overdue_minutes: filters.overdue_minutes,
+        }),
       ]);
       return { daily, campaigns, booths, vouchers, funnel };
     },
+  });
+}
+
+export function useInitiateUpload() {
+  return useMutation({
+    mutationFn: (values: UploadInitiateRequest) => edgeService.files.initiate(values),
   });
 }

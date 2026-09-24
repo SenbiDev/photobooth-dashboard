@@ -29,8 +29,32 @@ function SessionHistoryPanel({ session }: { session: Session }) {
           <dd>{session.device_code || session.device_id || "—"}</dd>
         </div>
         <div>
+          <dt>{t("booth")}</dt>
+          <dd>{session.booth_id || "—"}</dd>
+        </div>
+        <div>
+          <dt>{t("frameTemplate")}</dt>
+          <dd>{session.frame_template_name || session.frame_template_id || "—"}</dd>
+        </div>
+        <div>
+          <dt>{t("configSnapshot")}</dt>
+          <dd>{session.config_snapshot_id || "—"}</dd>
+        </div>
+        <div>
           <dt>{t("activation")}</dt>
           <dd>{session.activation_mode || "—"}</dd>
+        </div>
+        <div>
+          <dt>{t("offline")}</dt>
+          <dd>{session.offline ? t("yes") : t("no")}</dd>
+        </div>
+        <div>
+          <dt>{t("cameraProfile")}</dt>
+          <dd>{session.camera_profile_name || session.camera_profile_id || "—"}</dd>
+        </div>
+        <div>
+          <dt>{t("printerProfile")}</dt>
+          <dd>{session.printer_profile_name || session.printer_profile_id || "—"}</dd>
         </div>
         <div>
           <dt>{t("state")}</dt>
@@ -46,12 +70,18 @@ function SessionHistoryPanel({ session }: { session: Session }) {
             columns={[
               { key: "created", label: t("createdAt") },
               { key: "device", label: t("device") },
+              { key: "camera", label: t("cameraProfile") },
+              { key: "printer", label: t("printerProfile") },
+              { key: "template", label: t("frameTemplate") },
               { key: "reason", label: t("reason") },
             ]}
             rows={response.data.map((record) => ({
               id: record.id,
               created: record.created_at,
               device: record.device_code || record.device_id || "—",
+              camera: record.camera_profile_name || record.camera_profile_id || "—",
+              printer: record.printer_profile_name || record.printer_profile_id || "—",
+              template: record.frame_template_name || record.frame_template_id || "—",
               reason: record.reason,
             }))}
           />
@@ -146,13 +176,17 @@ function PaymentDetail({ payment }: { payment: Payment }) {
       {confirmRefund && (
         <ConfirmAction
           title={t("refund")}
+          requireReason={false}
+          acknowledgeOnly
           onClose={() => setConfirmRefund(false)}
           onConfirm={async () => {
             try {
               await refund.mutateAsync();
               notify("serviceUpdated");
+              return true;
             } catch {
               notify("serviceError");
+              return false;
             }
           }}
         >

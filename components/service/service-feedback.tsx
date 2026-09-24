@@ -47,8 +47,3 @@ export function ServiceBadge() {
   const { t } = useConsole();
   return <span className="service-badge">{t("liveService")}</span>;
 }
-
-export function LocalOnlyNotice() {
-  const { t } = useConsole();
-  return <Notice warning>{t("notAvailableInService")}</Notice>;
-}

@@ -1,5 +1,5 @@
-import { RecordsPage } from "../../../components/pages/records-page";
+import { PaymentsServicePage } from "../../../components/service/operational-records";
 
 export default function Page() {
-  return <RecordsPage kind="payments" />;
+  return <PaymentsServicePage />;
 }

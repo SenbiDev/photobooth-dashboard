@@ -1,63 +1,38 @@
-import { content } from "./content";
-import { validateValues } from "./domain";
-import type { ConsoleState, Values } from "./types";
-
-export function validateReferences(
-  state: ConsoleState,
-  schemaId: string,
-  values: Values,
-  remote: { deviceIds?: string[]; eventIds?: string[] } = {},
+export function assignmentWindowsOverlap(
+  leftStart: string,
+  leftEnd: string,
+  rightStart?: string | null,
+  rightEnd?: string | null,
 ) {
-  const errors = validateValues(content.schemas[schemaId], values);
-  const deviceIds = new Set([
-    ...state.devices.map((device) => device.id),
-    ...(remote.deviceIds ?? []),
-  ]);
-  const eventIds = new Set([
-    ...state.entities.events.map((event) => event.id),
-    ...(remote.eventIds ?? []),
-  ]);
-  if (values.deviceId && !deviceIds.has(String(values.deviceId)))
-    errors.deviceId = "guardrailError";
-  if (values.eventId && !eventIds.has(String(values.eventId))) errors.eventId = "guardrailError";
-  if (
-    Array.isArray(values.eligibleDevices) &&
-    values.eligibleDevices.some((id) => !deviceIds.has(id))
-  ) {
-    errors.eligibleDevices = "guardrailError";
-  }
-  if (
-    values.deviceId &&
-    Array.isArray(values.eligibleDevices) &&
-    !values.eligibleDevices.includes(String(values.deviceId))
-  )
-    errors.deviceId = "guardrailError";
-  if (schemaId === "allocation") {
-    const maximum = Math.max(
-      0,
-      ...state.entities.allocations
-        .filter((item) => item.values.deviceId === values.deviceId)
-        .map((item) => Number(item.values.version)),
-    );
-    if (Number(values.version) <= maximum) errors.version = "range";
-  }
-  if (schemaId === "template") {
-    const maximum = Math.max(
-      0,
-      ...state.entities.templates
-        .filter((item) => item.values.templateId === values.templateId && item.status !== "DRAFT")
-        .map((item) => Number(item.values.version)),
-    );
-    if (Number(values.version) <= maximum) errors.version = "range";
-  }
-  return errors;
+  const startA = leftStart ? Date.parse(leftStart) : Number.NEGATIVE_INFINITY;
+  const endA = leftEnd ? Date.parse(leftEnd) : Number.POSITIVE_INFINITY;
+  const startB = rightStart ? Date.parse(rightStart) : Number.NEGATIVE_INFINITY;
+  const endB = rightEnd ? Date.parse(rightEnd) : Number.POSITIVE_INFINITY;
+  return startA < endB && startB < endA;
 }
 
-export function publishScope(state: ConsoleState, values: Values): string[] {
-  const event = state.entities.events.find((item) => item.id === values.eventId);
-  const eligible = values.eligibleDevices ?? event?.values.eligibleDevices;
-  return state.devices
-    .filter((device) => values.rollout === "all" || device.id === values.deviceId)
-    .filter((device) => !Array.isArray(eligible) || eligible.includes(device.id))
-    .map((device) => device.id);
+export function formatDateTimeLocal(value?: string | null): string {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
+  return local.toISOString().slice(0, 16);
+}
+
+export function assignmentWithinCampaignWindow(
+  assignedFrom: string,
+  assignedUntil: string,
+  campaignFrom?: string | null,
+  campaignUntil?: string | null,
+): boolean {
+  const from = assignedFrom ? Date.parse(assignedFrom) : Number.NEGATIVE_INFINITY;
+  const until = assignedUntil ? Date.parse(assignedUntil) : Number.POSITIVE_INFINITY;
+  const campaignStart = campaignFrom ? Date.parse(campaignFrom) : Number.NEGATIVE_INFINITY;
+  const campaignEnd = campaignUntil ? Date.parse(campaignUntil) : Number.POSITIVE_INFINITY;
+  return (
+    ![from, until, campaignStart, campaignEnd].some(Number.isNaN) &&
+    from < until &&
+    from >= campaignStart &&
+    until <= campaignEnd
+  );
 }

@@ -4,7 +4,7 @@ import { DeploymentTopology } from "../../../../components/events/deployment-top
 export default function Page() {
   return (
     <>
-      <WorkspaceEditor schemaId="campaign" back="/events" />
+      <WorkspaceEditor schemaId="campaign" back="/campaigns" picker={false} />
       <DeploymentTopology />
     </>
   );

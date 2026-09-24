@@ -7,16 +7,9 @@ import { DataTable, PageHeader, SearchField, Status } from "../ui/primitives";
 import { CreateRecordModal } from "../forms/create-record-modal";
 import { content } from "../../lib/content";
 import { useDevices } from "../../hooks/use-edge-service";
-import { deviceCapability } from "../../lib/edge-service/mappers";
 import { ServiceBadge, ServiceBoundary } from "../service/service-feedback";
 
-export function DeviceDirectory({
-  policy = false,
-  compact = false,
-}: {
-  policy?: boolean;
-  compact?: boolean;
-}) {
+export function DeviceDirectory({ compact = false }: { compact?: boolean }) {
   const { t, localize } = useConsole();
   const devicesQuery = useDevices();
   const [query, setQuery] = useState("");
@@ -25,15 +18,13 @@ export function DeviceDirectory({
     <>
       {!compact && (
         <PageHeader
-          title={localize(content.cards.devices[policy ? 2 : 0].title)}
-          copy={localize(content.cards.devices[policy ? 2 : 0].copy)}
-          back="/devices"
+          title={localize(content.modules.devices.title)}
+          copy={localize(content.modules.devices.copy)}
+          back="/"
           action={
-            !policy && (
-              <button className="button primary" onClick={() => setModal(true)}>
-                {localize(content.schemas.register.title)}
-              </button>
-            )
+            <button className="button primary" onClick={() => setModal(true)}>
+              {localize(content.modules.devices.action!)}
+            </button>
           }
         />
       )}
@@ -57,30 +48,24 @@ export function DeviceDirectory({
               </div>
               <DataTable
                 columns={[
-                  { key: "name", label: t("device") },
+                  { key: "name", label: t("name") },
+                  { key: "deviceCode", label: t("deviceCode") },
+                  { key: "serial", label: t("serialNumber") },
                   { key: "status", label: t("status") },
-                  { key: "camera", label: t("camera") },
-                  { key: "printer", label: t("printer") },
+                  { key: "version", label: t("appVersion") },
                   { key: "lastSeen", label: t("lastSeen") },
                   { key: "actions", label: t("actions") },
                 ]}
                 rows={rows.map((device) => ({
                   id: device.id,
-                  name: (
-                    <>
-                      <strong>{device.device_code}</strong>
-                      <small>{device.name || device.id}</small>
-                    </>
-                  ),
+                  name: device.name || "—",
+                  deviceCode: device.device_code || "—",
+                  serial: device.serial_number || "—",
                   status: <Status value={device.status.toUpperCase()} />,
-                  camera: device.camera_health || deviceCapability(device, "camera_adapter"),
-                  printer: device.printer_health || deviceCapability(device, "printer_transport"),
+                  version: device.app_version || "—",
                   lastSeen: device.last_heartbeat || device.last_seen_at || "—",
                   actions: (
-                    <Link
-                      className="action-link"
-                      href={`/devices/${device.id}${policy ? "/policy" : ""}`}
-                    >
+                    <Link className="action-link" href={`/devices/${device.id}`}>
                       {t("open")}
                     </Link>
                   ),

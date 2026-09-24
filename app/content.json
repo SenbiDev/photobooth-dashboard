@@ -469,8 +469,120 @@
       "id": "Online"
     },
     "metricsServiceNote": {
-      "en": "Revenue and funnel values come directly from the reporting endpoints in the service.",
-      "id": "Nilai pendapatan dan funnel berasal langsung dari endpoint laporan pada service."
+      "en": "Each section shows the fields returned by its report endpoint. Empty numbers stay empty instead of being filled in.",
+      "id": "Setiap bagian menampilkan field yang dikembalikan endpoint laporannya. Angka kosong tetap kosong, tidak diisi dengan data rekaan."
+    },
+    "reportDaily": {
+      "en": "Daily revenue",
+      "id": "Pendapatan harian"
+    },
+    "reportBooths": {
+      "en": "Booth revenue",
+      "id": "Pendapatan booth"
+    },
+    "reportCampaigns": {
+      "en": "Campaign revenue",
+      "id": "Pendapatan campaign"
+    },
+    "reportVoucherBatches": {
+      "en": "Voucher batches",
+      "id": "Voucher batch"
+    },
+    "reportFilterNote": {
+      "en": "Dates, campaign, and booth filter the revenue and funnel reports that accept them. Grouping applies to daily revenue. Overdue minutes apply to the session funnel. Batch applies to voucher batches. “-” means no filter.",
+      "id": "Tanggal, campaign, dan booth memfilter laporan pendapatan dan funnel yang menerimanya. Pengelompokan berlaku untuk pendapatan harian. Menit terlambat berlaku untuk funnel sesi. Batch berlaku untuk voucher batch. “-” berarti tanpa filter."
+    },
+    "dateFrom": {
+      "en": "From",
+      "id": "Dari"
+    },
+    "dateTo": {
+      "en": "To",
+      "id": "Sampai"
+    },
+    "groupBy": {
+      "en": "Group by",
+      "id": "Kelompokkan"
+    },
+    "groupDay": {
+      "en": "Day",
+      "id": "Hari"
+    },
+    "groupMonth": {
+      "en": "Month",
+      "id": "Bulan"
+    },
+    "transactions": {
+      "en": "Transactions",
+      "id": "Transaksi"
+    },
+    "refundTotal": {
+      "en": "Refund total",
+      "id": "Total refund"
+    },
+    "net": {
+      "en": "Net",
+      "id": "Bersih"
+    },
+    "voucherValue": {
+      "en": "Voucher value",
+      "id": "Nilai voucher"
+    },
+    "paidSessions": {
+      "en": "Paid sessions",
+      "id": "Sesi berbayar"
+    },
+    "quota": {
+      "en": "Quota",
+      "id": "Kuota"
+    },
+    "quotaUsed": {
+      "en": "Quota used",
+      "id": "Kuota terpakai"
+    },
+    "paidVsVoucher": {
+      "en": "Paid vs voucher",
+      "id": "Berbayar vs voucher"
+    },
+    "channels": {
+      "en": "Channels",
+      "id": "Kanal"
+    },
+    "reportDate": {
+      "en": "Period",
+      "id": "Periode"
+    },
+    "reportFilters": {
+      "en": "Filters",
+      "id": "Filter"
+    },
+    "used": {
+      "en": "Used",
+      "id": "Terpakai"
+    },
+    "issued": {
+      "en": "Issued",
+      "id": "Diterbitkan"
+    },
+    "expired": {
+      "en": "Expired",
+      "id": "Kedaluwarsa"
+    },
+    "voided": {
+      "en": "Voided",
+      "id": "Dibatalkan"
+    },
+    "overdueMinutes": {
+      "en": "Overdue minutes",
+      "id": "Menit terlambat"
+    },
+    "overduePending": {
+      "en": "Overdue pending payments",
+      "id": "Pembayaran tertunda lewat waktu"
+    },
+    "paymentId": {
+      "en": "Payment",
+      "id": "Pembayaran"
     },
     "deviceHealth": {
       "en": "Device health",
@@ -515,6 +627,486 @@
     "deviceAssignments": {
       "en": "Device assignments",
       "id": "Penugasan perangkat"
+    },
+    "campaignDeploymentNote": {
+      "en": "Deployment scope is resolved from active booth assignments. Device lists stored in campaign JSON are no longer used as the source of truth.",
+      "id": "Cakupan deployment ditentukan dari assignment booth yang aktif. Daftar perangkat pada JSON campaign tidak lagi menjadi sumber utama."
+    },
+    "emptyServiceRecords": {
+      "en": "No records are available from the service yet. Create one from the module overview, then return here to edit it.",
+      "id": "Belum ada data dari service. Buat data dari halaman ringkasan modul, lalu kembali ke sini untuk mengeditnya."
+    },
+    "chooseRecordFromList": {
+      "en": "Open a row from the list.",
+      "id": "Buka satu baris dari daftar."
+    },
+    "campaignErdNote": {
+      "en": "API requires only the campaign name. Status defaults to draft; price, session limit, window, template links and JSON policies are optional. Deployment readiness is a separate check.",
+      "id": "API hanya mewajibkan nama campaign. Status bawaan adalah draft; harga, batas sesi, rentang waktu, relasi template, dan kebijakan JSON bersifat opsional. Kesiapan deployment diperiksa terpisah."
+    },
+    "optional": {
+      "en": "optional",
+      "id": "opsional"
+    },
+    "deploymentSource": {
+      "en": "Campaign → booth → device assignment → device is the authoritative deployment path.",
+      "id": "Campaign → booth → assignment perangkat → perangkat adalah jalur deployment yang kanonis."
+    },
+    "noActiveAssignments": {
+      "en": "No active device assignments",
+      "id": "Belum ada assignment perangkat aktif"
+    },
+    "createBooth": {
+      "en": "Create booth",
+      "id": "Buat booth"
+    },
+    "editBooth": {
+      "en": "Edit booth",
+      "id": "Edit booth"
+    },
+    "createAssignment": {
+      "en": "Assign device",
+      "id": "Assign perangkat"
+    },
+    "editAssignment": {
+      "en": "Edit assignment",
+      "id": "Edit assignment"
+    },
+    "endAssignment": {
+      "en": "End assignment",
+      "id": "Akhiri assignment"
+    },
+    "endAssignmentNote": {
+      "en": "Ending an assignment sets its status to inactive and records an end time. This is not a hard delete.",
+      "id": "Mengakhiri assignment mengubah status menjadi inactive dan mencatat waktu akhir. Ini bukan hard delete."
+    },
+    "assignedFrom": {
+      "en": "Assigned from",
+      "id": "Ditugaskan mulai"
+    },
+    "assignedUntil": {
+      "en": "Assigned until",
+      "id": "Ditugaskan hingga"
+    },
+    "configOverride": {
+      "en": "Configuration override (JSON)",
+      "id": "Override konfigurasi (JSON)"
+    },
+    "assignmentOverlap": {
+      "en": "Another active assignment for this device overlaps. The API accepts this request, but deployment may be ambiguous.",
+      "id": "Assignment aktif lain untuk perangkat ini bertumpuk. API menerima permintaan ini, tetapi cakupan deployment bisa ambigu."
+    },
+    "assignmentCampaignWindow": {
+      "en": "This active assignment is outside the campaign window or uses an inactive booth. The API permits it, but readiness may fail.",
+      "id": "Assignment aktif ini di luar rentang campaign atau memakai booth nonaktif. API mengizinkan, tetapi pemeriksaan kesiapan bisa gagal."
+    },
+    "boothCampaignLocked": {
+      "en": "This booth has assignment history. Moving it to another campaign may change the context of those records.",
+      "id": "Booth ini memiliki riwayat assignment. Memindahkannya ke campaign lain dapat mengubah konteks data tersebut."
+    },
+    "assignmentRequired": {
+      "en": "The device must have an active assignment to a booth in this campaign.",
+      "id": "Perangkat harus memiliki assignment aktif ke booth dalam campaign ini."
+    },
+    "invalidJson": {
+      "en": "Enter a valid JSON object.",
+      "id": "Masukkan objek JSON yang valid."
+    },
+    "voucherStateNote": {
+      "en": "This page shows current voucher records from the service. The ERD does not define an append-only voucher event ledger or reconciliation checkpoints.",
+      "id": "Halaman ini menampilkan kondisi voucher saat ini dari service. ERD tidak mendefinisikan event ledger voucher append-only atau checkpoint rekonsiliasi."
+    },
+    "readinessErdNote": {
+      "en": "Readiness follows the active device assignment, booth campaign, public campaign template, hardware profiles, and eligible voucher batch.",
+      "id": "Readiness mengikuti assignment perangkat aktif, campaign booth, template campaign publik, profil hardware, dan voucher batch yang memenuhi syarat."
+    },
+    "frameTemplate": {
+      "en": "Frame template",
+      "id": "Template frame"
+    },
+    "configSnapshot": {
+      "en": "Config snapshot",
+      "id": "Snapshot konfigurasi"
+    },
+    "cameraProfile": {
+      "en": "Camera profile",
+      "id": "Profil kamera"
+    },
+    "printerProfile": {
+      "en": "Printer profile",
+      "id": "Profil printer"
+    },
+    "profileEnabled": {
+      "en": "Enabled",
+      "id": "Aktif"
+    },
+    "profileContractNote": {
+      "en": "Only the profile name is required by the service. Configure hardware-specific fields when known; blank optional fields are not fabricated.",
+      "id": "Hanya nama profil yang wajib menurut layanan. Isi detail perangkat keras jika diketahui; kolom opsional yang kosong tidak diisi dengan data rekaan."
+    },
+    "profileIdentity": {
+      "en": "Identity",
+      "id": "Identitas"
+    },
+    "profileCapture": {
+      "en": "Capture",
+      "id": "Pengambilan gambar"
+    },
+    "profileConnection": {
+      "en": "Connection",
+      "id": "Koneksi"
+    },
+    "profileMedia": {
+      "en": "Media",
+      "id": "Media"
+    },
+    "profilePrint": {
+      "en": "Print settings",
+      "id": "Pengaturan cetak"
+    },
+    "profileCalibration": {
+      "en": "Calibration",
+      "id": "Kalibrasi"
+    },
+    "profileImage": {
+      "en": "Image",
+      "id": "Gambar"
+    },
+    "aspectRatio": {
+      "en": "Aspect ratio",
+      "id": "Rasio aspek"
+    },
+    "mirrorPreview": {
+      "en": "Mirror preview",
+      "id": "Cermin pratinjau"
+    },
+    "exposure": {
+      "en": "Exposure",
+      "id": "Exposure"
+    },
+    "iso": {
+      "en": "ISO",
+      "id": "ISO"
+    },
+    "shutter": {
+      "en": "Shutter",
+      "id": "Shutter"
+    },
+    "aperture": {
+      "en": "Aperture",
+      "id": "Bukaan"
+    },
+    "whiteBalance": {
+      "en": "White balance",
+      "id": "Keseimbangan putih"
+    },
+    "focusMode": {
+      "en": "Focus mode",
+      "id": "Mode fokus"
+    },
+    "flash": {
+      "en": "Flash",
+      "id": "Flash"
+    },
+    "trigger": {
+      "en": "Trigger",
+      "id": "Pemicu"
+    },
+    "warmUp": {
+      "en": "Warm-up",
+      "id": "Pemanasan"
+    },
+    "captureTimeout": {
+      "en": "Capture timeout",
+      "id": "Batas waktu pengambilan"
+    },
+    "connection": {
+      "en": "Connection",
+      "id": "Koneksi"
+    },
+    "driverType": {
+      "en": "Driver type",
+      "id": "Jenis driver"
+    },
+    "deviceIdentifier": {
+      "en": "Device identifier",
+      "id": "Identitas perangkat"
+    },
+    "widthDots": {
+      "en": "Width in dots",
+      "id": "Lebar dalam dot"
+    },
+    "maxHeightDots": {
+      "en": "Maximum height in dots",
+      "id": "Tinggi maksimum dalam dot"
+    },
+    "mediaType": {
+      "en": "Media type",
+      "id": "Jenis media"
+    },
+    "labelWidth": {
+      "en": "Label width",
+      "id": "Lebar label"
+    },
+    "labelHeight": {
+      "en": "Label height",
+      "id": "Tinggi label"
+    },
+    "darkness": {
+      "en": "Darkness",
+      "id": "Darkness"
+    },
+    "speed": {
+      "en": "Speed",
+      "id": "Kecepatan"
+    },
+    "cut": {
+      "en": "Cut",
+      "id": "Potong"
+    },
+    "feed": {
+      "en": "Feed",
+      "id": "Feed"
+    },
+    "marginsJson": {
+      "en": "Margins (JSON)",
+      "id": "Margin (JSON)"
+    },
+    "dither": {
+      "en": "Dither",
+      "id": "Dither"
+    },
+    "qrSize": {
+      "en": "QR size",
+      "id": "Ukuran QR"
+    },
+    "profileTemplate": {
+      "en": "Template",
+      "id": "Template"
+    },
+    "retryPolicy": {
+      "en": "Retry policy",
+      "id": "Kebijakan percobaan ulang"
+    },
+    "calibrationOffsets": {
+      "en": "Calibration offsets (JSON)",
+      "id": "Offset kalibrasi (JSON)"
+    },
+    "invalidNumber": {
+      "en": "Enter a whole number.",
+      "id": "Masukkan bilangan bulat."
+    },
+    "optAuto": {
+      "en": "Auto",
+      "id": "Otomatis"
+    },
+    "optManual": {
+      "en": "Manual",
+      "id": "Manual"
+    },
+    "optAperturePriority": {
+      "en": "Aperture priority",
+      "id": "Prioritas aperture"
+    },
+    "optShutterPriority": {
+      "en": "Shutter priority",
+      "id": "Prioritas shutter"
+    },
+    "optLandscape": {
+      "en": "Landscape",
+      "id": "Lanskap"
+    },
+    "optPortrait": {
+      "en": "Portrait",
+      "id": "Potret"
+    },
+    "optDaylight": {
+      "en": "Daylight",
+      "id": "Siang hari"
+    },
+    "optCloudy": {
+      "en": "Cloudy",
+      "id": "Mendung"
+    },
+    "optShade": {
+      "en": "Shade",
+      "id": "Teduh"
+    },
+    "optTungsten": {
+      "en": "Tungsten",
+      "id": "Tungsten"
+    },
+    "optFluorescent": {
+      "en": "Fluorescent",
+      "id": "Fluoresen"
+    },
+    "optWbFlash": {
+      "en": "Flash",
+      "id": "Flash"
+    },
+    "optSingle": {
+      "en": "Single",
+      "id": "Satu bidikan"
+    },
+    "optContinuous": {
+      "en": "Continuous",
+      "id": "Berkelanjutan"
+    },
+    "optTouch": {
+      "en": "Touch",
+      "id": "Sentuh"
+    },
+    "optCountdown": {
+      "en": "Countdown",
+      "id": "Hitung mundur"
+    },
+    "optKeyboard": {
+      "en": "Keyboard",
+      "id": "Keyboard"
+    },
+    "optRemote": {
+      "en": "Remote",
+      "id": "Remote"
+    },
+    "optGpio": {
+      "en": "GPIO",
+      "id": "GPIO"
+    },
+    "optSoftware": {
+      "en": "Software",
+      "id": "Perangkat lunak"
+    },
+    "optUsb": {
+      "en": "USB",
+      "id": "USB"
+    },
+    "optEthernet": {
+      "en": "Ethernet",
+      "id": "Ethernet"
+    },
+    "optWifi": {
+      "en": "Wi-Fi",
+      "id": "Wi-Fi"
+    },
+    "optSerial": {
+      "en": "Serial",
+      "id": "Serial"
+    },
+    "optBluetooth": {
+      "en": "Bluetooth",
+      "id": "Bluetooth"
+    },
+    "optCups": {
+      "en": "CUPS",
+      "id": "CUPS"
+    },
+    "optIpp": {
+      "en": "IPP",
+      "id": "IPP"
+    },
+    "optTcp": {
+      "en": "TCP",
+      "id": "TCP"
+    },
+    "optWindows": {
+      "en": "Windows",
+      "id": "Windows"
+    },
+    "optDnp": {
+      "en": "DNP",
+      "id": "DNP"
+    },
+    "optMitsubishi": {
+      "en": "Mitsubishi",
+      "id": "Mitsubishi"
+    },
+    "optHiti": {
+      "en": "HiTi",
+      "id": "HiTi"
+    },
+    "optCitizen": {
+      "en": "Citizen",
+      "id": "Citizen"
+    },
+    "optEpson": {
+      "en": "Epson",
+      "id": "Epson"
+    },
+    "optEscpos": {
+      "en": "ESC/POS",
+      "id": "ESC/POS"
+    },
+    "optZpl": {
+      "en": "ZPL",
+      "id": "ZPL"
+    },
+    "optGeneric": {
+      "en": "Generic",
+      "id": "Umum"
+    },
+    "optDyeSub": {
+      "en": "Dye-sub",
+      "id": "Dye-sub"
+    },
+    "optPhotoPaper": {
+      "en": "Photo paper",
+      "id": "Kertas foto"
+    },
+    "optSticker": {
+      "en": "Sticker",
+      "id": "Stiker"
+    },
+    "optLabelMedia": {
+      "en": "Label",
+      "id": "Label"
+    },
+    "optReceipt": {
+      "en": "Receipt",
+      "id": "Struk"
+    },
+    "optPlain": {
+      "en": "Plain paper",
+      "id": "Kertas biasa"
+    },
+    "optNone": {
+      "en": "None",
+      "id": "Tidak ada"
+    },
+    "optFloyd": {
+      "en": "Floyd–Steinberg",
+      "id": "Floyd–Steinberg"
+    },
+    "optBayer": {
+      "en": "Bayer",
+      "id": "Bayer"
+    },
+    "optThreshold": {
+      "en": "Threshold",
+      "id": "Ambang"
+    },
+    "optOnce": {
+      "en": "Once",
+      "id": "Satu kali"
+    },
+    "optTwice": {
+      "en": "Twice",
+      "id": "Dua kali"
+    },
+    "optThree": {
+      "en": "Three times",
+      "id": "Tiga kali"
+    },
+    "optExponential": {
+      "en": "Exponential backoff",
+      "id": "Jeda eksponensial"
+    },
+    "profileDisabled": {
+      "en": "Disabled",
+      "id": "Nonaktif"
+    },
+    "deployment": {
+      "en": "Deployment",
+      "id": "Deployment"
     },
     "window": {
       "en": "Active window",
@@ -597,8 +1189,8 @@
       "id": "Perangkat"
     },
     "event": {
-      "en": "Event",
-      "id": "Acara"
+      "en": "Campaign",
+      "id": "Campaign"
     },
     "actions": {
       "en": "Actions",
@@ -781,12 +1373,12 @@
       "id": "Job aman diantrekan ulang lokal. Percobaan bertambah hanya saat worker mengeksekusi."
     },
     "ledgerNote": {
-      "en": "Append-only ledger. Consume on the first successful still. Only a durable, contiguous backend acknowledgement can mark reconciliation complete; this console cannot edit transitions.",
-      "id": "Ledger append-only. Konsumsi pada still pertama yang berhasil. Hanya acknowledgement backend yang durable dan berurutan dapat menyelesaikan rekonsiliasi; console tidak dapat mengubah transisi."
+      "en": "Current voucher state from the service. The present ERD does not include an append-only redemption event ledger or reconciliation checkpoint.",
+      "id": "Kondisi voucher saat ini dari service. ERD saat ini belum memiliki event ledger penukaran append-only atau checkpoint rekonsiliasi."
     },
     "offlineNote": {
-      "en": "New PAYG QRIS is never authorized offline. Offline admission requires valid cached signatures, event/device scope, clock, inventory and quota.",
-      "id": "PAYG QRIS baru tidak pernah diotorisasi saat offline. Penerimaan offline memerlukan signature cache valid, cakupan acara/perangkat, waktu, inventori, dan kuota."
+      "en": "New PAYG QRIS is never authorized offline. Offline admission requires valid cached signatures, campaign/device scope, clock, inventory and quota.",
+      "id": "PAYG QRIS baru tidak pernah diotorisasi saat offline. Penerimaan offline memerlukan signature cache valid, cakupan campaign/perangkat, waktu, inventori, dan kuota."
     },
     "retentionNote": {
       "en": "Never delete unuploaded media, unacknowledged ledgers or allocations, or templates referenced by sessions/reprints. Cleanup requires verified upload AND elapsed retention.",
@@ -795,6 +1387,18 @@
     "immutable": {
       "en": "Published versions are immutable. Saving creates or updates a separate draft.",
       "id": "Versi terpublikasi immutable. Penyimpanan membuat atau memperbarui draf terpisah."
+    },
+    "serviceEditCopy": {
+      "en": "Review changes before applying a partial update to the service. Draft and validation here are local previews.",
+      "id": "Tinjau perubahan sebelum mengirim pembaruan parsial ke service. Draf dan validasi di sini hanya pratinjau lokal."
+    },
+    "applyServiceChanges": {
+      "en": "Apply changes to service",
+      "id": "Terapkan perubahan ke service"
+    },
+    "confirmServiceWrite": {
+      "en": "I understand this changes the service record",
+      "id": "Saya memahami ini mengubah data di service"
     },
     "inviteNote": {
       "en": "Invitation workflow is a proposed UI for PRD role management. No email is sent; TTL and approval options are examples.",
@@ -989,8 +1593,8 @@
       "id": "P1 / memerlukan kualifikasi"
     },
     "effectiveNote": {
-      "en": "Precedence: platform defaults → device profile → event → campaign → audited on-site override. Null inherits; false and zero remain explicit values.",
-      "id": "Prioritas: default platform → profil perangkat → acara → kampanye → override di lokasi yang diaudit. Null mewarisi; false dan nol tetap nilai eksplisit."
+      "en": "Precedence: platform defaults → device profile → campaign → audited on-site override. Null inherits; false and zero remain explicit values.",
+      "id": "Prioritas: default platform → profil perangkat → campaign → override di lokasi yang diaudit. Null mewarisi; false dan nol tetap nilai eksplisit."
     },
     "guardrailError": {
       "en": "This combination violates a safety rule. Check scope, dates, caps and references.",
@@ -1177,8 +1781,12 @@
       "id": "Konfigurasi runtime"
     },
     "templateSync": {
-      "en": "Per-device template sync",
-      "id": "Sinkronisasi template per perangkat"
+      "en": "Device sync",
+      "id": "Sinkronisasi perangkat"
+    },
+    "templateSyncApiNote": {
+      "en": "The API exposes device sync but does not report desired or active template versions. App version and device health are shown as separate facts; this action does not prove a template rollout.",
+      "id": "API menyediakan sinkronisasi perangkat, tetapi tidak melaporkan versi template yang diinginkan atau aktif. Versi aplikasi dan kesehatan perangkat ditampilkan sebagai data terpisah; aksi ini tidak membuktikan rollout template."
     },
     "cacheSize": {
       "en": "Cache size",
@@ -1205,8 +1813,24 @@
       "id": "Hanya metrik dari fixture yang ditampilkan. Telemetri latensi capture/render, penyimpangan waktu, CPU/memori dan restart belum terhubung."
     },
     "allocationNote": {
-      "en": "Draft requests do not mint, sign or replenish vouchers. Published requests await backend allocation; signed fixture counters are read-only.",
-      "id": "Permintaan draf tidak mencetak, menandatangani atau menambah voucher. Permintaan terpublikasi menunggu alokasi backend; angka fixture bertanda tangan hanya-baca."
+      "en": "Campaign is optional in the API. Initial voucher count is sent when creating the batch; use Generate vouchers later for additional codes. Confirm resulting inventory from the voucher list. Entitlement rules are JSON on the batch.",
+      "id": "Campaign bersifat opsional pada API. Jumlah voucher awal dikirim saat membuat batch; gunakan Generate voucher untuk menambah kode setelahnya. Periksa hasil inventori pada daftar voucher. Aturan entitlement berupa JSON pada batch."
+    },
+    "voucherCount": {
+      "en": "Vouchers in batch",
+      "id": "Voucher dalam batch"
+    },
+    "offlineEligible": {
+      "en": "Offline eligible",
+      "id": "Dapat digunakan offline"
+    },
+    "generateVouchers": {
+      "en": "Generate vouchers",
+      "id": "Generate voucher"
+    },
+    "batch": {
+      "en": "Batch",
+      "id": "Batch"
     },
     "available": {
       "en": "Available",
@@ -1313,12 +1937,20 @@
       "id": "Kesiapan aktivasi atomik"
     },
     "binaryNote": {
-      "en": "Uploaded bundles and image rendering are not implemented here. Asset, signature and renderer checks use explicit fixtures; semantic template checks inspect the selected local draft.",
-      "id": "Unggahan bundle dan render gambar belum diimplementasikan di sini. Pemeriksaan aset, signature dan renderer memakai fixture eksplisit; pemeriksaan semantik meninjau draf lokal terpilih."
+      "en": "Uploaded bundles and image rendering are not implemented here. Fixture checks apply only to local draft templates, never to service templates.",
+      "id": "Unggahan bundle dan render gambar belum diimplementasikan di sini. Pemeriksaan fixture hanya berlaku untuk draf template lokal, tidak untuk template dari layanan."
+    },
+    "remoteBundleNote": {
+      "en": "The service contract has no bundle validation endpoint. These checks cannot be verified from template metadata; no PASS or FAILED result is inferred.",
+      "id": "Kontrak layanan tidak memiliki endpoint validasi bundle. Pemeriksaan ini tidak dapat diverifikasi dari metadata template; hasil PASS atau FAILED tidak disimpulkan."
+    },
+    "notVerified": {
+      "en": "Not verified",
+      "id": "Belum diverifikasi"
     },
     "rolesScope": {
-      "en": "All permissions are constrained by event/device scope; sensitive actions additionally require server re-authentication.",
-      "id": "Semua izin dibatasi cakupan acara/perangkat; aksi sensitif juga memerlukan autentikasi ulang server."
+      "en": "All permissions are constrained by campaign/device scope; sensitive actions additionally require server re-authentication.",
+      "id": "Semua izin dibatasi cakupan campaign/perangkat; aksi sensitif juga memerlukan autentikasi ulang server."
     },
     "createCampaign": {
       "en": "Create campaign draft",
@@ -1355,6 +1987,210 @@
     "templateGuard": {
       "en": "Published template content is immutable. A changed bundle requires a new version; signing, binary validation and activation remain pending.",
       "id": "Konten template terpublikasi immutable. Bundle berubah memerlukan versi baru; penandatanganan, validasi biner dan aktivasi tetap menunggu."
+    },
+    "apiContractCopy": {
+      "en": "Fields and actions on this page come directly from the current API contract and database relations.",
+      "id": "Field dan aksi pada halaman ini berasal langsung dari kontrak API dan relasi database saat ini."
+    },
+    "deviceCode": {
+      "en": "Device code",
+      "id": "Kode perangkat"
+    },
+    "camera": {
+      "en": "Camera",
+      "id": "Kamera"
+    },
+    "printer": {
+      "en": "Printer",
+      "id": "Printer"
+    },
+    "serialNumber": {
+      "en": "Serial number",
+      "id": "Nomor seri"
+    },
+    "cameraProfileId": {
+      "en": "Camera profile",
+      "id": "Profil kamera"
+    },
+    "printerProfileId": {
+      "en": "Printer profile",
+      "id": "Profil printer"
+    },
+    "lastSeenAt": {
+      "en": "Last seen at",
+      "id": "Terakhir terlihat pada"
+    },
+    "lastHeartbeat": {
+      "en": "Last heartbeat",
+      "id": "Heartbeat terakhir"
+    },
+    "capabilities": {
+      "en": "Capabilities (JSON)",
+      "id": "Kapabilitas (JSON)"
+    },
+    "price": {
+      "en": "Price",
+      "id": "Harga"
+    },
+    "sessionLimit": {
+      "en": "Session limit",
+      "id": "Batas sesi"
+    },
+    "activeFrom": {
+      "en": "Active from",
+      "id": "Aktif mulai"
+    },
+    "activeUntil": {
+      "en": "Active until",
+      "id": "Aktif hingga"
+    },
+    "activationRules": {
+      "en": "Activation rules (JSON)",
+      "id": "Aturan aktivasi (JSON)"
+    },
+    "frameSet": {
+      "en": "Frame set (JSON)",
+      "id": "Frame set (JSON)"
+    },
+    "printPolicy": {
+      "en": "Print policy (JSON)",
+      "id": "Kebijakan cetak (JSON)"
+    },
+    "deliveryPolicy": {
+      "en": "Delivery policy (JSON)",
+      "id": "Kebijakan pengiriman (JSON)"
+    },
+    "frameTemplateIds": {
+      "en": "Frame templates",
+      "id": "Frame template"
+    },
+    "campaignFields": {
+      "en": "Campaign fields",
+      "id": "Field campaign"
+    },
+    "deviceFields": {
+      "en": "Device fields",
+      "id": "Field perangkat"
+    },
+    "resourceFields": {
+      "en": "Resource fields",
+      "id": "Field resource"
+    },
+    "templateFields": {
+      "en": "Frame template fields",
+      "id": "Field frame template"
+    },
+    "version": {
+      "en": "Version",
+      "id": "Versi"
+    },
+    "aspect": {
+      "en": "Aspect",
+      "id": "Rasio aspek"
+    },
+    "assets": {
+      "en": "Assets",
+      "id": "Aset"
+    },
+    "dimensions": {
+      "en": "Dimensions",
+      "id": "Dimensi"
+    },
+    "safeArea": {
+      "en": "Safe area",
+      "id": "Area aman"
+    },
+    "transforms": {
+      "en": "Transforms",
+      "id": "Transformasi"
+    },
+    "previewVariant": {
+      "en": "Preview variant",
+      "id": "Varian pratinjau"
+    },
+    "printVariant": {
+      "en": "Print variant",
+      "id": "Varian cetak"
+    },
+    "digitalVariant": {
+      "en": "Digital variant",
+      "id": "Varian digital"
+    },
+    "publishState": {
+      "en": "Publish state",
+      "id": "Status publikasi"
+    },
+    "public": {
+      "en": "Public",
+      "id": "Publik"
+    },
+    "archive": {
+      "en": "Archive",
+      "id": "Arsip"
+    },
+    "campaignId": {
+      "en": "Campaign",
+      "id": "Campaign"
+    },
+    "entitlementRules": {
+      "en": "Entitlement rules (JSON)",
+      "id": "Aturan entitlement (JSON)"
+    },
+    "saveChanges": {
+      "en": "Save changes",
+      "id": "Simpan perubahan"
+    },
+    "uploadFile": {
+      "en": "Initiate upload",
+      "id": "Mulai unggah"
+    },
+    "file": {
+      "en": "File",
+      "id": "File"
+    },
+    "filename": {
+      "en": "Filename",
+      "id": "Nama file"
+    },
+    "sizeBytes": {
+      "en": "Size (bytes)",
+      "id": "Ukuran (byte)"
+    },
+    "mimeType": {
+      "en": "MIME type",
+      "id": "Tipe MIME"
+    },
+    "ownerScope": {
+      "en": "Owner scope",
+      "id": "Cakupan pemilik"
+    },
+    "visibility": {
+      "en": "Visibility",
+      "id": "Visibilitas"
+    },
+    "folderId": {
+      "en": "Folder ID",
+      "id": "ID folder"
+    },
+    "uploadInitiated": {
+      "en": "Upload session created by the service.",
+      "id": "Sesi unggah berhasil dibuat oleh layanan."
+    },
+    "uploadContractNote": {
+      "en": "This form initiates the multipart upload. The service response is shown exactly as returned; part transfer and completion depend on the returned upload instructions.",
+      "id": "Form ini memulai unggahan multipart. Respons layanan ditampilkan persis seperti yang diterima; transfer part dan penyelesaian bergantung pada instruksi unggah yang dikembalikan."
+    },
+    "reportsCopy": {
+      "en": "Revenue, voucher, and session reports returned by the reporting endpoints.",
+      "id": "Laporan pendapatan, voucher, dan sesi dari endpoint pelaporan."
+    },
+    "voucherBatches": {
+      "en": "Voucher batches",
+      "id": "Voucher batch"
+    },
+    "sourceTruth": {
+      "en": "API + ERD",
+      "id": "API + ERD"
     }
   },
   "navigation": [
@@ -1376,10 +2212,10 @@
     },
     {
       "key": "events",
-      "href": "/events",
+      "href": "/campaigns",
       "label": {
-        "en": "Events",
-        "id": "Event"
+        "en": "Campaigns",
+        "id": "Campaign"
       }
     },
     {
@@ -1396,14 +2232,6 @@
       "label": {
         "en": "Voucher pool",
         "id": "Voucher"
-      }
-    },
-    {
-      "key": "queue",
-      "href": "/queue",
-      "label": {
-        "en": "Queue center",
-        "id": "Pusat antrean"
       }
     },
     {
@@ -1426,60 +2254,28 @@
       "key": "media",
       "href": "/media",
       "label": {
-        "en": "Media catalog",
-        "id": "Katalog media"
-      }
-    },
-    {
-      "key": "print",
-      "href": "/print",
-      "label": {
-        "en": "Print jobs",
-        "id": "Job cetak"
-      }
-    },
-    {
-      "key": "delivery",
-      "href": "/delivery",
-      "label": {
-        "en": "Delivery",
-        "id": "Pengiriman"
+        "en": "Media upload",
+        "id": "Unggah media"
       }
     },
     {
       "key": "insights",
-      "href": "/insights",
+      "href": "/reports",
       "label": {
-        "en": "Insights",
-        "id": "Insight"
-      }
-    },
-    {
-      "key": "history",
-      "href": "/history",
-      "label": {
-        "en": "Config history",
-        "id": "Riwayat config"
-      }
-    },
-    {
-      "key": "settings",
-      "href": "/settings",
-      "label": {
-        "en": "Settings",
-        "id": "Pengaturan"
+        "en": "Reports",
+        "id": "Laporan"
       }
     }
   ],
   "modules": {
     "devices": {
       "title": {
-        "en": "Devices & preflight",
-        "id": "Perangkat & preflight"
+        "en": "Devices",
+        "id": "Perangkat"
       },
       "copy": {
-        "en": "Manage the profiles that connect cameras, printers, storage, and time health to each edge device.",
-        "id": "Kelola profil yang menghubungkan kamera, printer, penyimpanan, dan kesehatan waktu untuk tiap perangkat edge."
+        "en": "Register a device with the button above. The table is the device list. Open a row for health, profiles, and assignments. Camera and printer profiles are managed from the card below the table.",
+        "id": "Daftarkan perangkat lewat tombol di atas. Tabel ini adalah daftar perangkat. Buka satu baris untuk kesehatan, profil, dan assignment. Profil kamera dan printer dikelola dari kartu di bawah tabel."
       },
       "action": {
         "en": "Register device",
@@ -1488,16 +2284,16 @@
     },
     "events": {
       "title": {
-        "en": "Events & campaigns",
-        "id": "Event & campaign"
+        "en": "Campaigns",
+        "id": "Campaign"
       },
       "copy": {
-        "en": "Set event windows, eligible devices, entitlement rules, guest session limits, and campaign branding.",
-        "id": "Atur window event, perangkat eligible, aturan entitlement, batas sesi guest, dan branding campaign."
+        "en": "Create a campaign with the button above. Open a row to edit that campaign, its booths, and its device assignments.",
+        "id": "Buat campaign lewat tombol di atas. Buka satu baris untuk mengedit campaign itu, booth-nya, dan assignment perangkatnya."
       },
       "action": {
-        "en": "Create event",
-        "id": "Buat event"
+        "en": "Create campaign",
+        "id": "Buat campaign"
       }
     },
     "templates": {
@@ -1506,8 +2302,8 @@
         "id": "Frame template"
       },
       "copy": {
-        "en": "Versioned and immutable frame bundles shared by preview, digital output, video overlay, and print raster.",
-        "id": "Bundle frame berversi dan immutable yang dipakai preview, output digital, video overlay, dan raster print."
+        "en": "Add a frame template with the button above. Open a row to edit that template and its publish state. Device sync is in the card below the table.",
+        "id": "Tambah frame template lewat tombol di atas. Buka satu baris untuk mengedit template itu dan status publikasinya. Sinkronisasi perangkat ada di kartu di bawah tabel."
       },
       "action": {
         "en": "Add template",
@@ -1520,64 +2316,22 @@
         "id": "Pool voucher"
       },
       "copy": {
-        "en": "Exclusive, signed offline inventory per device. Inspect readiness and append-only reconciliation evidence.",
-        "id": "Inventori offline eksklusif dan bertanda tangan per perangkat. Tinjau kesiapan dan bukti rekonsiliasi append-only."
+        "en": "Create a voucher batch with the button above. Open a row to edit that batch and generate codes. Voucher records are in the card below the table.",
+        "id": "Buat voucher batch lewat tombol di atas. Buka satu baris untuk mengedit batch itu dan membuat kode. Data voucher ada di kartu di bawah tabel."
       },
       "action": {
-        "en": "Create allocation",
-        "id": "Buat alokasi"
-      }
-    },
-    "queue": {
-      "title": {
-        "en": "Queue center",
-        "id": "Pusat antrean"
-      },
-      "copy": {
-        "en": "Track jobs that continue safely when the device reconnects: reconciliation, uploads, delivery, and analytics.",
-        "id": "Pantau job yang dapat berjalan aman saat perangkat tersambung kembali: reconciliation, upload, delivery, dan analytics."
-      },
-      "action": {
-        "en": "Retry safe jobs",
-        "id": "Ulangi job aman"
-      }
-    },
-    "history": {
-      "title": {
-        "en": "Config history",
-        "id": "Riwayat config"
-      },
-      "copy": {
-        "en": "Review versioned drafts, effective snapshots, device acknowledgements, before/after diffs, and rollback points.",
-        "id": "Tinjau draft berversi, snapshot efektif, acknowledgement perangkat, diff before/after, dan titik rollback."
-      },
-      "action": {
-        "en": "Compare revisions",
-        "id": "Bandingkan revisi"
-      }
-    },
-    "settings": {
-      "title": {
-        "en": "Settings & access",
-        "id": "Pengaturan & akses"
-      },
-      "copy": {
-        "en": "Set controls that protect operational configuration without exposing guest media or credentials.",
-        "id": "Atur kontrol yang melindungi konfigurasi operasional tanpa mengekspos media guest atau credential."
-      },
-      "action": {
-        "en": "Invite operator",
-        "id": "Undang operator"
+        "en": "Create voucher batch",
+        "id": "Buat voucher batch"
       }
     },
     "insights": {
       "title": {
-        "en": "Operational insights",
-        "id": "Insight operasional"
+        "en": "Reports",
+        "id": "Laporan"
       },
       "copy": {
-        "en": "Live session, payment, voucher and revenue reporting from the service, alongside explicitly local-only media, print and delivery indicators.",
-        "id": "Laporan sesi, pembayaran, voucher, dan pendapatan langsung dari service, bersama indikator media, print, dan delivery yang ditandai lokal."
+        "en": "Daily revenue, booth revenue, campaign revenue, voucher batches, and the session funnel returned by the service.",
+        "id": "Pendapatan harian, pendapatan booth, pendapatan campaign, voucher batch, dan funnel sesi dari service."
       }
     },
     "sessions": {
@@ -1602,4462 +2356,49 @@
     },
     "media": {
       "title": {
-        "en": "Media catalog",
-        "id": "Katalog media"
+        "en": "Media upload",
+        "id": "Unggah media"
       },
       "copy": {
-        "en": "Guest identifiers and operational tokens remain masked.",
-        "id": "Identitas tamu dan token operasional tetap disamarkan."
-      }
-    },
-    "print": {
-      "title": {
-        "en": "Print jobs",
-        "id": "Job cetak"
-      },
-      "copy": {
-        "en": "Guest identifiers and operational tokens remain masked.",
-        "id": "Identitas tamu dan token operasional tetap disamarkan."
-      }
-    },
-    "delivery": {
-      "title": {
-        "en": "Delivery",
-        "id": "Pengiriman"
-      },
-      "copy": {
-        "en": "Guest identifiers and operational tokens remain masked.",
-        "id": "Identitas tamu dan token operasional tetap disamarkan."
+        "en": "Initiate multipart uploads using the file workflow exposed by the service.",
+        "id": "Mulai unggahan multipart menggunakan alur file yang tersedia pada layanan."
       }
     }
-  },
-  "schemas": {
-    "register": {
-      "title": {
-        "en": "Register device",
-        "id": "Daftarkan perangkat"
-      },
-      "reference": "§5.2, §11, §14, §22.4",
-      "groups": [
-        {
-          "title": {
-            "en": "Device identity",
-            "id": "Identitas perangkat"
-          },
-          "fields": [
-            {
-              "key": "id",
-              "label": {
-                "en": "Device ID",
-                "id": "ID perangkat"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "name",
-              "label": {
-                "en": "Device name",
-                "id": "Nama perangkat"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "location",
-              "label": {
-                "en": "Location",
-                "id": "Lokasi"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "model",
-              "label": {
-                "en": "Edge model",
-                "id": "Model edge"
-              },
-              "type": "text",
-              "default": "Raspberry Pi 5",
-              "required": true
-            },
-            {
-              "key": "eventId",
-              "label": {
-                "en": "Event",
-                "id": "Acara"
-              },
-              "type": "event",
-              "default": "EVT-001",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Hardware profiles",
-            "id": "Profil hardware"
-          },
-          "fields": [
-            {
-              "key": "camera",
-              "label": {
-                "en": "Camera adapter",
-                "id": "Adapter kamera"
-              },
-              "type": "select",
-              "default": "UVC",
-              "required": true,
-              "options": [
-                {
-                  "value": "UVC",
-                  "label": {
-                    "en": "UVC",
-                    "id": "UVC"
-                  }
-                },
-                {
-                  "value": "DSLR_TETHER",
-                  "label": {
-                    "en": "DSLR_TETHER",
-                    "id": "DSLR_TETHER"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "cameraId",
-              "label": {
-                "en": "Stable camera ID",
-                "id": "ID kamera stabil"
-              },
-              "type": "text",
-              "default": "usb-uvc-demo",
-              "required": true
-            },
-            {
-              "key": "printer",
-              "label": {
-                "en": "Printer transport",
-                "id": "Transport printer"
-              },
-              "type": "select",
-              "default": "CUPS_IPP",
-              "required": true,
-              "options": [
-                {
-                  "value": "CUPS_IPP",
-                  "label": {
-                    "en": "CUPS_IPP",
-                    "id": "CUPS_IPP"
-                  }
-                },
-                {
-                  "value": "TSPL",
-                  "label": {
-                    "en": "TSPL",
-                    "id": "TSPL"
-                  }
-                },
-                {
-                  "value": "ZPL",
-                  "label": {
-                    "en": "ZPL",
-                    "id": "ZPL"
-                  }
-                },
-                {
-                  "value": "ESC_POS",
-                  "label": {
-                    "en": "ESC_POS",
-                    "id": "ESC_POS"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "printerId",
-              "label": {
-                "en": "Stable printer ID",
-                "id": "ID printer stabil"
-              },
-              "type": "text",
-              "default": "ipp-demo",
-              "required": true
-            },
-            {
-              "key": "storageGb",
-              "label": {
-                "en": "Free storage (GB), fixture",
-                "id": "Storage kosong (GB), fixture"
-              },
-              "type": "number",
-              "default": 24,
-              "required": true,
-              "min": 1,
-              "max": 2000
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Enrollment",
-            "id": "Pendaftaran"
-          },
-          "fields": [
-            {
-              "key": "fingerprint",
-              "label": {
-                "en": "Public key fingerprint (example; never a private key)",
-                "id": "Fingerprint public key (contoh; bukan private key)"
-              },
-              "type": "text",
-              "default": "demo:9f3a…c12d",
-              "required": true
-            },
-            {
-              "key": "group",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "pilot",
-                    "id": "pilot"
-                  }
-                },
-                {
-                  "value": "general",
-                  "label": {
-                    "en": "general",
-                    "id": "general"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "entity": "devices",
-      "creation": true
-    },
-    "event": {
-      "title": {
-        "en": "Edit event",
-        "id": "Edit acara"
-      },
-      "reference": "§5.1–5.3, §6, §11",
-      "groups": [
-        {
-          "title": {
-            "en": "Identity & eligibility",
-            "id": "Identitas & kelayakan"
-          },
-          "fields": [
-            {
-              "key": "name",
-              "label": {
-                "en": "Event name",
-                "id": "Nama acara"
-              },
-              "type": "text",
-              "default": "Kopi Kecil — Launch",
-              "required": true
-            },
-            {
-              "key": "slug",
-              "label": {
-                "en": "Event slug",
-                "id": "Slug acara"
-              },
-              "type": "text",
-              "default": "kopi-kecil-launch",
-              "required": true
-            },
-            {
-              "key": "validFrom",
-              "label": {
-                "en": "Valid from",
-                "id": "Berlaku mulai"
-              },
-              "type": "datetime-local",
-              "default": "2026-09-01T08:00",
-              "required": true
-            },
-            {
-              "key": "validUntil",
-              "label": {
-                "en": "Valid until",
-                "id": "Berlaku hingga"
-              },
-              "type": "datetime-local",
-              "default": "2026-12-31T23:00",
-              "required": true
-            },
-            {
-              "key": "timezone",
-              "label": {
-                "en": "IANA timezone",
-                "id": "Zona waktu IANA"
-              },
-              "type": "text",
-              "default": "Asia/Jakarta",
-              "required": true
-            },
-            {
-              "key": "eligibleDevices",
-              "label": {
-                "en": "Eligible devices",
-                "id": "Perangkat yang diizinkan"
-              },
-              "type": "devices",
-              "default": ["LIL-BOOTH-014", "LIL-BOOTH-009"],
-              "required": true
-            },
-            {
-              "key": "locale",
-              "label": {
-                "en": "Guest locale",
-                "id": "Bahasa tamu"
-              },
-              "type": "text",
-              "default": "id-ID",
-              "required": true
-            },
-            {
-              "key": "templateId",
-              "label": {
-                "en": "Frame template reference",
-                "id": "Referensi template frame"
-              },
-              "type": "template",
-              "default": "sunset-strip",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Entitlement & payment",
-            "id": "Entitlement & pembayaran"
-          },
-          "fields": [
-            {
-              "key": "activation",
-              "label": {
-                "en": "Default activation mode",
-                "id": "Mode aktivasi default"
-              },
-              "type": "select",
-              "default": "EVENT_ENTITLEMENT",
-              "required": true,
-              "options": [
-                {
-                  "value": "EVENT_ENTITLEMENT",
-                  "label": {
-                    "en": "EVENT_ENTITLEMENT",
-                    "id": "EVENT_ENTITLEMENT"
-                  }
-                },
-                {
-                  "value": "VOUCHER",
-                  "label": {
-                    "en": "VOUCHER",
-                    "id": "VOUCHER"
-                  }
-                },
-                {
-                  "value": "PAYG_QRIS",
-                  "label": {
-                    "en": "PAYG_QRIS",
-                    "id": "PAYG_QRIS"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "amount",
-              "label": {
-                "en": "Session price (minor units)",
-                "id": "Harga sesi (unit terkecil)"
-              },
-              "type": "number",
-              "default": 35000,
-              "required": true,
-              "min": 0,
-              "max": 100000
-            },
-            {
-              "key": "currency",
-              "label": {
-                "en": "Currency",
-                "id": "Mata uang"
-              },
-              "type": "text",
-              "default": "IDR",
-              "required": true
-            },
-            {
-              "key": "taxPercent",
-              "label": {
-                "en": "Tax (%)",
-                "id": "Pajak (%)"
-              },
-              "type": "number",
-              "default": 0,
-              "required": true,
-              "min": 0,
-              "max": 100
-            },
-            {
-              "key": "sku",
-              "label": {
-                "en": "SKU",
-                "id": "SKU"
-              },
-              "type": "text",
-              "default": "PHOTO-SESSION",
-              "required": true
-            },
-            {
-              "key": "qrExpiry",
-              "label": {
-                "en": "QR expiry (seconds)",
-                "id": "Kedaluwarsa QR (detik)"
-              },
-              "type": "number",
-              "default": 180,
-              "required": true,
-              "min": 30,
-              "max": 1800
-            },
-            {
-              "key": "callbackGrace",
-              "label": {
-                "en": "Payment callback grace (seconds)",
-                "id": "Toleransi callback pembayaran (detik)"
-              },
-              "type": "number",
-              "default": 30,
-              "required": true,
-              "min": 0,
-              "max": 300
-            },
-            {
-              "key": "paymentRequired",
-              "label": {
-                "en": "Payment required for PAYG",
-                "id": "Pembayaran wajib untuk PAYG"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "providerRef",
-              "label": {
-                "en": "Provider/account reference (not a secret)",
-                "id": "Referensi provider/akun (bukan rahasia)"
-              },
-              "type": "text",
-              "default": "arna-demo-account",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Guest experience",
-            "id": "Pengalaman tamu"
-          },
-          "fields": [
-            {
-              "key": "sessionDuration",
-              "label": {
-                "en": "Session duration (seconds)",
-                "id": "Durasi sesi (detik)"
-              },
-              "type": "number",
-              "default": 240,
-              "required": true,
-              "min": 30,
-              "max": 1800
-            },
-            {
-              "key": "idleTimeout",
-              "label": {
-                "en": "Idle timeout (seconds)",
-                "id": "Batas waktu idle (detik)"
-              },
-              "type": "number",
-              "default": 60,
-              "required": true,
-              "min": 10,
-              "max": 600
-            },
-            {
-              "key": "countdown",
-              "label": {
-                "en": "Countdown (seconds)",
-                "id": "Hitung mundur (detik)"
-              },
-              "type": "number",
-              "default": 5,
-              "required": true,
-              "min": 1,
-              "max": 30
-            },
-            {
-              "key": "shots",
-              "label": {
-                "en": "Shots",
-                "id": "Jumlah foto"
-              },
-              "type": "number",
-              "default": 2,
-              "required": true,
-              "min": 1,
-              "max": 16
-            },
-            {
-              "key": "retakes",
-              "label": {
-                "en": "Maximum retakes",
-                "id": "Maksimum foto ulang"
-              },
-              "type": "number",
-              "default": 2,
-              "required": true,
-              "min": 0,
-              "max": 10
-            },
-            {
-              "key": "interShot",
-              "label": {
-                "en": "Inter-shot delay (seconds)",
-                "id": "Jeda antar foto (detik)"
-              },
-              "type": "number",
-              "default": 2,
-              "required": true,
-              "min": 0,
-              "max": 30
-            },
-            {
-              "key": "consent",
-              "label": {
-                "en": "Require consent",
-                "id": "Wajib persetujuan"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "branding",
-              "label": {
-                "en": "Guest message",
-                "id": "Pesan tamu"
-              },
-              "type": "text",
-              "default": "Capture a little joy.",
-              "required": true
-            },
-            {
-              "key": "primaryColor",
-              "label": {
-                "en": "Brand color",
-                "id": "Warna brand"
-              },
-              "type": "color",
-              "default": "#725288"
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "entity": "events"
-    },
-    "campaign": {
-      "title": {
-        "en": "Review campaign",
-        "id": "Tinjau kampanye"
-      },
-      "reference": "§5.1–5.2, §11",
-      "groups": [
-        {
-          "title": {
-            "en": "Campaign & scope",
-            "id": "Kampanye & cakupan"
-          },
-          "fields": [
-            {
-              "key": "name",
-              "label": {
-                "en": "Campaign name",
-                "id": "Nama kampanye"
-              },
-              "type": "text",
-              "default": "Weekend Market",
-              "required": true
-            },
-            {
-              "key": "code",
-              "label": {
-                "en": "Campaign code",
-                "id": "Kode kampanye"
-              },
-              "type": "text",
-              "default": "WEEKEND-26",
-              "required": true
-            },
-            {
-              "key": "eventId",
-              "label": {
-                "en": "Event",
-                "id": "Acara"
-              },
-              "type": "event",
-              "default": "EVT-001",
-              "required": true
-            },
-            {
-              "key": "validFrom",
-              "label": {
-                "en": "Valid from",
-                "id": "Berlaku mulai"
-              },
-              "type": "datetime-local",
-              "default": "2026-09-01T08:00",
-              "required": true
-            },
-            {
-              "key": "validUntil",
-              "label": {
-                "en": "Valid until",
-                "id": "Berlaku hingga"
-              },
-              "type": "datetime-local",
-              "default": "2026-12-31T23:00",
-              "required": true
-            },
-            {
-              "key": "timezone",
-              "label": {
-                "en": "IANA timezone",
-                "id": "Zona waktu IANA"
-              },
-              "type": "text",
-              "default": "Asia/Jakarta",
-              "required": true
-            },
-            {
-              "key": "eligibleDevices",
-              "label": {
-                "en": "Eligible devices",
-                "id": "Perangkat yang diizinkan"
-              },
-              "type": "devices",
-              "default": ["LIL-BOOTH-014"],
-              "required": true
-            },
-            {
-              "key": "templateId",
-              "label": {
-                "en": "Frame template reference",
-                "id": "Referensi template frame"
-              },
-              "type": "template",
-              "default": "sunset-strip",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Overrides",
-            "id": "Override"
-          },
-          "fields": [
-            {
-              "key": "sessionDuration",
-              "label": {
-                "en": "Session duration (seconds)",
-                "id": "Durasi sesi (detik)"
-              },
-              "type": "number",
-              "default": 180,
-              "required": true,
-              "min": 30,
-              "max": 1800
-            },
-            {
-              "key": "quota",
-              "label": {
-                "en": "Campaign quota (0 = unlimited)",
-                "id": "Kuota kampanye (0 = tanpa batas)"
-              },
-              "type": "number",
-              "default": 200,
-              "required": true,
-              "min": 0,
-              "max": 100000
-            },
-            {
-              "key": "message",
-              "label": {
-                "en": "Guest message",
-                "id": "Pesan tamu"
-              },
-              "type": "text",
-              "default": "Weekend memories",
-              "required": true
-            },
-            {
-              "key": "consent",
-              "label": {
-                "en": "Require consent",
-                "id": "Wajib persetujuan"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "priority",
-              "label": {
-                "en": "Activation order",
-                "id": "Urutan aktivasi"
-              },
-              "type": "select",
-              "default": "VOUCHER_FIRST",
-              "required": true,
-              "options": [
-                {
-                  "value": "VOUCHER_FIRST",
-                  "label": {
-                    "en": "VOUCHER_FIRST",
-                    "id": "VOUCHER_FIRST"
-                  }
-                },
-                {
-                  "value": "EVENT_FIRST",
-                  "label": {
-                    "en": "EVENT_FIRST",
-                    "id": "EVENT_FIRST"
-                  }
-                },
-                {
-                  "value": "PAYG_FIRST",
-                  "label": {
-                    "en": "PAYG_FIRST",
-                    "id": "PAYG_FIRST"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "entity": "campaigns"
-    },
-    "rules": {
-      "title": {
-        "en": "View rules",
-        "id": "Lihat aturan"
-      },
-      "reference": "§5.2, §6, §10.4",
-      "groups": [
-        {
-          "title": {
-            "en": "Event guardrails",
-            "id": "Batasan acara"
-          },
-          "fields": [
-            {
-              "key": "eventId",
-              "label": {
-                "en": "Event",
-                "id": "Acara"
-              },
-              "type": "event",
-              "default": "EVT-001",
-              "required": true
-            },
-            {
-              "key": "quotaMode",
-              "label": {
-                "en": "Quota mode",
-                "id": "Mode kuota"
-              },
-              "type": "select",
-              "default": "UNLIMITED",
-              "required": true,
-              "options": [
-                {
-                  "value": "UNLIMITED",
-                  "label": {
-                    "en": "UNLIMITED",
-                    "id": "UNLIMITED"
-                  }
-                },
-                {
-                  "value": "LIMITED",
-                  "label": {
-                    "en": "LIMITED",
-                    "id": "LIMITED"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "totalQuota",
-              "label": {
-                "en": "Total session quota",
-                "id": "Kuota total sesi"
-              },
-              "type": "number",
-              "default": 1000,
-              "required": true,
-              "min": 0,
-              "max": 100000
-            },
-            {
-              "key": "perGuest",
-              "label": {
-                "en": "Per-guest quota",
-                "id": "Kuota per tamu"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 1,
-              "max": 100
-            },
-            {
-              "key": "perDevice",
-              "label": {
-                "en": "Per-device offline quota",
-                "id": "Kuota offline per perangkat"
-              },
-              "type": "number",
-              "default": 120,
-              "required": true,
-              "min": 0,
-              "max": 10000
-            },
-            {
-              "key": "perWindow",
-              "label": {
-                "en": "Quota per time window",
-                "id": "Kuota per jendela waktu"
-              },
-              "type": "number",
-              "default": 200,
-              "required": true,
-              "min": 0,
-              "max": 100000
-            },
-            {
-              "key": "windowMinutes",
-              "label": {
-                "en": "Quota window (minutes)",
-                "id": "Jendela kuota (menit)"
-              },
-              "type": "number",
-              "default": 60,
-              "required": true,
-              "min": 1,
-              "max": 1440
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Voucher lifecycle",
-            "id": "Siklus voucher"
-          },
-          "fields": [
-            {
-              "key": "reserveTtl",
-              "label": {
-                "en": "Reservation TTL (seconds)",
-                "id": "TTL reservasi (detik)"
-              },
-              "type": "number",
-              "default": 300,
-              "required": true,
-              "min": 30,
-              "max": 3600
-            },
-            {
-              "key": "consumeMilestone",
-              "label": {
-                "en": "Consume milestone",
-                "id": "Tahap konsumsi"
-              },
-              "type": "select",
-              "default": "FIRST_SUCCESSFUL_STILL",
-              "required": true,
-              "options": [
-                {
-                  "value": "FIRST_SUCCESSFUL_STILL",
-                  "label": {
-                    "en": "FIRST_SUCCESSFUL_STILL",
-                    "id": "FIRST_SUCCESSFUL_STILL"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "duplicate",
-              "label": {
-                "en": "Duplicate behavior",
-                "id": "Perilaku duplikat"
-              },
-              "type": "select",
-              "default": "RESUME_SAME_SESSION",
-              "required": true,
-              "options": [
-                {
-                  "value": "RESUME_SAME_SESSION",
-                  "label": {
-                    "en": "RESUME_SAME_SESSION",
-                    "id": "RESUME_SAME_SESSION"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "releaseBeforeCapture",
-              "label": {
-                "en": "Release cancelled reservation before capture",
-                "id": "Lepas reservasi batal sebelum capture"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "maxRedemptions",
-              "label": {
-                "en": "Maximum redemptions",
-                "id": "Maksimum penukaran"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 1,
-              "max": 10
-            },
-            {
-              "key": "sessionsPerRedemption",
-              "label": {
-                "en": "Sessions per redemption",
-                "id": "Sesi per penukaran"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 1,
-              "max": 10
-            },
-            {
-              "key": "printEntitlement",
-              "label": {
-                "en": "Print entitlement",
-                "id": "Entitlement cetak"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 0,
-              "max": 10
-            },
-            {
-              "key": "transferable",
-              "label": {
-                "en": "Transferable voucher",
-                "id": "Voucher dapat dialihkan"
-              },
-              "type": "checkbox",
-              "default": false
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Offline admission",
-            "id": "Penerimaan offline"
-          },
-          "fields": [
-            {
-              "key": "allowOffline",
-              "label": {
-                "en": "Allow signed cached entitlement",
-                "id": "Izinkan entitlement cache bertanda tangan"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "cacheMaxAge",
-              "label": {
-                "en": "Maximum cache age (hours)",
-                "id": "Usia maksimum cache (jam)"
-              },
-              "type": "number",
-              "default": 24,
-              "required": true,
-              "min": 1,
-              "max": 168
-            },
-            {
-              "key": "clockTolerance",
-              "label": {
-                "en": "Clock drift tolerance (seconds)",
-                "id": "Toleransi penyimpangan waktu (detik)"
-              },
-              "type": "number",
-              "default": 2,
-              "required": true,
-              "min": 1,
-              "max": 60
-            },
-            {
-              "key": "offlinePayment",
-              "label": {
-                "en": "Offline PAYG QRIS",
-                "id": "PAYG QRIS offline"
-              },
-              "type": "select",
-              "default": "DENY",
-              "required": true,
-              "options": [
-                {
-                  "value": "DENY",
-                  "label": {
-                    "en": "DENY",
-                    "id": "DENY"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "conflict",
-              "label": {
-                "en": "Conflict policy",
-                "id": "Kebijakan konflik"
-              },
-              "type": "select",
-              "default": "QUARANTINE_AND_ESCALATE",
-              "required": true,
-              "options": [
-                {
-                  "value": "QUARANTINE_AND_ESCALATE",
-                  "label": {
-                    "en": "QUARANTINE_AND_ESCALATE",
-                    "id": "QUARANTINE_AND_ESCALATE"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "camera": {
-      "title": {
-        "en": "Camera profile",
-        "id": "Profil kamera"
-      },
-      "reference": "§5.2, §8, §22.4",
-      "groups": [
-        {
-          "title": {
-            "en": "Capability-bound capture",
-            "id": "Capture sesuai kapabilitas"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "adapter",
-              "label": {
-                "en": "Adapter",
-                "id": "Adapter"
-              },
-              "type": "select",
-              "default": "UVC",
-              "required": true,
-              "options": [
-                {
-                  "value": "UVC",
-                  "label": {
-                    "en": "UVC",
-                    "id": "UVC"
-                  }
-                },
-                {
-                  "value": "DSLR_TETHER",
-                  "label": {
-                    "en": "DSLR_TETHER",
-                    "id": "DSLR_TETHER"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "stableId",
-              "label": {
-                "en": "Stable hardware ID",
-                "id": "ID hardware stabil"
-              },
-              "type": "text",
-              "default": "usb-uvc-demo",
-              "required": true
-            },
-            {
-              "key": "modelAllowlist",
-              "label": {
-                "en": "Qualified model allowlist",
-                "id": "Daftar model terkualifikasi"
-              },
-              "type": "text",
-              "default": "UVC; Canon EOS 80D",
-              "required": true
-            },
-            {
-              "key": "width",
-              "label": {
-                "en": "Still width (px)",
-                "id": "Lebar still (px)"
-              },
-              "type": "number",
-              "default": 1920,
-              "required": true,
-              "min": 320,
-              "max": 6000
-            },
-            {
-              "key": "height",
-              "label": {
-                "en": "Still height (px)",
-                "id": "Tinggi still (px)"
-              },
-              "type": "number",
-              "default": 1080,
-              "required": true,
-              "min": 240,
-              "max": 6000
-            },
-            {
-              "key": "orientation",
-              "label": {
-                "en": "Orientation",
-                "id": "Orientasi"
-              },
-              "type": "select",
-              "default": "LANDSCAPE",
-              "required": true,
-              "options": [
-                {
-                  "value": "LANDSCAPE",
-                  "label": {
-                    "en": "LANDSCAPE",
-                    "id": "LANDSCAPE"
-                  }
-                },
-                {
-                  "value": "PORTRAIT",
-                  "label": {
-                    "en": "PORTRAIT",
-                    "id": "PORTRAIT"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "mirror",
-              "label": {
-                "en": "Mirror preview",
-                "id": "Cerminkan pratinjau"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "exposure",
-              "label": {
-                "en": "Exposure",
-                "id": "Eksposur"
-              },
-              "type": "text",
-              "default": "auto",
-              "required": true
-            },
-            {
-              "key": "iso",
-              "label": {
-                "en": "ISO (capability-probed)",
-                "id": "ISO (sesuai probe)"
-              },
-              "type": "text",
-              "default": "auto",
-              "required": true
-            },
-            {
-              "key": "shutter",
-              "label": {
-                "en": "Shutter",
-                "id": "Shutter"
-              },
-              "type": "text",
-              "default": "auto",
-              "required": true
-            },
-            {
-              "key": "aperture",
-              "label": {
-                "en": "Aperture",
-                "id": "Aperture"
-              },
-              "type": "text",
-              "default": "auto",
-              "required": true
-            },
-            {
-              "key": "whiteBalance",
-              "label": {
-                "en": "White balance",
-                "id": "White balance"
-              },
-              "type": "text",
-              "default": "auto",
-              "required": true
-            },
-            {
-              "key": "focus",
-              "label": {
-                "en": "Focus mode",
-                "id": "Mode fokus"
-              },
-              "type": "text",
-              "default": "auto",
-              "required": true
-            },
-            {
-              "key": "warmup",
-              "label": {
-                "en": "Warmup (seconds)",
-                "id": "Pemanasan (detik)"
-              },
-              "type": "number",
-              "default": 3,
-              "required": true,
-              "min": 0,
-              "max": 60
-            },
-            {
-              "key": "timeout",
-              "label": {
-                "en": "Capture timeout (seconds)",
-                "id": "Timeout capture (detik)"
-              },
-              "type": "number",
-              "default": 20,
-              "required": true,
-              "min": 1,
-              "max": 120
-            },
-            {
-              "key": "flash",
-              "label": {
-                "en": "Flash policy (capability dependent)",
-                "id": "Kebijakan flash (sesuai kapabilitas)"
-              },
-              "type": "select",
-              "default": "AUTO",
-              "options": [
-                {
-                  "value": "AUTO",
-                  "label": {
-                    "en": "AUTO",
-                    "id": "AUTO"
-                  }
-                },
-                {
-                  "value": "OFF",
-                  "label": {
-                    "en": "OFF",
-                    "id": "OFF"
-                  }
-                },
-                {
-                  "value": "ON",
-                  "label": {
-                    "en": "ON",
-                    "id": "ON"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Motion policy",
-            "id": "Kebijakan motion"
-          },
-          "fields": [
-            {
-              "key": "motionSource",
-              "label": {
-                "en": "Motion source",
-                "id": "Sumber motion"
-              },
-              "type": "select",
-              "default": "UVC_STREAM",
-              "required": true,
-              "options": [
-                {
-                  "value": "UVC_STREAM",
-                  "label": {
-                    "en": "UVC_STREAM",
-                    "id": "UVC_STREAM"
-                  }
-                },
-                {
-                  "value": "WEBCAM_COMPANION",
-                  "label": {
-                    "en": "WEBCAM_COMPANION",
-                    "id": "WEBCAM_COMPANION"
-                  }
-                },
-                {
-                  "value": "DSLR_LIVEVIEW",
-                  "label": {
-                    "en": "DSLR_LIVEVIEW",
-                    "id": "DSLR_LIVEVIEW"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "calibrated",
-              "label": {
-                "en": "Companion calibration confirmed (fixture)",
-                "id": "Kalibrasi kamera pendamping dikonfirmasi (fixture)"
-              },
-              "type": "checkbox",
-              "default": false
-            },
-            {
-              "key": "preRoll",
-              "label": {
-                "en": "Pre-roll (seconds)",
-                "id": "Pre-roll (detik)"
-              },
-              "type": "number",
-              "default": 1.5,
-              "required": true,
-              "min": 0,
-              "max": 3
-            },
-            {
-              "key": "postRoll",
-              "label": {
-                "en": "Post-roll (seconds)",
-                "id": "Post-roll (detik)"
-              },
-              "type": "number",
-              "default": 1.5,
-              "required": true,
-              "min": 0,
-              "max": 3
-            },
-            {
-              "key": "fps",
-              "label": {
-                "en": "Motion FPS",
-                "id": "FPS motion"
-              },
-              "type": "number",
-              "default": 30,
-              "required": true,
-              "min": 10,
-              "max": 60
-            },
-            {
-              "key": "audio",
-              "label": {
-                "en": "MVP audio",
-                "id": "Audio MVP"
-              },
-              "type": "select",
-              "default": "DISABLED",
-              "required": true,
-              "options": [
-                {
-                  "value": "DISABLED",
-                  "label": {
-                    "en": "DISABLED",
-                    "id": "DISABLED"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "fallback",
-              "label": {
-                "en": "Motion fallback",
-                "id": "Fallback motion"
-              },
-              "type": "select",
-              "default": "STANDARD_CLIP",
-              "required": true,
-              "options": [
-                {
-                  "value": "STANDARD_CLIP",
-                  "label": {
-                    "en": "STANDARD_CLIP",
-                    "id": "STANDARD_CLIP"
-                  }
-                },
-                {
-                  "value": "STILL_ONLY",
-                  "label": {
-                    "en": "STILL_ONLY",
-                    "id": "STILL_ONLY"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "printer": {
-      "title": {
-        "en": "Printer profile",
-        "id": "Profil printer"
-      },
-      "reference": "§5.2, §9, §22.9",
-      "groups": [
-        {
-          "title": {
-            "en": "Transport & raster",
-            "id": "Transport & raster"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "transport",
-              "label": {
-                "en": "Transport",
-                "id": "Transport"
-              },
-              "type": "select",
-              "default": "CUPS_IPP",
-              "required": true,
-              "options": [
-                {
-                  "value": "CUPS_IPP",
-                  "label": {
-                    "en": "CUPS_IPP",
-                    "id": "CUPS_IPP"
-                  }
-                },
-                {
-                  "value": "TSPL",
-                  "label": {
-                    "en": "TSPL",
-                    "id": "TSPL"
-                  }
-                },
-                {
-                  "value": "ZPL",
-                  "label": {
-                    "en": "ZPL",
-                    "id": "ZPL"
-                  }
-                },
-                {
-                  "value": "ESC_POS",
-                  "label": {
-                    "en": "ESC_POS",
-                    "id": "ESC_POS"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "stableId",
-              "label": {
-                "en": "Stable printer ID",
-                "id": "ID printer stabil"
-              },
-              "type": "text",
-              "default": "ipp-demo",
-              "required": true
-            },
-            {
-              "key": "dpi",
-              "label": {
-                "en": "DPI",
-                "id": "DPI"
-              },
-              "type": "number",
-              "default": 203,
-              "required": true,
-              "min": 72,
-              "max": 1200
-            },
-            {
-              "key": "widthDots",
-              "label": {
-                "en": "Width (dots)",
-                "id": "Lebar (dot)"
-              },
-              "type": "number",
-              "default": 576,
-              "required": true,
-              "min": 128,
-              "max": 2400
-            },
-            {
-              "key": "maxHeightDots",
-              "label": {
-                "en": "Maximum height (dots)",
-                "id": "Tinggi maksimum (dot)"
-              },
-              "type": "number",
-              "default": 2400,
-              "required": true,
-              "min": 128,
-              "max": 10000
-            },
-            {
-              "key": "mediaType",
-              "label": {
-                "en": "Media type",
-                "id": "Jenis media"
-              },
-              "type": "text",
-              "default": "thermal-label",
-              "required": true
-            },
-            {
-              "key": "darkness",
-              "label": {
-                "en": "Darkness",
-                "id": "Kegelapan"
-              },
-              "type": "number",
-              "default": 8,
-              "required": true,
-              "min": 0,
-              "max": 15
-            },
-            {
-              "key": "speed",
-              "label": {
-                "en": "Speed",
-                "id": "Kecepatan"
-              },
-              "type": "number",
-              "default": 3,
-              "required": true,
-              "min": 1,
-              "max": 10
-            },
-            {
-              "key": "dither",
-              "label": {
-                "en": "Dithering",
-                "id": "Dithering"
-              },
-              "type": "select",
-              "default": "FLOYD_STEINBERG",
-              "required": true,
-              "options": [
-                {
-                  "value": "FLOYD_STEINBERG",
-                  "label": {
-                    "en": "FLOYD_STEINBERG",
-                    "id": "FLOYD_STEINBERG"
-                  }
-                },
-                {
-                  "value": "BAYER",
-                  "label": {
-                    "en": "BAYER",
-                    "id": "BAYER"
-                  }
-                },
-                {
-                  "value": "THRESHOLD",
-                  "label": {
-                    "en": "THRESHOLD",
-                    "id": "THRESHOLD"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "cut",
-              "label": {
-                "en": "Cut after print",
-                "id": "Potong setelah cetak"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "feed",
-              "label": {
-                "en": "Feed (mm)",
-                "id": "Feed (mm)"
-              },
-              "type": "number",
-              "default": 3,
-              "required": true,
-              "min": 0,
-              "max": 100
-            },
-            {
-              "key": "offsetX",
-              "label": {
-                "en": "Calibration X (dots)",
-                "id": "Kalibrasi X (dot)"
-              },
-              "type": "number",
-              "default": 0,
-              "required": true,
-              "min": -100,
-              "max": 100
-            },
-            {
-              "key": "offsetY",
-              "label": {
-                "en": "Calibration Y (dots)",
-                "id": "Kalibrasi Y (dot)"
-              },
-              "type": "number",
-              "default": 0,
-              "required": true,
-              "min": -100,
-              "max": 100
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Print entitlement",
-            "id": "Entitlement cetak"
-          },
-          "fields": [
-            {
-              "key": "copies",
-              "label": {
-                "en": "Copies per session",
-                "id": "Salinan per sesi"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 0,
-              "max": 10
-            },
-            {
-              "key": "reprints",
-              "label": {
-                "en": "Allowed reprints",
-                "id": "Cetak ulang diizinkan"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 0,
-              "max": 5
-            },
-            {
-              "key": "required",
-              "label": {
-                "en": "Print required",
-                "id": "Cetak wajib"
-              },
-              "type": "checkbox",
-              "default": false
-            },
-            {
-              "key": "unhealthy",
-              "label": {
-                "en": "Unhealthy printer action",
-                "id": "Aksi printer tidak sehat"
-              },
-              "type": "select",
-              "default": "DIGITAL_ONLY",
-              "required": true,
-              "options": [
-                {
-                  "value": "DIGITAL_ONLY",
-                  "label": {
-                    "en": "DIGITAL_ONLY",
-                    "id": "DIGITAL_ONLY"
-                  }
-                },
-                {
-                  "value": "BLOCK_NEW_SESSION",
-                  "label": {
-                    "en": "BLOCK_NEW_SESSION",
-                    "id": "BLOCK_NEW_SESSION"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "claimQr",
-              "label": {
-                "en": "Include claim QR",
-                "id": "Sertakan QR klaim"
-              },
-              "type": "checkbox",
-              "default": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "storage": {
-      "title": {
-        "en": "Storage policy",
-        "id": "Kebijakan penyimpanan"
-      },
-      "reference": "§8.4, §10.4, §14",
-      "groups": [
-        {
-          "title": {
-            "en": "Device storage",
-            "id": "Penyimpanan perangkat"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "mediaDays",
-              "label": {
-                "en": "Local media retention (days)",
-                "id": "Retensi media lokal (hari)"
-              },
-              "type": "number",
-              "default": 14,
-              "required": true,
-              "min": 1,
-              "max": 365
-            },
-            {
-              "key": "warningPercent",
-              "label": {
-                "en": "Warn at disk usage (%)",
-                "id": "Peringatan pemakaian disk (%)"
-              },
-              "type": "number",
-              "default": 80,
-              "required": true,
-              "min": 50,
-              "max": 95
-            },
-            {
-              "key": "blockPercent",
-              "label": {
-                "en": "Block new sessions at (%)",
-                "id": "Blokir sesi baru pada (%)"
-              },
-              "type": "number",
-              "default": 95,
-              "required": true,
-              "min": 60,
-              "max": 99
-            },
-            {
-              "key": "minFreeGb",
-              "label": {
-                "en": "Minimum free space (GB)",
-                "id": "Ruang kosong minimum (GB)"
-              },
-              "type": "number",
-              "default": 5,
-              "required": true,
-              "min": 1,
-              "max": 100
-            },
-            {
-              "key": "cleanup",
-              "label": {
-                "en": "Cleanup eligibility",
-                "id": "Syarat cleanup"
-              },
-              "type": "select",
-              "default": "VERIFIED_UPLOAD_AND_RETENTION",
-              "required": true,
-              "options": [
-                {
-                  "value": "VERIFIED_UPLOAD_AND_RETENTION",
-                  "label": {
-                    "en": "VERIFIED_UPLOAD_AND_RETENTION",
-                    "id": "VERIFIED_UPLOAD_AND_RETENTION"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "protectUnacked",
-              "label": {
-                "en": "Protect unreconciled state (required)",
-                "id": "Lindungi state belum direkonsiliasi (wajib)"
-              },
-              "type": "checkbox",
-              "default": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "template": {
-      "title": {
-        "en": "Open templates",
-        "id": "Buka template"
-      },
-      "reference": "§8.3, §22.6–22.7",
-      "groups": [
-        {
-          "title": {
-            "en": "Immutable template",
-            "id": "Template immutable"
-          },
-          "fields": [
-            {
-              "key": "name",
-              "label": {
-                "en": "Template name",
-                "id": "Nama template"
-              },
-              "type": "text",
-              "default": "Sunset strip",
-              "required": true
-            },
-            {
-              "key": "templateId",
-              "label": {
-                "en": "Template ID",
-                "id": "ID template"
-              },
-              "type": "text",
-              "default": "sunset-strip",
-              "required": true
-            },
-            {
-              "key": "version",
-              "label": {
-                "en": "Version",
-                "id": "Versi"
-              },
-              "type": "number",
-              "default": 13,
-              "required": true,
-              "min": 1,
-              "max": 10000
-            },
-            {
-              "key": "schemaVersion",
-              "label": {
-                "en": "Schema version",
-                "id": "Versi schema"
-              },
-              "type": "text",
-              "default": "frame-template/1",
-              "required": true
-            },
-            {
-              "key": "canvasWidth",
-              "label": {
-                "en": "Logical canvas width",
-                "id": "Lebar canvas logis"
-              },
-              "type": "number",
-              "default": 1000,
-              "required": true,
-              "min": 100,
-              "max": 5000
-            },
-            {
-              "key": "canvasHeight",
-              "label": {
-                "en": "Logical canvas height",
-                "id": "Tinggi canvas logis"
-              },
-              "type": "number",
-              "default": 1500,
-              "required": true,
-              "min": 100,
-              "max": 5000
-            },
-            {
-              "key": "background",
-              "label": {
-                "en": "Background",
-                "id": "Latar"
-              },
-              "type": "select",
-              "default": "SOLID",
-              "required": true,
-              "options": [
-                {
-                  "value": "SOLID",
-                  "label": {
-                    "en": "SOLID",
-                    "id": "SOLID"
-                  }
-                },
-                {
-                  "value": "GRADIENT",
-                  "label": {
-                    "en": "GRADIENT",
-                    "id": "GRADIENT"
-                  }
-                },
-                {
-                  "value": "ASSET",
-                  "label": {
-                    "en": "ASSET",
-                    "id": "ASSET"
-                  }
-                },
-                {
-                  "value": "PATTERN",
-                  "label": {
-                    "en": "PATTERN",
-                    "id": "PATTERN"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "backgroundColor",
-              "label": {
-                "en": "Background color",
-                "id": "Warna latar"
-              },
-              "type": "color",
-              "default": "#eee3f2"
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Slot geometry (JSON)",
-            "id": "Geometri slot (JSON)"
-          },
-          "fields": [
-            {
-              "key": "slots",
-              "label": {
-                "en": "Slots: id, sourceIndex, x, y, width, height, zIndex, fit, mask",
-                "id": "Slot: id, sourceIndex, x, y, width, height, zIndex, fit, mask"
-              },
-              "type": "textarea",
-              "default": "[\n  {\n    \"id\": \"p1\",\n    \"sourceIndex\": 0,\n    \"x\": 60,\n    \"y\": 80,\n    \"width\": 880,\n    \"height\": 600,\n    \"zIndex\": 10,\n    \"fit\": \"cover\",\n    \"mask\": \"roundedRect\",\n    \"focalX\": 0.5,\n    \"focalY\": 0.5,\n    \"rotation\": 0,\n    \"opacity\": 1\n  },\n  {\n    \"id\": \"p2\",\n    \"sourceIndex\": 1,\n    \"x\": 60,\n    \"y\": 720,\n    \"width\": 880,\n    \"height\": 600,\n    \"zIndex\": 20,\n    \"fit\": \"cover\",\n    \"mask\": \"roundedRect\",\n    \"focalX\": 0.5,\n    \"focalY\": 0.5,\n    \"rotation\": 0,\n    \"opacity\": 1\n  }\n]",
-              "required": true
-            },
-            {
-              "key": "placeholder",
-              "label": {
-                "en": "Dynamic placeholder (allowlisted)",
-                "id": "Placeholder dinamis (allowlist)"
-              },
-              "type": "text",
-              "default": "event.name",
-              "required": true
-            },
-            {
-              "key": "safeArea",
-              "label": {
-                "en": "Safe area (logical units)",
-                "id": "Safe area (unit logis)"
-              },
-              "type": "number",
-              "default": 40,
-              "required": true,
-              "min": 0,
-              "max": 200
-            },
-            {
-              "key": "fontLicense",
-              "label": {
-                "en": "Font license metadata",
-                "id": "Metadata lisensi font"
-              },
-              "type": "text",
-              "default": "System font / bundled license reference",
-              "required": true
-            },
-            {
-              "key": "assetRef",
-              "label": {
-                "en": "Asset reference (fixture only)",
-                "id": "Referensi aset (fixture saja)"
-              },
-              "type": "text",
-              "default": "demo/background.svg",
-              "required": true
-            },
-            {
-              "key": "layers",
-              "label": {
-                "en": "Layers: asset, text, QR, shape or sticker (JSON)",
-                "id": "Layer: aset, teks, QR, bentuk atau stiker (JSON)"
-              },
-              "type": "textarea",
-              "default": "[\n  {\n    \"id\": \"title\",\n    \"type\": \"text\",\n    \"value\": \"{{event.name}}\",\n    \"zIndex\": 100\n  },\n  {\n    \"id\": \"claim\",\n    \"type\": \"QR\",\n    \"value\": \"claim\",\n    \"zIndex\": 110\n  }\n]",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "entity": "templates"
-    },
-    "profiles": {
-      "title": {
-        "en": "View profiles",
-        "id": "Lihat profil"
-      },
-      "reference": "§8.2–8.3, §22.5–22.6",
-      "groups": [
-        {
-          "title": {
-            "en": "Digital & preview",
-            "id": "Digital & pratinjau"
-          },
-          "fields": [
-            {
-              "key": "width",
-              "label": {
-                "en": "Digital width",
-                "id": "Lebar digital"
-              },
-              "type": "number",
-              "default": 1200,
-              "required": true,
-              "min": 100,
-              "max": 4000
-            },
-            {
-              "key": "height",
-              "label": {
-                "en": "Digital height",
-                "id": "Tinggi digital"
-              },
-              "type": "number",
-              "default": 1800,
-              "required": true,
-              "min": 100,
-              "max": 4000
-            },
-            {
-              "key": "format",
-              "label": {
-                "en": "Digital format",
-                "id": "Format digital"
-              },
-              "type": "select",
-              "default": "JPEG",
-              "required": true,
-              "options": [
-                {
-                  "value": "JPEG",
-                  "label": {
-                    "en": "JPEG",
-                    "id": "JPEG"
-                  }
-                },
-                {
-                  "value": "PNG",
-                  "label": {
-                    "en": "PNG",
-                    "id": "PNG"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "quality",
-              "label": {
-                "en": "JPEG quality",
-                "id": "Kualitas JPEG"
-              },
-              "type": "number",
-              "default": 90,
-              "required": true,
-              "min": 1,
-              "max": 100
-            },
-            {
-              "key": "previewWidth",
-              "label": {
-                "en": "Preview width",
-                "id": "Lebar pratinjau"
-              },
-              "type": "number",
-              "default": 360,
-              "required": true,
-              "min": 100,
-              "max": 1000
-            },
-            {
-              "key": "coordinateSpace",
-              "label": {
-                "en": "Shared logical coordinates",
-                "id": "Koordinat logis bersama"
-              },
-              "type": "text",
-              "default": "1000x1500",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Print & portable motion",
-            "id": "Cetak & motion portabel"
-          },
-          "fields": [
-            {
-              "key": "widthDots",
-              "label": {
-                "en": "Print width (dots)",
-                "id": "Lebar cetak (dot)"
-              },
-              "type": "number",
-              "default": 576,
-              "required": true,
-              "min": 128,
-              "max": 2400
-            },
-            {
-              "key": "dither",
-              "label": {
-                "en": "Print dithering",
-                "id": "Dithering cetak"
-              },
-              "type": "select",
-              "default": "FLOYD_STEINBERG",
-              "required": true,
-              "options": [
-                {
-                  "value": "FLOYD_STEINBERG",
-                  "label": {
-                    "en": "FLOYD_STEINBERG",
-                    "id": "FLOYD_STEINBERG"
-                  }
-                },
-                {
-                  "value": "BAYER",
-                  "label": {
-                    "en": "BAYER",
-                    "id": "BAYER"
-                  }
-                },
-                {
-                  "value": "THRESHOLD",
-                  "label": {
-                    "en": "THRESHOLD",
-                    "id": "THRESHOLD"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "videoWidth",
-              "label": {
-                "en": "Video width",
-                "id": "Lebar video"
-              },
-              "type": "number",
-              "default": 720,
-              "required": true,
-              "min": 320,
-              "max": 1920
-            },
-            {
-              "key": "videoHeight",
-              "label": {
-                "en": "Video height",
-                "id": "Tinggi video"
-              },
-              "type": "number",
-              "default": 1080,
-              "required": true,
-              "min": 240,
-              "max": 1920
-            },
-            {
-              "key": "fps",
-              "label": {
-                "en": "Video FPS",
-                "id": "FPS video"
-              },
-              "type": "number",
-              "default": 30,
-              "required": true,
-              "min": 10,
-              "max": 60
-            },
-            {
-              "key": "duration",
-              "label": {
-                "en": "Maximum clip duration (seconds)",
-                "id": "Durasi klip maksimum (detik)"
-              },
-              "type": "number",
-              "default": 3,
-              "required": true,
-              "min": 0.5,
-              "max": 6
-            },
-            {
-              "key": "codec",
-              "label": {
-                "en": "Codec",
-                "id": "Codec"
-              },
-              "type": "select",
-              "default": "H264_YUV420P",
-              "required": true,
-              "options": [
-                {
-                  "value": "H264_YUV420P",
-                  "label": {
-                    "en": "H264_YUV420P",
-                    "id": "H264_YUV420P"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "audio",
-              "label": {
-                "en": "Audio (MVP)",
-                "id": "Audio (MVP)"
-              },
-              "type": "select",
-              "default": "DISABLED",
-              "required": true,
-              "options": [
-                {
-                  "value": "DISABLED",
-                  "label": {
-                    "en": "DISABLED",
-                    "id": "DISABLED"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "boomerang",
-              "label": {
-                "en": "Optional boomerang",
-                "id": "Boomerang opsional"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "memoryMb",
-              "label": {
-                "en": "Boomerang memory budget (MB)",
-                "id": "Batas memori boomerang (MB)"
-              },
-              "type": "number",
-              "default": 256,
-              "required": true,
-              "min": 64,
-              "max": 512
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "allocation": {
-      "title": {
-        "en": "Open allocation",
-        "id": "Buka alokasi"
-      },
-      "reference": "§10.4, §11",
-      "groups": [
-        {
-          "title": {
-            "en": "Exclusive inventory request",
-            "id": "Permintaan inventori eksklusif"
-          },
-          "fields": [
-            {
-              "key": "name",
-              "label": {
-                "en": "Allocation name",
-                "id": "Nama alokasi"
-              },
-              "type": "text",
-              "default": "Kemang allocation",
-              "required": true
-            },
-            {
-              "key": "eventId",
-              "label": {
-                "en": "Event",
-                "id": "Acara"
-              },
-              "type": "event",
-              "default": "EVT-001",
-              "required": true
-            },
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "poolId",
-              "label": {
-                "en": "Voucher pool ID",
-                "id": "ID pool voucher"
-              },
-              "type": "text",
-              "default": "POOL-KMG",
-              "required": true
-            },
-            {
-              "key": "requestedCount",
-              "label": {
-                "en": "Requested vouchers",
-                "id": "Voucher diminta"
-              },
-              "type": "number",
-              "default": 120,
-              "required": true,
-              "min": 1,
-              "max": 10000
-            },
-            {
-              "key": "version",
-              "label": {
-                "en": "Monotonic allocation version",
-                "id": "Versi alokasi monotonik"
-              },
-              "type": "number",
-              "default": 8,
-              "required": true,
-              "min": 1,
-              "max": 100000
-            },
-            {
-              "key": "validFrom",
-              "label": {
-                "en": "Valid from",
-                "id": "Berlaku mulai"
-              },
-              "type": "datetime-local",
-              "default": "2026-09-01T08:00",
-              "required": true
-            },
-            {
-              "key": "validUntil",
-              "label": {
-                "en": "Valid until",
-                "id": "Berlaku hingga"
-              },
-              "type": "datetime-local",
-              "default": "2026-12-31T23:00",
-              "required": true
-            },
-            {
-              "key": "timezone",
-              "label": {
-                "en": "IANA timezone",
-                "id": "Zona waktu IANA"
-              },
-              "type": "text",
-              "default": "Asia/Jakarta",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Signed scope",
-            "id": "Cakupan bertanda tangan"
-          },
-          "fields": [
-            {
-              "key": "authority",
-              "label": {
-                "en": "Exclusive redemption authority",
-                "id": "Otoritas penukaran eksklusif"
-              },
-              "type": "select",
-              "default": "DEVICE_BOUND",
-              "required": true,
-              "options": [
-                {
-                  "value": "DEVICE_BOUND",
-                  "label": {
-                    "en": "DEVICE_BOUND",
-                    "id": "DEVICE_BOUND"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "offlineLimit",
-              "label": {
-                "en": "Offline session cap",
-                "id": "Batas sesi offline"
-              },
-              "type": "number",
-              "default": 120,
-              "required": true,
-              "min": 1,
-              "max": 10000
-            },
-            {
-              "key": "sessionsPerRedemption",
-              "label": {
-                "en": "Sessions per redemption",
-                "id": "Sesi per penukaran"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 1,
-              "max": 10
-            },
-            {
-              "key": "printEntitlement",
-              "label": {
-                "en": "Print entitlement",
-                "id": "Entitlement cetak"
-              },
-              "type": "number",
-              "default": 1,
-              "required": true,
-              "min": 0,
-              "max": 10
-            },
-            {
-              "key": "reserveTtl",
-              "label": {
-                "en": "Reserve TTL (seconds)",
-                "id": "TTL reservasi (detik)"
-              },
-              "type": "number",
-              "default": 300,
-              "required": true,
-              "min": 30,
-              "max": 3600
-            },
-            {
-              "key": "consumeMilestone",
-              "label": {
-                "en": "Consume milestone",
-                "id": "Tahap konsumsi"
-              },
-              "type": "select",
-              "default": "FIRST_SUCCESSFUL_STILL",
-              "required": true,
-              "options": [
-                {
-                  "value": "FIRST_SUCCESSFUL_STILL",
-                  "label": {
-                    "en": "FIRST_SUCCESSFUL_STILL",
-                    "id": "FIRST_SUCCESSFUL_STILL"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "entity": "allocations"
-    },
-    "retryPolicy": {
-      "title": {
-        "en": "Edit retry policy",
-        "id": "Edit kebijakan retry"
-      },
-      "reference": "§10.2–10.4, §22.8",
-      "groups": [
-        {
-          "title": {
-            "en": "Bounded exponential retry",
-            "id": "Retry eksponensial berbatas"
-          },
-          "fields": [
-            {
-              "key": "name",
-              "label": {
-                "en": "Policy name",
-                "id": "Nama kebijakan"
-              },
-              "type": "text",
-              "default": "Edge durable jobs",
-              "required": true
-            },
-            {
-              "key": "maxAttempts",
-              "label": {
-                "en": "Maximum attempts",
-                "id": "Maksimum percobaan"
-              },
-              "type": "number",
-              "default": 5,
-              "required": true,
-              "min": 1,
-              "max": 20
-            },
-            {
-              "key": "baseDelay",
-              "label": {
-                "en": "Base delay (seconds)",
-                "id": "Jeda dasar (detik)"
-              },
-              "type": "number",
-              "default": 30,
-              "required": true,
-              "min": 1,
-              "max": 300
-            },
-            {
-              "key": "maxDelay",
-              "label": {
-                "en": "Maximum delay (seconds)",
-                "id": "Jeda maksimum (detik)"
-              },
-              "type": "number",
-              "default": 600,
-              "required": true,
-              "min": 1,
-              "max": 86400
-            },
-            {
-              "key": "jitter",
-              "label": {
-                "en": "Jitter",
-                "id": "Jitter"
-              },
-              "type": "select",
-              "default": "FULL_JITTER",
-              "required": true,
-              "options": [
-                {
-                  "value": "FULL_JITTER",
-                  "label": {
-                    "en": "FULL_JITTER",
-                    "id": "FULL_JITTER"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "leaseTimeout",
-              "label": {
-                "en": "Lease timeout (seconds)",
-                "id": "Batas waktu lease (detik)"
-              },
-              "type": "number",
-              "default": 120,
-              "required": true,
-              "min": 30,
-              "max": 3600
-            },
-            {
-              "key": "exhausted",
-              "label": {
-                "en": "After retry limit",
-                "id": "Setelah batas retry"
-              },
-              "type": "select",
-              "default": "DEAD_LETTER",
-              "required": true,
-              "options": [
-                {
-                  "value": "DEAD_LETTER",
-                  "label": {
-                    "en": "DEAD_LETTER",
-                    "id": "DEAD_LETTER"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "offline",
-              "label": {
-                "en": "Offline behavior",
-                "id": "Perilaku offline"
-              },
-              "type": "select",
-              "default": "WAIT_FOR_CONNECTION",
-              "required": true,
-              "options": [
-                {
-                  "value": "WAIT_FOR_CONNECTION",
-                  "label": {
-                    "en": "WAIT_FOR_CONNECTION",
-                    "id": "WAIT_FOR_CONNECTION"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "retention": {
-      "title": {
-        "en": "Edit retention",
-        "id": "Edit retensi"
-      },
-      "reference": "§8.4, §10.4, §14, §22.7",
-      "groups": [
-        {
-          "title": {
-            "en": "Retention windows",
-            "id": "Jendela retensi"
-          },
-          "fields": [
-            {
-              "key": "mediaDays",
-              "label": {
-                "en": "Media retention (days)",
-                "id": "Retensi media (hari)"
-              },
-              "type": "number",
-              "default": 30,
-              "required": true,
-              "min": 1,
-              "max": 3650
-            },
-            {
-              "key": "deliveredDays",
-              "label": {
-                "en": "Delivered assets (days)",
-                "id": "Aset terkirim (hari)"
-              },
-              "type": "number",
-              "default": 14,
-              "required": true,
-              "min": 1,
-              "max": 3650
-            },
-            {
-              "key": "auditDays",
-              "label": {
-                "en": "Audit retention (days)",
-                "id": "Retensi audit (hari)"
-              },
-              "type": "number",
-              "default": 365,
-              "required": true,
-              "min": 30,
-              "max": 3650
-            },
-            {
-              "key": "graceDays",
-              "label": {
-                "en": "Deletion grace (days)",
-                "id": "Tenggang penghapusan (hari)"
-              },
-              "type": "number",
-              "default": 7,
-              "required": true,
-              "min": 1,
-              "max": 90
-            },
-            {
-              "key": "warningPercent",
-              "label": {
-                "en": "Disk warning (%)",
-                "id": "Peringatan disk (%)"
-              },
-              "type": "number",
-              "default": 80,
-              "required": true,
-              "min": 50,
-              "max": 95
-            },
-            {
-              "key": "pii",
-              "label": {
-                "en": "PII masking",
-                "id": "Penyamaran PII"
-              },
-              "type": "select",
-              "default": "ALWAYS_MASKED",
-              "required": true,
-              "options": [
-                {
-                  "value": "ALWAYS_MASKED",
-                  "label": {
-                    "en": "ALWAYS_MASKED",
-                    "id": "ALWAYS_MASKED"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "cleanup",
-              "label": {
-                "en": "Deletion rule",
-                "id": "Aturan penghapusan"
-              },
-              "type": "select",
-              "default": "VERIFIED_UPLOAD_AND_RETENTION",
-              "required": true,
-              "options": [
-                {
-                  "value": "VERIFIED_UPLOAD_AND_RETENTION",
-                  "label": {
-                    "en": "VERIFIED_UPLOAD_AND_RETENTION",
-                    "id": "VERIFIED_UPLOAD_AND_RETENTION"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "protectUnacked",
-              "label": {
-                "en": "Protect unacknowledged data (required)",
-                "id": "Lindungi data belum diakui (wajib)"
-              },
-              "type": "checkbox",
-              "default": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "invite": {
-      "title": {
-        "en": "Invite operator",
-        "id": "Undang operator"
-      },
-      "reference": "§14 (RBAC); invitation UX is an additional idea",
-      "groups": [
-        {
-          "title": {
-            "en": "Identity",
-            "id": "Identitas"
-          },
-          "fields": [
-            {
-              "key": "name",
-              "label": {
-                "en": "Display name",
-                "id": "Nama tampilan"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "email",
-              "label": {
-                "en": "Work email",
-                "id": "Email kerja"
-              },
-              "type": "email",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "role",
-              "label": {
-                "en": "Role",
-                "id": "Peran"
-              },
-              "type": "select",
-              "default": "OPERATOR",
-              "required": true,
-              "options": [
-                {
-                  "value": "ADMINISTRATOR",
-                  "label": {
-                    "en": "ADMINISTRATOR",
-                    "id": "ADMINISTRATOR"
-                  }
-                },
-                {
-                  "value": "OPERATOR",
-                  "label": {
-                    "en": "OPERATOR",
-                    "id": "OPERATOR"
-                  }
-                },
-                {
-                  "value": "SUPPORT",
-                  "label": {
-                    "en": "SUPPORT",
-                    "id": "SUPPORT"
-                  }
-                },
-                {
-                  "value": "ENGINEER",
-                  "label": {
-                    "en": "ENGINEER",
-                    "id": "ENGINEER"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Scoped assignment",
-            "id": "Penugasan terbatas"
-          },
-          "fields": [
-            {
-              "key": "eventId",
-              "label": {
-                "en": "Event",
-                "id": "Acara"
-              },
-              "type": "event",
-              "default": "EVT-001",
-              "required": true
-            },
-            {
-              "key": "eligibleDevices",
-              "label": {
-                "en": "Allowed devices",
-                "id": "Perangkat diizinkan"
-              },
-              "type": "devices",
-              "default": ["LIL-BOOTH-014"],
-              "required": true
-            },
-            {
-              "key": "expiryDays",
-              "label": {
-                "en": "Invitation TTL (days)",
-                "id": "TTL undangan (hari)"
-              },
-              "type": "number",
-              "default": 7,
-              "required": true,
-              "min": 1,
-              "max": 30
-            },
-            {
-              "key": "approval",
-              "label": {
-                "en": "Require administrator approval",
-                "id": "Wajib persetujuan administrator"
-              },
-              "type": "checkbox",
-              "default": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Invitation reason",
-                "id": "Alasan undangan"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            }
-          ]
-        }
-      ],
-      "entity": "operators",
-      "creation": true,
-      "extra": true
-    },
-    "delivery": {
-      "title": {
-        "en": "Delivery policy",
-        "id": "Kebijakan pengiriman"
-      },
-      "reference": "§5.2, §9.3, §14",
-      "groups": [
-        {
-          "title": {
-            "en": "Claim & delivery",
-            "id": "Klaim & pengiriman"
-          },
-          "fields": [
-            {
-              "key": "channel",
-              "label": {
-                "en": "Channel",
-                "id": "Kanal"
-              },
-              "type": "select",
-              "default": "WHATSAPP",
-              "required": true,
-              "options": [
-                {
-                  "value": "WHATSAPP",
-                  "label": {
-                    "en": "WHATSAPP",
-                    "id": "WHATSAPP"
-                  }
-                },
-                {
-                  "value": "CLAIM_ONLY",
-                  "label": {
-                    "en": "CLAIM_ONLY",
-                    "id": "CLAIM_ONLY"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "providerRef",
-              "label": {
-                "en": "Provider reference (not a secret)",
-                "id": "Referensi provider (bukan rahasia)"
-              },
-              "type": "text",
-              "default": "wa-demo",
-              "required": true
-            },
-            {
-              "key": "messageTemplate",
-              "label": {
-                "en": "Approved message template ID",
-                "id": "ID template pesan disetujui"
-              },
-              "type": "text",
-              "default": "session-ready",
-              "required": true
-            },
-            {
-              "key": "claimTtl",
-              "label": {
-                "en": "Claim TTL (hours)",
-                "id": "TTL klaim (jam)"
-              },
-              "type": "number",
-              "default": 24,
-              "required": true,
-              "min": 1,
-              "max": 168
-            },
-            {
-              "key": "signedLinkTtl",
-              "label": {
-                "en": "Signed URL TTL (minutes)",
-                "id": "TTL URL bertanda tangan (menit)"
-              },
-              "type": "number",
-              "default": 15,
-              "required": true,
-              "min": 1,
-              "max": 60
-            },
-            {
-              "key": "fallback",
-              "label": {
-                "en": "Delivery fallback",
-                "id": "Fallback pengiriman"
-              },
-              "type": "select",
-              "default": "CLAIM_PAGE",
-              "required": true,
-              "options": [
-                {
-                  "value": "CLAIM_PAGE",
-                  "label": {
-                    "en": "CLAIM_PAGE",
-                    "id": "CLAIM_PAGE"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "locale",
-              "label": {
-                "en": "Locale",
-                "id": "Bahasa"
-              },
-              "type": "text",
-              "default": "id-ID",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Private object storage",
-            "id": "Object storage privat"
-          },
-          "fields": [
-            {
-              "key": "bucket",
-              "label": {
-                "en": "Private bucket reference",
-                "id": "Referensi bucket privat"
-              },
-              "type": "text",
-              "default": "olp-private-demo",
-              "required": true
-            },
-            {
-              "key": "prefix",
-              "label": {
-                "en": "Object prefix",
-                "id": "Prefix objek"
-              },
-              "type": "text",
-              "default": "sessions/",
-              "required": true
-            },
-            {
-              "key": "region",
-              "label": {
-                "en": "Region reference",
-                "id": "Referensi region"
-              },
-              "type": "text",
-              "default": "ap-southeast-1",
-              "required": true
-            },
-            {
-              "key": "encryption",
-              "label": {
-                "en": "Encryption",
-                "id": "Enkripsi"
-              },
-              "type": "select",
-              "default": "SSE",
-              "required": true,
-              "options": [
-                {
-                  "value": "SSE",
-                  "label": {
-                    "en": "SSE",
-                    "id": "SSE"
-                  }
-                },
-                {
-                  "value": "KMS",
-                  "label": {
-                    "en": "KMS",
-                    "id": "KMS"
-                  }
-                }
-              ]
-            },
-            {
-              "key": "private",
-              "label": {
-                "en": "Private access required",
-                "id": "Akses privat wajib"
-              },
-              "type": "checkbox",
-              "default": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Change scope",
-            "id": "Cakupan perubahan"
-          },
-          "fields": [
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device",
-                "id": "Perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "runtime": {
-      "title": {
-        "en": "Runtime configuration",
-        "id": "Konfigurasi runtime"
-      },
-      "reference": "§5.1–5.3, §22.8",
-      "groups": [
-        {
-          "title": {
-            "en": "Configuration precedence",
-            "id": "Prioritas konfigurasi"
-          },
-          "fields": [
-            {
-              "key": "platform",
-              "label": {
-                "en": "Platform defaults (JSON)",
-                "id": "Default platform (JSON)"
-              },
-              "type": "textarea",
-              "default": "{\n  \"sessionDuration\": 240,\n  \"retakes\": 2,\n  \"activation\": \"EVENT_ENTITLEMENT\",\n  \"autoPrint\": true,\n  \"allowOffline\": true\n}",
-              "required": true
-            },
-            {
-              "key": "deviceProfile",
-              "label": {
-                "en": "Device profile overrides (JSON)",
-                "id": "Override profil perangkat (JSON)"
-              },
-              "type": "textarea",
-              "default": "{}",
-              "required": true
-            },
-            {
-              "key": "eventLayer",
-              "label": {
-                "en": "Event overrides (JSON)",
-                "id": "Override acara (JSON)"
-              },
-              "type": "textarea",
-              "default": "{}",
-              "required": true
-            },
-            {
-              "key": "campaignLayer",
-              "label": {
-                "en": "Campaign overrides (JSON)",
-                "id": "Override kampanye (JSON)"
-              },
-              "type": "textarea",
-              "default": "{}",
-              "required": true
-            },
-            {
-              "key": "onsite",
-              "label": {
-                "en": "On-site overrides (JSON)",
-                "id": "Override di lokasi (JSON)"
-              },
-              "type": "textarea",
-              "default": "{}",
-              "required": true
-            }
-          ]
-        },
-        {
-          "title": {
-            "en": "Audited override window",
-            "id": "Jendela override yang diaudit"
-          },
-          "fields": [
-            {
-              "key": "overrideExpires",
-              "label": {
-                "en": "On-site override expiry (required for non-empty override)",
-                "id": "Kedaluwarsa override lokasi (wajib jika override diisi)"
-              },
-              "type": "datetime-local",
-              "default": ""
-            },
-            {
-              "key": "deviceId",
-              "label": {
-                "en": "Device scope",
-                "id": "Cakupan perangkat"
-              },
-              "type": "device",
-              "default": "LIL-BOOTH-014",
-              "required": true
-            },
-            {
-              "key": "reason",
-              "label": {
-                "en": "Audit reason",
-                "id": "Alasan audit"
-              },
-              "type": "text",
-              "default": "",
-              "required": true
-            },
-            {
-              "key": "rollout",
-              "label": {
-                "en": "Rollout ring",
-                "id": "Kelompok rollout"
-              },
-              "type": "select",
-              "default": "pilot",
-              "required": true,
-              "options": [
-                {
-                  "value": "pilot",
-                  "label": {
-                    "en": "Selected device / pilot",
-                    "id": "Perangkat terpilih / pilot"
-                  }
-                },
-                {
-                  "value": "all",
-                  "label": {
-                    "en": "All eligible devices",
-                    "id": "Semua perangkat yang diizinkan"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "seed": {
-    "devices": [
-      {
-        "id": "LIL-BOOTH-014",
-        "name": "Kemang",
-        "status": "ONLINE",
-        "camera": "UVC",
-        "printer": "CUPS_IPP",
-        "storageGb": 24,
-        "lastSeen": "2026-09-07T03:20:00Z",
-        "active": 142,
-        "desired": 142,
-        "eventId": "EVT-001",
-        "paused": false,
-        "fingerprint": "demo:9f3a…c12d",
-        "trust": "TRUSTED",
-        "certificateId": "demo:edge-cert-LIL-BOOTH-014",
-        "certificateExpires": "2026-12-31T00:00:00Z"
-      },
-      {
-        "id": "LIL-BOOTH-009",
-        "name": "Senopati",
-        "status": "DEGRADED",
-        "camera": "DSLR_TETHER",
-        "printer": "ESC_POS",
-        "storageGb": 8,
-        "lastSeen": "2026-09-07T03:18:00Z",
-        "active": 142,
-        "desired": 142,
-        "eventId": "EVT-001",
-        "paused": false,
-        "fingerprint": "demo:02d1…8bf0",
-        "trust": "TRUSTED",
-        "certificateId": "demo:edge-cert-LIL-BOOTH-009",
-        "certificateExpires": "2026-12-31T00:00:00Z"
-      },
-      {
-        "id": "LIL-BOOTH-022",
-        "name": "Bandung",
-        "status": "OFFLINE",
-        "camera": "UVC",
-        "printer": "TSPL",
-        "storageGb": 2,
-        "lastSeen": "2026-09-07T02:33:00Z",
-        "active": 141,
-        "desired": 142,
-        "eventId": "EVT-002",
-        "paused": false,
-        "fingerprint": "demo:bc72…17f3",
-        "trust": "TRUSTED",
-        "certificateId": "demo:edge-cert-LIL-BOOTH-022",
-        "certificateExpires": "2026-09-30T00:00:00Z"
-      }
-    ],
-    "entities": {
-      "events": [
-        {
-          "id": "EVT-001",
-          "name": "Kopi Kecil — Launch",
-          "status": "PUBLISHED",
-          "values": {}
-        },
-        {
-          "id": "EVT-002",
-          "name": "Bandung Pop-up",
-          "status": "DRAFT",
-          "values": {
-            "name": "Bandung Pop-up",
-            "slug": "bandung-pop-up",
-            "eligibleDevices": ["LIL-BOOTH-022"]
-          }
-        }
-      ],
-      "campaigns": [
-        {
-          "id": "CMP-001",
-          "name": "Weekend Market",
-          "status": "DRAFT",
-          "values": {}
-        }
-      ],
-      "templates": [
-        {
-          "id": "TPL-001",
-          "name": "Sunset strip",
-          "status": "PUBLISHED",
-          "values": {
-            "version": 12
-          }
-        }
-      ],
-      "allocations": [
-        {
-          "id": "ALC-007",
-          "name": "Kemang allocation",
-          "status": "SIGNED_FIXTURE",
-          "values": {
-            "version": 7,
-            "deviceId": "LIL-BOOTH-014",
-            "requestedCount": 120,
-            "available": 116,
-            "reserved": 1,
-            "consumed": 1,
-            "reconciled": 1,
-            "quarantined": 1
-          }
-        }
-      ],
-      "operators": [
-        {
-          "id": "OP-001",
-          "name": "Amara Kusuma",
-          "status": "ACTIVE",
-          "values": {
-            "role": "ADMINISTRATOR",
-            "email": "a***@example.com",
-            "eligibleDevices": ["LIL-BOOTH-014", "LIL-BOOTH-009", "LIL-BOOTH-022"]
-          }
-        }
-      ]
-    },
-    "jobs": [
-      {
-        "id": "JOB-001",
-        "kind": "ENTITLEMENT_RECONCILIATION",
-        "deviceId": "LIL-BOOTH-014",
-        "status": "FAILED_RETRYABLE",
-        "attempts": 2,
-        "maxAttempts": 5,
-        "priority": 1,
-        "idempotency": "demo:ent:001",
-        "error": "NETWORK_TIMEOUT",
-        "retryable": true,
-        "leaseActive": false
-      },
-      {
-        "id": "JOB-002",
-        "kind": "SESSION_EVENT",
-        "deviceId": "LIL-BOOTH-014",
-        "status": "QUEUED",
-        "attempts": 0,
-        "maxAttempts": 5,
-        "priority": 2,
-        "idempotency": "demo:session:002",
-        "error": "NONE",
-        "retryable": true,
-        "leaseActive": false
-      },
-      {
-        "id": "JOB-003",
-        "kind": "MEDIA_UPLOAD",
-        "deviceId": "LIL-BOOTH-009",
-        "status": "FAILED_RETRYABLE",
-        "attempts": 1,
-        "maxAttempts": 5,
-        "priority": 3,
-        "idempotency": "demo:media:003",
-        "error": "UPLOAD_TIMEOUT",
-        "retryable": true,
-        "leaseActive": false
-      },
-      {
-        "id": "JOB-004",
-        "kind": "DELIVERY",
-        "deviceId": "LIL-BOOTH-014",
-        "status": "RUNNING",
-        "attempts": 1,
-        "maxAttempts": 5,
-        "priority": 4,
-        "idempotency": "demo:delivery:004",
-        "error": "NONE",
-        "retryable": true,
-        "leaseActive": true
-      },
-      {
-        "id": "JOB-005",
-        "kind": "ANALYTICS",
-        "deviceId": "LIL-BOOTH-022",
-        "status": "PENDING_OFFLINE",
-        "attempts": 0,
-        "maxAttempts": 5,
-        "priority": 5,
-        "idempotency": "demo:analytics:005",
-        "error": "OFFLINE",
-        "retryable": true,
-        "leaseActive": false
-      },
-      {
-        "id": "JOB-006",
-        "kind": "ENTITLEMENT_RECONCILIATION",
-        "deviceId": "LIL-BOOTH-014",
-        "status": "DEAD_LETTER",
-        "attempts": 5,
-        "maxAttempts": 5,
-        "priority": 1,
-        "idempotency": "demo:ent:006",
-        "error": "LEDGER_VERSION_GAP",
-        "retryable": false,
-        "leaseActive": false
-      }
-    ],
-    "ledger": [
-      {
-        "id": "LED-001",
-        "voucher": "VCH-…0184",
-        "session": "SES-001",
-        "deviceId": "LIL-BOOTH-014",
-        "state": "RESERVED",
-        "sequence": 1,
-        "checkpoint": 0,
-        "event": "RESERVATION_CREATED"
-      },
-      {
-        "id": "LED-002",
-        "voucher": "VCH-…0184",
-        "session": "SES-001",
-        "deviceId": "LIL-BOOTH-014",
-        "state": "CONSUMED",
-        "sequence": 2,
-        "checkpoint": 0,
-        "event": "FIRST_SUCCESSFUL_STILL"
-      },
-      {
-        "id": "LED-003",
-        "voucher": "VCH-…0183",
-        "session": "SES-000",
-        "deviceId": "LIL-BOOTH-014",
-        "state": "RECONCILED",
-        "sequence": 3,
-        "checkpoint": 3,
-        "event": "DURABLE_BACKEND_ACK"
-      },
-      {
-        "id": "LED-004",
-        "voucher": "VCH-…0186",
-        "session": "SES-003",
-        "deviceId": "LIL-BOOTH-014",
-        "state": "QUARANTINED",
-        "sequence": 4,
-        "checkpoint": 3,
-        "event": "VERSION_GAP"
-      }
-    ],
-    "revisions": [
-      {
-        "id": 141,
-        "schema": "event",
-        "scope": ["LIL-BOOTH-014", "LIL-BOOTH-009", "LIL-BOOTH-022"],
-        "values": {
-          "name": "Kopi Kecil — Launch",
-          "slug": "kopi-kecil-launch",
-          "validFrom": "2026-09-01T08:00",
-          "validUntil": "2026-12-31T23:00",
-          "timezone": "Asia/Jakarta",
-          "eligibleDevices": ["LIL-BOOTH-014", "LIL-BOOTH-009"],
-          "locale": "id-ID",
-          "templateId": "sunset-strip",
-          "activation": "EVENT_ENTITLEMENT",
-          "amount": 35000,
-          "currency": "IDR",
-          "taxPercent": 0,
-          "sku": "PHOTO-SESSION",
-          "qrExpiry": 180,
-          "callbackGrace": 30,
-          "paymentRequired": true,
-          "providerRef": "arna-demo-account",
-          "sessionDuration": 180,
-          "idleTimeout": 60,
-          "countdown": 5,
-          "shots": 2,
-          "retakes": 1,
-          "interShot": 2,
-          "consent": true,
-          "branding": "Capture a little joy.",
-          "primaryColor": "#725288",
-          "deviceId": "LIL-BOOTH-014",
-          "reason": "",
-          "rollout": "pilot"
-        },
-        "reason": "Initial pilot fixture",
-        "createdAt": "2026-09-06T02:00:00Z"
-      },
-      {
-        "id": 142,
-        "schema": "event",
-        "scope": ["LIL-BOOTH-014", "LIL-BOOTH-009", "LIL-BOOTH-022"],
-        "values": {
-          "name": "Kopi Kecil — Launch",
-          "slug": "kopi-kecil-launch",
-          "validFrom": "2026-09-01T08:00",
-          "validUntil": "2026-12-31T23:00",
-          "timezone": "Asia/Jakarta",
-          "eligibleDevices": ["LIL-BOOTH-014", "LIL-BOOTH-009"],
-          "locale": "id-ID",
-          "templateId": "sunset-strip",
-          "activation": "EVENT_ENTITLEMENT",
-          "amount": 35000,
-          "currency": "IDR",
-          "taxPercent": 0,
-          "sku": "PHOTO-SESSION",
-          "qrExpiry": 180,
-          "callbackGrace": 30,
-          "paymentRequired": true,
-          "providerRef": "arna-demo-account",
-          "sessionDuration": 240,
-          "idleTimeout": 60,
-          "countdown": 5,
-          "shots": 2,
-          "retakes": 2,
-          "interShot": 2,
-          "consent": true,
-          "branding": "Capture a little joy.",
-          "primaryColor": "#725288",
-          "deviceId": "LIL-BOOTH-014",
-          "reason": "",
-          "rollout": "pilot"
-        },
-        "reason": "Guest experience fixture",
-        "createdAt": "2026-09-07T02:42:00Z"
-      }
-    ],
-    "records": {
-      "sessions": [
-        {
-          "id": "SES-001",
-          "deviceId": "LIL-BOOTH-014",
-          "state": "MEDIA_UPLOAD_PENDING",
-          "snapshot": "#142 / sunset-strip@12",
-          "mode": "VOUCHER",
-          "correlationId": "demo:corr:001"
-        },
-        {
-          "id": "SES-002",
-          "deviceId": "LIL-BOOTH-009",
-          "state": "COMPLETED",
-          "snapshot": "#141 / sunset-strip@12",
-          "mode": "PAYG_QRIS",
-          "correlationId": "demo:corr:002"
-        },
-        {
-          "id": "SES-003",
-          "deviceId": "LIL-BOOTH-014",
-          "state": "RECONCILIATION_PENDING",
-          "snapshot": "#142 / sunset-strip@12",
-          "mode": "OFFLINE_VOUCHER",
-          "correlationId": "demo:corr:003"
-        }
-      ],
-      "payments": [
-        {
-          "id": "PAY-001",
-          "session": "SES-002",
-          "state": "PAID",
-          "amount": "35000 IDR",
-          "verification": "VERIFIED_BACKEND_FIXTURE",
-          "idempotency": "demo:pay:001"
-        },
-        {
-          "id": "PAY-002",
-          "session": "NONE",
-          "state": "EXPIRED",
-          "amount": "35000 IDR",
-          "verification": "NO_ENTITLEMENT",
-          "idempotency": "demo:pay:002"
-        }
-      ],
-      "media": [
-        {
-          "id": "MED-001",
-          "session": "SES-001",
-          "state": "UPLOAD_PENDING",
-          "variant": "ORIGINAL_STILL",
-          "checksum": "demo:sha256:8d4…b71",
-          "storage": "PRIVATE",
-          "cleanup": "PROTECTED"
-        },
-        {
-          "id": "MED-002",
-          "session": "SES-002",
-          "state": "UPLOAD_VERIFIED",
-          "variant": "FRAMED_DIGITAL",
-          "checksum": "demo:sha256:c92…a01",
-          "storage": "PRIVATE",
-          "cleanup": "WAIT_RETENTION"
-        },
-        {
-          "id": "MED-003",
-          "session": "SES-002",
-          "state": "UPLOAD_VERIFIED",
-          "variant": "MP4_MANIFEST_PAIR",
-          "checksum": "demo:sha256:712…e11",
-          "storage": "PRIVATE",
-          "cleanup": "WAIT_RETENTION"
-        }
-      ],
-      "print": [
-        {
-          "id": "PRT-001",
-          "session": "SES-001",
-          "state": "SENT",
-          "transport": "CUPS_IPP",
-          "cupsId": "demo:cups:41",
-          "entitlement": "DURABLE_JOB_CREATED",
-          "confirmation": "NOT_SUPPORTED"
-        },
-        {
-          "id": "PRT-002",
-          "session": "SES-002",
-          "state": "CONFIRMED_IF_SUPPORTED",
-          "transport": "CUPS_IPP",
-          "cupsId": "demo:cups:42",
-          "entitlement": "DURABLE_JOB_CREATED",
-          "confirmation": "IPP_CONFIRMED"
-        }
-      ],
-      "delivery": [
-        {
-          "id": "DEL-001",
-          "session": "SES-001",
-          "state": "PENDING_MEDIA",
-          "claim": "CLM-…ab41",
-          "guest": "wa:••••4321",
-          "prerequisite": "RECONCILIATION_AND_UPLOAD"
-        },
-        {
-          "id": "DEL-002",
-          "session": "SES-002",
-          "state": "DELIVERED",
-          "claim": "CLM-…7fc2",
-          "guest": "wa:••••1290",
-          "prerequisite": "VERIFIED"
-        }
-      ]
-    },
-    "templateSync": [
-      {
-        "deviceId": "LIL-BOOTH-014",
-        "templateId": "sunset-strip",
-        "desiredVersion": 12,
-        "activeVersion": 12,
-        "lastSyncAt": "2026-09-07T03:20:00Z",
-        "lastError": "NONE",
-        "cacheSizeMb": 36
-      },
-      {
-        "deviceId": "LIL-BOOTH-009",
-        "templateId": "sunset-strip",
-        "desiredVersion": 12,
-        "activeVersion": 12,
-        "lastSyncAt": "2026-09-07T03:18:00Z",
-        "lastError": "NONE",
-        "cacheSizeMb": 36
-      },
-      {
-        "deviceId": "LIL-BOOTH-022",
-        "templateId": "sunset-strip",
-        "desiredVersion": 12,
-        "activeVersion": 11,
-        "lastSyncAt": "2026-09-07T02:33:00Z",
-        "lastError": "NETWORK_OFFLINE",
-        "cacheSizeMb": 18
-      }
-    ]
   },
   "cards": {
     "devices": [
       {
         "title": {
-          "en": "Device registry",
-          "id": "Registri perangkat"
+          "en": "Hardware profiles",
+          "id": "Profil hardware"
         },
         "copy": {
-          "en": "Identity, hardware profiles and per-device acknowledgements.",
-          "id": "Identitas, profil hardware dan acknowledgement per perangkat."
-        },
-        "href": "/devices/registry",
-        "action": {
-          "en": "Open registry",
-          "id": "Buka registri"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Preflight checklist",
-          "id": "Pengecekan preflight"
-        },
-        "copy": {
-          "en": "Run eight admission checks before a new session.",
-          "id": "Jalankan delapan pemeriksaan sebelum sesi baru."
-        },
-        "href": "/devices/preflight",
-        "action": {
-          "en": "Run preflight",
-          "id": "Jalankan preflight"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Storage policy",
-          "id": "Kebijakan storage"
-        },
-        "copy": {
-          "en": "Choose a device before reviewing retention and disk safety.",
-          "id": "Pilih perangkat sebelum meninjau retensi dan keamanan disk."
-        },
-        "href": "/devices/policy",
-        "action": {
-          "en": "Review policy",
-          "id": "Tinjau kebijakan"
-        },
-        "extra": false
-      }
-    ],
-    "events": [
-      {
-        "title": {
-          "en": "Event workspace",
-          "id": "Ruang kerja acara"
-        },
-        "copy": {
-          "en": "Windows, eligibility, activation and guest experience.",
-          "id": "Jendela waktu, kelayakan, aktivasi dan pengalaman tamu."
-        },
-        "href": "/events/editor",
-        "action": {
-          "en": "Edit event",
-          "id": "Edit acara"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Campaign overrides",
-          "id": "Override kampanye"
-        },
-        "copy": {
-          "en": "Scoped overrides without changing active session snapshots.",
-          "id": "Override terbatas tanpa mengubah snapshot sesi aktif."
-        },
-        "href": "/events/campaigns",
-        "action": {
-          "en": "Review campaign",
-          "id": "Tinjau kampanye"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Entitlement guardrails",
-          "id": "Batasan entitlement"
-        },
-        "copy": {
-          "en": "Quota, reserve TTL, consume milestone and offline safety.",
-          "id": "Kuota, TTL reservasi, tahap konsumsi dan keamanan offline."
-        },
-        "href": "/events/rules",
-        "action": {
-          "en": "View rules",
-          "id": "Lihat aturan"
-        },
-        "extra": false
-      }
-    ],
-    "templates": [
-      {
-        "title": {
-          "en": "Frame workspace",
-          "id": "Ruang kerja frame"
-        },
-        "copy": {
-          "en": "Immutable versions, logical slots and allowlisted placeholders.",
-          "id": "Versi immutable, slot logis dan placeholder allowlist."
-        },
-        "href": "/templates/editor",
-        "action": {
-          "en": "Open templates",
-          "id": "Buka template"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Camera & printer profiles",
-          "id": "Profil kamera & printer"
-        },
-        "copy": {
-          "en": "Live capture and print profiles assigned to edge devices.",
-          "id": "Profil capture dan print aktif yang ditugaskan ke perangkat edge."
+          "en": "Camera and printer profiles that can be assigned to devices.",
+          "id": "Profil kamera dan printer yang dapat ditetapkan ke perangkat."
         },
         "href": "/templates/profiles",
         "action": {
-          "en": "View profiles",
-          "id": "Lihat profil"
+          "en": "Open profiles",
+          "id": "Buka profil"
         },
         "extra": false
-      },
+      }
+    ],
+    "events": [],
+    "templates": [
       {
         "title": {
-          "en": "Bundle admission",
-          "id": "Penerimaan bundle"
+          "en": "Device sync",
+          "id": "Sinkronisasi perangkat"
         },
         "copy": {
-          "en": "Local validation and simulated edge activation checks.",
-          "id": "Validasi lokal dan simulasi pemeriksaan aktivasi edge."
+          "en": "Run the device sync operation exposed by the API.",
+          "id": "Jalankan operasi sinkronisasi perangkat yang tersedia pada API."
         },
-        "href": "/templates/validate",
+        "href": "/templates/sync",
         "action": {
-          "en": "Validate bundle",
-          "id": "Validasi bundle"
+          "en": "Open device sync",
+          "id": "Buka sinkronisasi"
         },
         "extra": false
       }
@@ -6065,404 +2406,22 @@
     "vouchers": [
       {
         "title": {
-          "en": "Exclusive allocation",
-          "id": "Alokasi eksklusif"
+          "en": "Voucher records",
+          "id": "Data voucher"
         },
         "copy": {
-          "en": "Request inventory for a single redemption authority.",
-          "id": "Minta inventori untuk satu otoritas penukaran."
-        },
-        "href": "/vouchers/allocations",
-        "action": {
-          "en": "Open allocation",
-          "id": "Buka alokasi"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Append-only ledger",
-          "id": "Ledger append-only"
-        },
-        "copy": {
-          "en": "Inspect transitions without editing redemption history.",
-          "id": "Tinjau transisi tanpa mengedit riwayat penukaran."
+          "en": "Inspect current voucher status, batch, session, device, and lifecycle timestamps from the service.",
+          "id": "Tinjau status voucher saat ini, batch, sesi, perangkat, dan waktu siklus hidup dari service."
         },
         "href": "/vouchers/ledger",
         "action": {
-          "en": "Inspect ledger",
-          "id": "Periksa ledger"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Offline admission",
-          "id": "Penerimaan offline"
-        },
-        "copy": {
-          "en": "Verify cached configuration, hardware and signed inventory.",
-          "id": "Periksa konfigurasi cache, hardware dan inventori bertanda tangan."
-        },
-        "href": "/vouchers/readiness",
-        "action": {
-          "en": "View readiness",
-          "id": "Lihat kesiapan"
-        },
-        "extra": false
-      }
-    ],
-    "queue": [
-      {
-        "title": {
-          "en": "Durable queue",
-          "id": "Antrean durable"
-        },
-        "copy": {
-          "en": "Prioritized work with stable idempotency keys.",
-          "id": "Job berprioritas dengan kunci idempotensi stabil."
-        },
-        "href": "/queue/jobs",
-        "action": {
-          "en": "Inspect queue",
-          "id": "Periksa antrean"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Dead-letter review",
-          "id": "Tinjau dead-letter"
-        },
-        "copy": {
-          "en": "Inspect failures and record an escalation; no blind replay.",
-          "id": "Tinjau kegagalan dan catat eskalasi; tanpa retry sembarang."
-        },
-        "href": "/queue/review",
-        "action": {
-          "en": "Review item",
-          "id": "Tinjau item"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Retry policy",
-          "id": "Kebijakan retry"
-        },
-        "copy": {
-          "en": "Bounded exponential backoff, full jitter and lease recovery.",
-          "id": "Backoff eksponensial berbatas, full jitter dan pemulihan lease."
-        },
-        "href": "/queue/policy",
-        "action": {
-          "en": "Edit policy",
-          "id": "Edit kebijakan"
-        },
-        "extra": false
-      }
-    ],
-    "history": [
-      {
-        "title": {
-          "en": "Revision comparison",
-          "id": "Perbandingan revisi"
-        },
-        "copy": {
-          "en": "Inspect actual values and per-device desired/active revisions.",
-          "id": "Tinjau nilai aktual dan revisi tujuan/aktif per perangkat."
-        },
-        "href": "/history/diff",
-        "action": {
-          "en": "View diff",
-          "id": "Lihat perbedaan"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Last-known-good",
-          "id": "Last-known-good"
-        },
-        "copy": {
-          "en": "Prepare a scoped rollback that preserves active sessions.",
-          "id": "Siapkan rollback terbatas yang mempertahankan sesi aktif."
-        },
-        "href": "/history/rollback",
-        "action": {
-          "en": "Prepare rollback",
-          "id": "Siapkan rollback"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Change evidence",
-          "id": "Bukti perubahan"
-        },
-        "copy": {
-          "en": "Actor, scope, reason and timestamps remain append-only.",
-          "id": "Pelaku, cakupan, alasan dan waktu tetap append-only."
-        },
-        "href": "/history/audit",
-        "action": {
-          "en": "Open audit",
-          "id": "Buka audit"
-        },
-        "extra": false
-      }
-    ],
-    "settings": [
-      {
-        "title": {
-          "en": "Scoped roles",
-          "id": "Peran terbatas"
-        },
-        "copy": {
-          "en": "Review permissions and operator assignments.",
-          "id": "Tinjau izin dan penugasan operator."
-        },
-        "href": "/settings/roles",
-        "action": {
-          "en": "Manage roles",
-          "id": "Kelola peran"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Device trust",
-          "id": "Trust perangkat"
-        },
-        "copy": {
-          "en": "Masked identities, certificate lifecycle and pending commands.",
-          "id": "Identitas tersamar, siklus sertifikat dan perintah tertunda."
-        },
-        "href": "/settings/trust",
-        "action": {
-          "en": "Review trust",
-          "id": "Tinjau trust"
-        },
-        "extra": false
-      },
-      {
-        "title": {
-          "en": "Retention safety",
-          "id": "Keamanan retensi"
-        },
-        "copy": {
-          "en": "Protect unreconciled data and referenced assets.",
-          "id": "Lindungi data belum direkonsiliasi dan aset yang dirujuk."
-        },
-        "href": "/settings/retention",
-        "action": {
-          "en": "Edit retention",
-          "id": "Edit retensi"
+          "en": "Open records",
+          "id": "Buka data"
         },
         "extra": false
       }
     ]
   },
-  "checks": [
-    {
-      "key": "camera",
-      "label": {
-        "en": "Camera capability",
-        "id": "Kapabilitas kamera"
-      },
-      "failure": {
-        "en": "Camera probe failed; verify the stable ID and adapter.",
-        "id": "Probe kamera gagal; periksa ID stabil dan adapter."
-      }
-    },
-    {
-      "key": "printer",
-      "label": {
-        "en": "Printer health",
-        "id": "Kesehatan printer"
-      },
-      "failure": {
-        "en": "Printer unavailable. Check transport; optional print may continue digitally.",
-        "id": "Printer tidak tersedia. Periksa transport; cetak opsional dapat dilanjutkan digital."
-      }
-    },
-    {
-      "key": "network",
-      "label": {
-        "en": "Network",
-        "id": "Jaringan"
-      },
-      "failure": {
-        "en": "Network unavailable; only authorized offline paths can continue.",
-        "id": "Jaringan tidak tersedia; hanya alur offline terotorisasi dapat dilanjutkan."
-      }
-    },
-    {
-      "key": "storage",
-      "label": {
-        "en": "Storage headroom",
-        "id": "Ruang kosong storage"
-      },
-      "failure": {
-        "en": "Disk headroom is below policy; preserve unuploaded media.",
-        "id": "Ruang kosong disk di bawah kebijakan; lindungi media belum diunggah."
-      }
-    },
-    {
-      "key": "payment",
-      "label": {
-        "en": "Online payment readiness",
-        "id": "Kesiapan pembayaran online"
-      },
-      "failure": {
-        "en": "PAYG QRIS blocked. Do not create an offline payment entitlement.",
-        "id": "PAYG QRIS diblokir. Jangan membuat entitlement pembayaran offline."
-      }
-    },
-    {
-      "key": "clock",
-      "label": {
-        "en": "Clock trust",
-        "id": "Kepercayaan waktu"
-      },
-      "failure": {
-        "en": "Clock is untrusted; block new cached entitlement admission.",
-        "id": "Waktu tidak tepercaya; blokir penerimaan entitlement cache baru."
-      }
-    },
-    {
-      "key": "template",
-      "label": {
-        "en": "Template & signature",
-        "id": "Template & signature"
-      },
-      "failure": {
-        "en": "Bundle invalid; retain last-known-good and retry sync.",
-        "id": "Bundle tidak valid; pertahankan last-known-good dan ulangi sinkronisasi."
-      }
-    },
-    {
-      "key": "config",
-      "label": {
-        "en": "Configuration revision",
-        "id": "Revisi konfigurasi"
-      },
-      "failure": {
-        "en": "Desired revision has not been acknowledged.",
-        "id": "Revisi tujuan belum diakui."
-      }
-    },
-    {
-      "key": "inventory",
-      "label": {
-        "en": "Exclusive voucher inventory",
-        "id": "Inventori voucher eksklusif"
-      },
-      "failure": {
-        "en": "No valid device-bound allocation available.",
-        "id": "Tidak ada alokasi terikat perangkat yang valid."
-      }
-    },
-    {
-      "key": "event",
-      "label": {
-        "en": "Event window & scope",
-        "id": "Jendela acara & cakupan"
-      },
-      "failure": {
-        "en": "Cached event is outside its validity window or scope.",
-        "id": "Acara cache di luar masa berlaku atau cakupan."
-      }
-    },
-    {
-      "key": "slotGeometry",
-      "label": {
-        "en": "Slot geometry",
-        "id": "Geometri slot"
-      },
-      "failure": {
-        "en": "Local schema/geometry is invalid. Fix the template draft before activation.",
-        "id": "Schema/geometri lokal tidak valid. Perbaiki draf template sebelum aktivasi."
-      }
-    },
-    {
-      "key": "assetHashes",
-      "label": {
-        "en": "Asset size & SHA-256",
-        "id": "Ukuran aset & SHA-256"
-      },
-      "failure": {
-        "en": "The selected failure fixture failed this check. Last-known-good stays active.",
-        "id": "Fixture kegagalan terpilih gagal dalam pemeriksaan ini. Last-known-good tetap aktif."
-      }
-    },
-    {
-      "key": "fontLicense",
-      "label": {
-        "en": "Font license metadata",
-        "id": "Metadata lisensi font"
-      },
-      "failure": {
-        "en": "The selected failure fixture failed this check. Last-known-good stays active.",
-        "id": "Fixture kegagalan terpilih gagal dalam pemeriksaan ini. Last-known-good tetap aktif."
-      }
-    },
-    {
-      "key": "placeholders",
-      "label": {
-        "en": "Allowlisted placeholders",
-        "id": "Placeholder allowlist"
-      },
-      "failure": {
-        "en": "Local schema/geometry is invalid. Fix the template draft before activation.",
-        "id": "Schema/geometri lokal tidak valid. Perbaiki draf template sebelum aktivasi."
-      }
-    },
-    {
-      "key": "compatibility",
-      "label": {
-        "en": "Renderer, codec & edge compatibility",
-        "id": "Kompatibilitas renderer, codec & edge"
-      },
-      "failure": {
-        "en": "The selected failure fixture failed this check. Last-known-good stays active.",
-        "id": "Fixture kegagalan terpilih gagal dalam pemeriksaan ini. Last-known-good tetap aktif."
-      }
-    },
-    {
-      "key": "signatureCheck",
-      "label": {
-        "en": "Pinned-key signature",
-        "id": "Signature pinned-key"
-      },
-      "failure": {
-        "en": "The selected failure fixture failed this check. Last-known-good stays active.",
-        "id": "Fixture kegagalan terpilih gagal dalam pemeriksaan ini. Last-known-good tetap aktif."
-      }
-    },
-    {
-      "key": "golden",
-      "label": {
-        "en": "Golden preview render",
-        "id": "Render golden preview"
-      },
-      "failure": {
-        "en": "The selected failure fixture failed this check. Last-known-good stays active.",
-        "id": "Fixture kegagalan terpilih gagal dalam pemeriksaan ini. Last-known-good tetap aktif."
-      }
-    },
-    {
-      "key": "atomic",
-      "label": {
-        "en": "Atomic activation readiness",
-        "id": "Kesiapan aktivasi atomik"
-      },
-      "failure": {
-        "en": "The selected failure fixture failed this check. Last-known-good stays active.",
-        "id": "Fixture kegagalan terpilih gagal dalam pemeriksaan ini. Last-known-good tetap aktif."
-      }
-    }
-  ],
   "statuses": {
     "PASS": {
       "en": "Pass",
@@ -6603,22 +2562,14 @@
     "ACTIVE": {
       "en": "Active",
       "id": "Aktif"
+    },
+    "INACTIVE": {
+      "en": "Inactive",
+      "id": "Nonaktif"
+    },
+    "NOT_VERIFIED": {
+      "en": "Not verified",
+      "id": "Belum diverifikasi"
     }
-  },
-  "schemaOrder": [
-    "register",
-    "event",
-    "campaign",
-    "rules",
-    "camera",
-    "printer",
-    "storage",
-    "template",
-    "profiles",
-    "allocation",
-    "retryPolicy",
-    "retention",
-    "invite",
-    "delivery"
-  ]
+  }
 }

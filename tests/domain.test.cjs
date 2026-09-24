@@ -4,7 +4,6 @@ const fs = require("node:fs");
 const path = require("node:path");
 const ts = require("typescript");
 
-// Test the actual TypeScript domain modules without adding a runtime dependency.
 require.extensions[".ts"] = (module, filename) => {
   const source = fs.readFileSync(filename, "utf8");
   const compiled = ts.transpileModule(source, {
@@ -12,36 +11,33 @@ require.extensions[".ts"] = (module, filename) => {
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES2022,
       esModuleInterop: true,
+      resolveJsonModule: true,
     },
     fileName: filename,
   });
   module._compile(compiled.outputText, filename);
 };
 
+const root = path.resolve(__dirname, "..");
+const swagger = JSON.parse(fs.readFileSync(path.join(root, "ourlil-swagger.json"), "utf8"));
 const { content } = require("../lib/content.ts");
-const { eventReady, inventoryReady } = require("../lib/readiness.ts");
-const { publishScope, validateReferences } = require("../lib/reference-validation.ts");
 const {
-  defaults,
-  initialState,
-  effectiveValues,
-  effectiveRuntime,
-  validateValues,
-  eligibleJob,
-  retryJobs,
-  retryDelay,
-  diffValues,
-  isConsoleState,
-} = require("../lib/domain.ts");
-const {
-  saveDraft,
-  validateDraft,
-  publishDraft,
-  createRecord,
-  requestCommand,
-} = require("../lib/mutations.ts");
+  allocationFormToCreate,
+  allocationFormToPatch,
+  batchToValues,
+  campaignFormToCreate,
+  campaignFormToPatch,
+  campaignToValues,
+  deviceFormToCreate,
+  deviceToValues,
+  templateFormToCreate,
+  templateFormToPatch,
+  templateToValues,
+} = require("../lib/edge-service/mappers.ts");
+const { serviceFormSchema, validateServiceForm } = require("../lib/edge-service/form-contract.ts");
+const { fetchAllPages } = require("../lib/edge-service/pagination.ts");
 
-test("all navigation and card targets have real Next folder routes", () => {
+test("all navigation and card targets have real Next routes", () => {
   const targets = [
     ...content.navigation.map((item) => item.href),
     ...Object.values(content.cards)
@@ -49,7 +45,151 @@ test("all navigation and card targets have real Next folder routes", () => {
       .map((card) => card.href),
   ];
   for (const href of targets) {
-    assert.ok(fs.existsSync(path.join(__dirname, "../app/(console)", href, "page.tsx")), href);
+    const relative = href === "/" ? "page.tsx" : path.join(href.slice(1), "page.tsx");
+    assert.ok(fs.existsSync(path.join(root, "app", "(console)", relative)), href);
+  }
+});
+
+test("visible navigation contains only resources backed by current service operations", () => {
+  assert.deepEqual(
+    content.navigation.map((item) => item.key),
+    [
+      "overview",
+      "devices",
+      "events",
+      "templates",
+      "vouchers",
+      "sessions",
+      "payments",
+      "media",
+      "insights",
+    ],
+  );
+  for (const removed of ["queue", "history", "settings", "print", "delivery"]) {
+    assert.equal(
+      content.navigation.some((item) => item.key === removed),
+      false,
+    );
+  }
+});
+
+test("camera and printer profiles are opened from devices and return there", () => {
+  assert.equal(
+    content.cards.templates.some((card) => card.href === "/templates/profiles"),
+    false,
+  );
+  assert.equal(
+    content.cards.devices.some((card) => card.href === "/templates/profiles"),
+    true,
+  );
+  const page = fs.readFileSync(
+    path.join(root, "components", "profiles", "hardware-profiles-page.tsx"),
+    "utf8",
+  );
+  assert.match(page, /back="\/devices"/);
+  assert.equal(page.includes('back="/templates"'), false);
+  assert.equal(page.includes("cards.templates"), false);
+});
+
+test("voucher batch detail is opened from the list without a second batch picker", () => {
+  assert.equal(
+    content.cards.vouchers.some((card) => card.href === "/vouchers/allocations"),
+    false,
+  );
+  assert.equal(
+    content.cards.vouchers.some((card) => card.href === "/vouchers/ledger"),
+    true,
+  );
+  const editor = fs.readFileSync(
+    path.join(root, "app", "(console)", "vouchers", "allocations", "page.tsx"),
+    "utf8",
+  );
+  assert.match(editor, /picker=\{false\}/);
+  assert.match(editor, /back="\/vouchers"/);
+  const ledger = fs.readFileSync(
+    path.join(root, "components", "vouchers", "ledger-page.tsx"),
+    "utf8",
+  );
+  assert.equal(ledger.includes("cards.vouchers[1]"), false);
+});
+
+test("frame template detail is opened from the list without a second template picker", () => {
+  assert.equal(
+    content.cards.templates.some((card) => card.href === "/templates/editor"),
+    false,
+  );
+  assert.equal(
+    content.cards.templates.some((card) => card.href === "/templates/sync"),
+    true,
+  );
+  const editor = fs.readFileSync(
+    path.join(root, "app", "(console)", "templates", "editor", "page.tsx"),
+    "utf8",
+  );
+  assert.match(editor, /picker=\{false\}/);
+  assert.match(editor, /back="\/templates"/);
+});
+
+test("campaign detail is opened from the list without a second campaign picker", () => {
+  assert.equal(
+    (content.cards.events ?? []).some((card) => card.href === "/events/editor"),
+    false,
+  );
+  const editor = fs.readFileSync(
+    path.join(root, "app", "(console)", "campaigns", "editor", "page.tsx"),
+    "utf8",
+  );
+  assert.match(editor, /picker=\{false\}/);
+  assert.match(editor, /back="\/campaigns"/);
+  const topology = fs.readFileSync(
+    path.join(root, "components", "events", "deployment-topology.tsx"),
+    "utf8",
+  );
+  assert.equal(topology.includes("scope-picker"), false);
+  assert.equal(topology.includes("selectCampaign"), false);
+  const overview = fs.readFileSync(
+    path.join(root, "components", "pages", "overview-page.tsx"),
+    "utf8",
+  );
+  assert.equal(overview.includes('href="/events"'), false);
+  assert.equal(content.navigation.find((item) => item.key === "events")?.href, "/campaigns");
+  assert.equal(content.navigation.find((item) => item.key === "insights")?.href, "/reports");
+  assert.equal(fs.existsSync(path.join(root, "app", "(console)", "events")), false);
+  assert.equal(fs.existsSync(path.join(root, "app", "(console)", "insights")), false);
+});
+
+test("devices page is the device list and does not open a duplicate registry", () => {
+  assert.equal(
+    content.cards.devices.some((card) => card.href === "/devices/registry"),
+    false,
+  );
+  const registry = fs.readFileSync(
+    path.join(root, "app", "(console)", "devices", "registry", "page.tsx"),
+    "utf8",
+  );
+  assert.match(registry, /redirect\("\/devices"\)/);
+  const detail = fs.readFileSync(
+    path.join(root, "components", "devices", "device-detail.tsx"),
+    "utf8",
+  );
+  assert.match(detail, /back="\/devices"/);
+  assert.equal(detail.includes("/devices/registry"), false);
+});
+
+test("removed PRD-only route components do not remain", () => {
+  for (const relative of [
+    "app/(console)/queue/page.tsx",
+    "app/(console)/history/page.tsx",
+    "app/(console)/settings/page.tsx",
+    "app/(console)/devices/preflight/page.tsx",
+    "app/(console)/templates/validate/page.tsx",
+    "app/(console)/vouchers/readiness/page.tsx",
+    "components/devices/checks-page.tsx",
+    "components/queue/queue-page.tsx",
+    "components/history/history-page.tsx",
+    "components/settings/trust-page.tsx",
+  ]) {
+    assert.equal(fs.existsSync(path.join(root, relative)), false, relative);
   }
 });
 
@@ -59,242 +199,241 @@ test("every localized value contains English and Indonesian", () => {
     if (
       Object.hasOwn(value, "en") ||
       (Object.hasOwn(value, "id") &&
-        typeof value.id === "string" &&
-        Object.keys(value).length === 2)
+        Object.keys(value).every((key) => key === "en" || key === "id"))
     ) {
-      if (Object.hasOwn(value, "en")) {
-        assert.equal(typeof value.en, "string");
-        assert.equal(typeof value.id, "string");
-        assert.ok(value.en && value.id);
-      }
+      assert.equal(typeof value.en, "string");
+      assert.equal(typeof value.id, "string");
+      return;
     }
     Object.values(value).forEach(visit);
   }
-  visit(content);
+  visit(content.ui);
+  visit(content.navigation);
+  visit(content.modules);
+  visit(content.cards);
 });
 
-test("form contracts have unique fields, defined defaults and valid example values", () => {
-  for (const [id, schema] of Object.entries(content.schemas)) {
-    const fields = schema.groups.flatMap((group) => group.fields);
-    assert.equal(new Set(fields.map((field) => field.key)).size, fields.length, id);
-    for (const field of fields) assert.notEqual(field.default, undefined, `${id}.${field.key}`);
-    const values = {
-      ...defaults(schema),
-      reason: "QA",
-      name: "QA",
-      email: "q@example.com",
-      id: "QA-01",
-      location: "QA",
-    };
-    assert.deepEqual(validateValues(schema, values), {}, id);
+const formMappings = {
+  register: {
+    schema: "DeviceCreate",
+    fields: {
+      deviceCode: "device_code",
+      name: "name",
+      serialNumber: "serial_number",
+      status: "status",
+      capabilities: "capabilities",
+      cameraProfileId: "camera_profile_id",
+      printerProfileId: "printer_profile_id",
+      appVersion: "app_version",
+      lastSeenAt: "last_seen_at",
+    },
+  },
+  campaign: {
+    schema: "CampaignCreate",
+    fields: {
+      name: "name",
+      status: "status",
+      price: "price",
+      sessionLimit: "session_limit",
+      activeFrom: "active_from",
+      activeUntil: "active_until",
+      activationRules: "activation_rules",
+      frameSet: "frame_set",
+      printPolicy: "print_policy",
+      deliveryPolicy: "delivery_policy",
+      frameTemplateIds: "frame_template_ids",
+    },
+  },
+  template: {
+    schema: "FrameTemplateCreate",
+    fields: {
+      name: "name",
+      version: "version",
+      aspect: "aspect",
+      checksum: "checksum",
+      publishState: "publish_state",
+      dimensions: "dimensions",
+      safeArea: "safe_area",
+      assets: "assets",
+      transforms: "transforms",
+      previewVariant: "preview_variant",
+      printVariant: "print_variant",
+      digitalVariant: "digital_variant",
+      compatibility: "compatibility",
+    },
+  },
+  allocation: {
+    schema: "VoucherBatchCreate",
+    fields: {
+      campaignId: "campaign_id",
+      name: "name",
+      voucherCount: "voucher_count",
+      entitlementRules: "entitlement_rules",
+      offlineEligible: "offline_eligible",
+    },
+  },
+};
+
+test("service forms expose exactly the fields declared by create contracts", () => {
+  for (const [formId, definition] of Object.entries(formMappings)) {
+    const formFields = serviceFormSchema(formId).groups.flatMap((group) => group.fields);
+    assert.deepEqual(
+      formFields.map((field) => field.key).sort(),
+      Object.keys(definition.fields).sort(),
+      formId,
+    );
+    assert.deepEqual(
+      Object.values(definition.fields).sort(),
+      Object.keys(swagger.components.schemas[definition.schema].properties).sort(),
+      definition.schema,
+    );
+    const requiredApiFields = swagger.components.schemas[definition.schema].required ?? [];
+    assert.deepEqual(
+      formFields
+        .filter((field) => field.required)
+        .map((field) => definition.fields[field.key])
+        .sort(),
+      [...requiredApiFields].sort(),
+      `${formId} required fields`,
+    );
   }
 });
 
-test("null inherits, false and zero override; inputs remain immutable", () => {
-  const base = { enabled: true, count: 2, duration: 240 };
-  assert.deepEqual(effectiveValues(base, { enabled: false, count: 0, duration: null }), {
-    enabled: false,
-    count: 0,
-    duration: 240,
+test("every service form field and option has a complete localized label", () => {
+  for (const formId of Object.keys(formMappings)) {
+    const schema = serviceFormSchema(formId);
+    for (const localized of [
+      schema.title,
+      ...schema.groups.flatMap((group) => [
+        group.title,
+        ...group.fields.flatMap((field) => [
+          field.label,
+          ...(field.options ?? []).map((option) => option.label),
+        ]),
+      ]),
+    ]) {
+      assert.equal(typeof localized?.en, "string", `${formId} English label`);
+      assert.notEqual(localized.en.trim(), "", `${formId} English label is not empty`);
+      assert.equal(typeof localized?.id, "string", `${formId} Indonesian label`);
+      assert.notEqual(localized.id.trim(), "", `${formId} Indonesian label is not empty`);
+    }
+  }
+});
+
+test("JSON columns reject invented scalar text but accept objects", () => {
+  const invalid = validateServiceForm("campaign", {
+    name: "Campaign",
+    activationRules: "not-json",
   });
-  assert.equal(base.enabled, true);
+  assert.equal(invalid.activationRules, "invalidJson");
+  assert.deepEqual(
+    validateServiceForm("campaign", { name: "Campaign", activationRules: '{"mode":"qr"}' }),
+    {},
+  );
 });
 
-test("onsite overrides expire and restore lower-precedence values", () => {
+test("campaign mapper preserves only API fields and patch sends changes only", () => {
   const values = {
-    ...defaults(content.schemas.runtime),
-    eventLayer: '{"retakes":1}',
-    onsite: '{"retakes":0}',
-    overrideExpires: "2030-01-01T00:00:00Z",
+    name: "Launch",
+    status: "active",
+    price: 50000,
+    sessionLimit: 20,
+    activeFrom: "2026-09-23T09:00",
+    activeUntil: "2026-09-23T18:00",
+    activationRules: '{"mode":"voucher"}',
+    frameSet: "",
+    printPolicy: "",
+    deliveryPolicy: "",
+    frameTemplateIds: ["tpl-1"],
   };
-  assert.equal(effectiveRuntime(values, Date.parse("2029-01-01")).retakes, 0);
-  assert.equal(effectiveRuntime(values, Date.parse("2031-01-01")).retakes, 1);
+  const created = campaignFormToCreate(values);
+  assert.deepEqual(
+    Object.keys(created).sort(),
+    Object.keys(swagger.components.schemas.CampaignCreate.properties).sort(),
+  );
+  assert.equal(created.session_limit, 20);
+  assert.deepEqual(created.activation_rules, { mode: "voucher" });
+  assert.deepEqual(campaignFormToPatch({ ...values, price: 75000 }, values), { price: 75000 });
+
+  const roundTrip = campaignToValues({
+    id: "cmp-1",
+    ...created,
+    frame_templates: [{ id: "tpl-1", name: "Frame" }],
+  });
+  assert.deepEqual(roundTrip.frameTemplateIds, ["tpl-1"]);
+  assert.equal(roundTrip.sessionLimit, 20);
 });
 
-test("dates, quotas, offline payment and retention cannot bypass safety guards", () => {
-  assert.ok(
-    validateValues(content.schemas.event, {
-      ...defaults(content.schemas.event),
-      validUntil: "2020-01-01",
-      activation: "PAYG_QRIS",
-      paymentRequired: false,
-    }).paymentRequired,
+test("device mapper uses DeviceCreate names and keeps optional relations null", () => {
+  const created = deviceFormToCreate({
+    deviceCode: "BOOTH-01",
+    name: "Lobby",
+    serialNumber: "SN-01",
+    status: "active",
+    capabilities: '{"gpu":true}',
+    cameraProfileId: "",
+    printerProfileId: "",
+    appVersion: "2.0.0",
+    lastSeenAt: "",
+  });
+  assert.deepEqual(
+    Object.keys(created).sort(),
+    Object.keys(swagger.components.schemas.DeviceCreate.properties).sort(),
   );
-  assert.ok(
-    validateValues(content.schemas.rules, {
-      ...defaults(content.schemas.rules),
-      offlinePayment: "ALLOW",
-    }).offlinePayment,
-  );
-  assert.ok(
-    validateValues(content.schemas.retention, {
-      ...defaults(content.schemas.retention),
-      protectUnacked: false,
-    }).protectUnacked,
-  );
-  assert.ok(
-    validateValues(content.schemas.allocation, {
-      ...defaults(content.schemas.allocation),
-      requestedCount: 10,
-      offlineLimit: 11,
-    }).offlineLimit,
-  );
+  assert.equal(created.camera_profile_id, null);
+  assert.deepEqual(created.capabilities, { gpu: true });
+  assert.equal(deviceToValues({ id: "dev-1", ...created }).deviceCode, "BOOTH-01");
 });
 
-test("templates reject out-of-canvas slots, duplicate IDs and unsafe placeholders", () => {
-  const values = defaults(content.schemas.template);
-  const slots = JSON.parse(values.slots);
-  slots[0].x = 10000;
-  assert.ok(
-    validateValues(content.schemas.template, { ...values, slots: JSON.stringify(slots) }).slots,
-  );
-  slots[0].x = 60;
-  slots[1].id = slots[0].id;
-  assert.ok(
-    validateValues(content.schemas.template, { ...values, slots: JSON.stringify(slots) }).slots,
-  );
-  assert.ok(
-    validateValues(content.schemas.template, { ...values, placeholder: "eval(script)" })
-      .placeholder,
-  );
-});
-
-test("safe retry excludes offline, dead-letter and active leases, preserving idempotency", () => {
-  const state = initialState();
-  assert.ok(eligibleJob(state.jobs[0], state));
-  assert.ok(eligibleJob(state.jobs[2], state));
-  assert.equal(eligibleJob(state.jobs[3], state), false);
-  assert.equal(eligibleJob(state.jobs[4], state), false);
-  assert.equal(eligibleJob(state.jobs[5], state), false);
-  const next = retryJobs(
-    state,
-    state.jobs.map((job) => job.id),
-  );
-  assert.equal(next.jobs[0].status, "QUEUED");
-  assert.equal(next.jobs[0].attempts, state.jobs[0].attempts);
-  assert.equal(next.jobs[0].idempotency, state.jobs[0].idempotency);
-  assert.equal(next.jobs[5].status, "DEAD_LETTER");
-  assert.equal(state.jobs[0].status, "FAILED_RETRYABLE");
-});
-
-test("full jitter stays within exponential cap", () => {
-  assert.equal(retryDelay(0, 30, 600, 1), 30);
-  assert.equal(retryDelay(20, 30, 600, 1), 600);
-  assert.equal(retryDelay(5, 30, 600, 0), 0);
-});
-
-test("publish requires validated exact draft and reauthentication; never fabricates acknowledgement", () => {
-  const initial = initialState();
-  const values = { ...defaults(content.schemas.event), reason: "QA" };
-  const draft = saveDraft(initial, "event:EVT-001", values);
-  assert.equal(publishDraft(draft, "event:EVT-001", "event", true), draft);
-  const validated = validateDraft(draft, "event:EVT-001", "event");
-  assert.equal(publishDraft(validated, "event:EVT-001", "event", false), validated);
-  const published = publishDraft(validated, "event:EVT-001", "event", true);
-  assert.equal(published.revisions.length, initial.revisions.length + 1);
-  assert.equal(published.devices[0].active, 142);
-  assert.equal(published.devices[0].desired, 143);
-  assert.equal(published.devices[1].desired, 142);
-  values.retakes = 99;
-  assert.equal(published.revisions.at(-1).values.retakes, 2);
-});
-
-test("registration stays pending and duplicate identifiers are rejected", () => {
-  const state = initialState();
-  const values = {
-    ...defaults(content.schemas.register),
-    id: "QA-NEW",
-    name: "QA",
-    location: "QA",
+test("template and voucher batch mappers round-trip current API shapes", () => {
+  const templateValues = {
+    name: "Portrait",
+    version: "1",
+    aspect: "4:6",
+    checksum: "abc",
+    publishState: "draft",
+    assets: "",
+    dimensions: "1200x1800",
+    safeArea: "",
+    transforms: "",
+    previewVariant: "",
+    printVariant: "",
+    digitalVariant: "",
+    compatibility: "",
   };
-  const next = createRecord(state, "register", values);
-  assert.equal(next.devices.at(-1).status, "PENDING_ENROLLMENT");
-  assert.equal(next.devices.at(-1).active, 0);
-  assert.equal(createRecord(next, "register", values), next);
-});
+  const template = templateFormToCreate(templateValues);
+  assert.equal(templateToValues({ id: "tpl-1", ...template }).dimensions, "1200x1800");
+  assert.deepEqual(templateFormToPatch({ ...templateValues, version: "2" }, templateValues), {
+    version: "2",
+  });
 
-test("invitation addresses are masked and no credentials are created", () => {
-  const state = initialState();
-  const values = {
-    ...defaults(content.schemas.invite),
-    name: "QA",
-    email: "tester@example.com",
-    reason: "QA",
+  const batchValues = {
+    campaignId: "cmp-1",
+    name: "VIP",
+    voucherCount: 10,
+    entitlementRules: '{"tier":"vip"}',
+    offlineEligible: true,
   };
-  const next = createRecord(state, "invite", values);
-  assert.equal(next.entities.operators.at(-1).values.email, "t***@example.com");
-  assert.equal(next.entities.operators.at(-1).status, "DRAFT");
+  const batch = allocationFormToCreate(batchValues);
+  assert.equal(batch.campaign_id, "cmp-1");
+  assert.deepEqual(batch.entitlement_rules, { tier: "vip" });
+  assert.equal(batchToValues({ id: "batch-1", ...batch }).voucherCount, 10);
+  assert.deepEqual(allocationFormToPatch({ ...batchValues, name: "VIP 2" }, batchValues), {
+    name: "VIP 2",
+  });
 });
 
-test("commands are allowlisted, audited, pending and never change device trust locally", () => {
-  const state = initialState();
-  assert.equal(requestCommand(state, state.devices[0].id, "shell", "QA", true), state);
-  assert.equal(requestCommand(state, state.devices[0].id, "revoke", "QA", false), state);
-  const next = requestCommand(state, state.devices[0].id, "revoke", "QA", true);
-  assert.equal(next.commands[0].status, "PENDING");
-  assert.equal(next.devices[0].trust, "TRUSTED");
-  assert.equal(next.audit.length, 1);
-});
-
-test("diff uses actual changed fields; local state has a version boundary", () => {
-  assert.equal(diffValues({ a: 1, b: false }, { a: 2, b: false }).length, 1);
-  assert.equal(isConsoleState(initialState()), true);
-  assert.equal(isConsoleState({ version: 1 }), false);
-  assert.equal(isConsoleState(null), false);
-});
-
-test("offline admission checks signed allocation, event scope and timezone window", () => {
-  const state = initialState();
-  const now = new Date("2026-09-08T03:00:00Z");
-  assert.equal(eventReady(state, state.devices[0], now), true);
-  assert.equal(inventoryReady(state, state.devices[0], now), true);
-  assert.equal(inventoryReady(state, state.devices[2], now), false);
-  assert.equal(eventReady(state, state.devices[0], new Date("2030-01-01")), false);
-  state.entities.allocations[0].status = "UNSIGNED_REQUEST";
-  assert.equal(inventoryReady(state, state.devices[0], now), false);
-});
-
-test("rollout cannot include devices outside the event allowlist", () => {
-  const state = initialState();
-  const values = { ...defaults(content.schemas.event), rollout: "all" };
-  assert.deepEqual(publishScope(state, values), ["LIL-BOOTH-014", "LIL-BOOTH-009"]);
-  assert.ok(validateReferences(state, "event", { ...values, deviceId: "UNKNOWN" }).deviceId);
-});
-
-test("allocation publication never mints balance or overwrites a signed allocation", () => {
-  const state = initialState();
-  const values = {
-    ...defaults(content.schemas.allocation),
-    available: 116,
-    reserved: 1,
-    consumed: 1,
-    reason: "QA",
-  };
-  const draft = validateDraft(
-    saveDraft(state, "allocation:ALC-007", values),
-    "allocation:ALC-007",
-    "allocation",
-  );
-  const next = publishDraft(draft, "allocation:ALC-007", "allocation", true);
-  assert.equal(next.entities.allocations[0].values.available, 116);
-  assert.equal(next.entities.allocations.at(-1).status, "UNSIGNED_REQUEST");
-  assert.equal(next.entities.allocations.at(-1).values.available, undefined);
-  assert.equal(next.devices[0].desired, state.devices[0].desired);
-  assert.ok(validateReferences(next, "allocation", values).version);
-});
-
-test("published template versions cannot be overwritten", () => {
-  const state = initialState();
-  assert.ok(
-    validateReferences(state, "template", { ...defaults(content.schemas.template), version: 12 })
-      .version,
-  );
-  assert.equal(
-    validateReferences(state, "template", {
-      ...defaults(content.schemas.template),
-      reason: "QA",
-      version: 13,
-    }).version,
-    undefined,
+test("service pagination follows total_data when the server caps page size", async () => {
+  const calls = [];
+  const result = await fetchAllPages(async ({ skip, limit }) => {
+    calls.push({ skip, limit });
+    const all = [1, 2, 3, 4, 5];
+    const data = all.slice(skip, skip + 2);
+    return { message: "ok", data, pagination: { total_data: all.length, page: 1, limit: 2 } };
+  });
+  assert.deepEqual(result.data, [1, 2, 3, 4, 5]);
+  assert.deepEqual(
+    calls.map((call) => call.skip),
+    [0, 2, 4],
   );
 });

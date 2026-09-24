@@ -2,18 +2,13 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { content } from "../../lib/content";
-import { initialState, isConsoleState } from "../../lib/domain";
-import type { ConsoleState, Locale, Localized } from "../../lib/types";
-
-const STORAGE_KEY = "olp-console:v2";
+import type { Locale, Localized } from "../../lib/types";
 
 interface ConsoleContextValue {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   t: (key: string) => string;
-  localize: (value: Localized) => string;
-  state: ConsoleState;
-  update: (change: (state: ConsoleState) => ConsoleState) => void;
+  localize: (value: Localized | undefined) => string;
   notify: (key: string) => void;
   ready: boolean;
 }
@@ -22,7 +17,6 @@ const ConsoleContext = createContext<ConsoleContextValue | null>(null);
 
 export function ConsoleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocale] = useState<Locale>("en");
-  const [state, setState] = useState(initialState);
   const [ready, setReady] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [storageError, setStorageError] = useState(false);
@@ -30,11 +24,6 @@ export function ConsoleProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed: unknown = JSON.parse(stored);
-        if (isConsoleState(parsed)) setState(parsed);
-      }
       const language = localStorage.getItem("olp-locale");
       if (language === "en" || language === "id") setLocale(language);
     } catch {
@@ -48,16 +37,11 @@ export function ConsoleProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.lang = locale;
     if (!ready) return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       localStorage.setItem("olp-locale", locale);
     } catch {
       setStorageError(true);
     }
-  }, [state, locale, ready]);
-
-  const update = useCallback((change: (current: ConsoleState) => ConsoleState) => {
-    setState((current) => change(current));
-  }, []);
+  }, [locale, ready]);
 
   const notify = useCallback((key: string) => {
     clearTimeout(timer.current);
@@ -72,9 +56,7 @@ export function ConsoleProvider({ children }: { children: React.ReactNode }) {
         locale,
         setLocale,
         t,
-        localize: (value) => value[locale],
-        state,
-        update,
+        localize: (value) => value?.[locale] ?? value?.en ?? "",
         notify,
         ready,
       }}

@@ -1,5 +1,5 @@
-import { RecordsPage } from "../../../components/pages/records-page";
+import { SessionsServicePage } from "../../../components/service/operational-records";
 
 export default function Page() {
-  return <RecordsPage kind="sessions" />;
+  return <SessionsServicePage />;
 }
